@@ -132,7 +132,7 @@ int stopgenerate = 0;
 int onplatform = 0;
 float buffer = 5;
 
-char* levelnames[6] = {"C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets1/LevelDesigns/leveltest.txt", "Assets1/LevelDesigns/level1.txt", "Assets1/LevelDesigns/level2.txt", "Assets1/LevelDesigns/level3.txt" , "Assets1/LevelDesigns/level3.txt", "Assets1/LevelDesigns/level5.txt"}; //Set another array = to this array[level]
+char* levelnames[6] = {"C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/leveltest.txt", "Assets1/LevelDesigns/level1.txt", "Assets1/LevelDesigns/level2.txt", "Assets1/LevelDesigns/level3.txt" , "Assets1/LevelDesigns/level3.txt", "Assets1/LevelDesigns/level5.txt"}; //Set another array = to this array[level]
 static int level = 0;
 char* levelarr;
 
@@ -200,8 +200,8 @@ void Level1_Init(void)
 		//Spawn
 		princess = CP_Vector_Set(spawnx, spawny); //Set princess position to spawn point.
 		//Image load
-		PrincessImage = CP_Image_Load("Assets/IcePrincessSheet.png");
-		LanternImage = CP_Image_Load("Assets/Lantern.png");
+		PrincessImage = CP_Image_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/IcePrincessSheet.png");
+		LanternImage = CP_Image_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Lantern.png");
 
 }
 
