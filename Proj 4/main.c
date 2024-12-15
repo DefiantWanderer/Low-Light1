@@ -1,0 +1,28 @@
+//---------------------------------------------------------
+// file:	main.c
+// author:	[NAME]
+// email:	[DIGIPEN EMAIL ADDRESS]
+//
+// brief:	Main entry point for the sample project
+//			of the CProcessing library
+//
+// Copyright © 2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
+#include "cprocessing.h"
+#include "mainmenu.h"
+#include "level1.h"
+#include "utils.h"
+
+
+// main() the starting point for the program
+// CP_Engine_SetNextGameState() tells CProcessing which functions to use for init, update and exit
+// CP_Engine_Run() is the core function that starts the simulation
+int main(void)
+{
+	
+	CP_Engine_SetNextGameState(Level1_Init, Level1_Update, Level1_Exit);
+	CP_System_SetWindowSize(1600, 900);
+	CP_Engine_Run(1);
+	return 0;
+}
