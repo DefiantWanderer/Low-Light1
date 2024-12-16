@@ -33,6 +33,7 @@
     <ProjectGuid>{223a24dd-6124-4fbd-9110-a6f1c76ac10d}</ProjectGuid>
     <RootNamespace>Proj_4</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>LowLight</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">

@@ -97,7 +97,7 @@ struct platformdata
 struct platformdata platformarr[500];
 float numberofplatforms;
 
-struct platformdata lightcube[3];
+struct platformdata lightcube[5];
 float numberoflightcubes;
 float lightcubewidth;
 float lightcubeheight;
@@ -132,7 +132,7 @@ int stopgenerate = 0;
 int onplatform = 0;
 float buffer = 5;
 
-char* levelnames[6] = {"C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/leveltest.txt", "Assets1/LevelDesigns/level1.txt", "Assets1/LevelDesigns/level2.txt", "Assets1/LevelDesigns/level3.txt" , "Assets1/LevelDesigns/level3.txt", "Assets1/LevelDesigns/level5.txt"}; //Set another array = to this array[level]
+char* levelnames[6] = {"C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/leveltest.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level1.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level2.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level3.txt" , "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level4.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level5.txt"}; //Set another array = to this array[level]
 static int level = 0;
 char* levelarr;
 
@@ -170,8 +170,8 @@ void Level1_Init(void)
 		leftwallheight = 2*platformheight;
 
 		//Lightcube dimensions
-		lightcubewidth = windowWidth / 40.f;
-		lightcubeheight = windowHeight / 21.f;
+		lightcubewidth = windowWidth / 80.f;
+		lightcubeheight = windowHeight / 41.f;
 
 
 		float centerX = CP_System_GetWindowWidth() / 2.0f;
@@ -192,7 +192,7 @@ void Level1_Init(void)
 		transparent = CP_Color_Create(0, 0, 0, 0);
 
 		//Level loading
-		level = 0;
+		level = 1;
 		levelarr = levelnames[level];
 		CreateLevelDataArray(levelarr);
 		GeneratePlatformFromData(arr);
@@ -551,7 +551,7 @@ int DrawLight()
 	float lanternwidth = windowWidth/20;
 	float lanternheight = windowHeight / 11;
 	float lanternoffset = windowHeight / 20;
-	CP_Image_DrawSubImage(LanternImage, playerposition.x+3, playerposition.y + lanternoffset, lanternwidth, lanternheight, 0, 0, 256, 256, 255);
+	
 	if (lightlevel >= 0)
 	{
 		Draw_Circle(orange, strokeorange, playerposition.x, playerposition.y + lanternoffset, lightradiusarray[0]);
@@ -572,6 +572,7 @@ int DrawLight()
 	{
 		Draw_Circle(goldenyellow, strokegoldenyellow, playerposition.x, playerposition.y + lanternoffset, lightradiusarray[4]);
 	}
+	CP_Image_DrawSubImage(LanternImage, playerposition.x + 3, playerposition.y + lanternoffset, lanternwidth, lanternheight, 0, 0, 256, 256, 255);
 	return lightlevel;
 }
 //Draw platform
@@ -725,52 +726,30 @@ int PrincessSeeLight(void)
 	//Princessmovement detection
 	if ((onplatform == 1)&&(AreCirclesIntersecting(princess.x, princess.y + princesseyelevel, princesswidth*2, playerposition.x, playerposition.y, lightradius + princesswidth*2) == 1)) //1 is right
 	{
-		//Try to pause movement entirely
-		for (int i = 0; i < numberofplatforms; i++)
-		{
-			//This doesn't work. But good enough for now.
-			if (AreRectIntersecting(princess.x, princess.y, princesswidth, princessheight, platformarr[i].x, platformarr[i].y, platformarr[i].width + buffer, platformarr[i].height) == 1)
-			{
-				break;
-			}
-			else
-			{
-				if ((princess.x > playerposition.x) && (timer == 0)&& (princess.y > playerposition.y))
+				if ((princess.x > playerposition.x) && (timer == 0)&& (princess.y > playerposition.y) &&(princess.x >= 6*buffer))
 				{
 					princess.x -= dt * princessmovement;
 					return 1;
 
 				}
-				if ((princess.x < playerposition.x) && (timer == 0) && (princess.y > playerposition.y))
+				if ((princess.x < playerposition.x) && (timer == 0) && (princess.y > playerposition.y) && (princess.x <= windowWidth-6*buffer))
 				{
 					princess.x += dt * princessmovement;
 					return 1;
 				}
-			}
-		}
-		return 0;
 	}
 	return 0;
 }
 int LightCubePickup(void)
 {
-	if (AreRectIntersecting(princess.x, princess.y, princesswidth, princessheight, lightcube[0].x, lightcube[0].y, lightcube[0].width, lightcube[0].height) == 1)
+	for (int i =0; i< numberoflightcubes; i++)
 	{
-		lightcube[0].width = 0;
-		lightcube[0].y = 1600;//making it go off the screen
-		return 1;
-	}
-	if (AreRectIntersecting(princess.x, princess.y, princesswidth, princessheight, lightcube[1].x, lightcube[1].y, lightcube[1].width, lightcube[1].height) == 1)
-	{
-		lightcube[1].width = 0;
-		lightcube[1].y = 1600;
-		return 1;
-	}
-	if (AreRectIntersecting(princess.x, princess.y, princesswidth, princessheight, lightcube[2].x, lightcube[2].y, lightcube[2].width, lightcube[2].height) == 1)
-	{
-		lightcube[2].width = 0;
-		lightcube[2].y = 1600;
-		return 1;
+		if (AreRectIntersecting(princess.x, princess.y, princesswidth, princessheight, lightcube[i].x, lightcube[i].y, lightcube[i].width, lightcube[i].height) == 1)
+		{
+			lightcube[i].width = 0;
+			lightcube[i].y = 1600;//making it go off the screen
+			return 1;
+		}
 	}
 	return 0;
 }
@@ -931,12 +910,12 @@ void PortalLink(void)
 		if (princess.x < inportalarr[i].x)
 		{
 			princess.x = outportalarr[i].x - teleportoffset;
-			princess.y = outportalarr[i].y;
+			princess.y = outportalarr[i].y - buffer;
 		}
 		else
 		{
 			princess.x = outportalarr[i].x + teleportoffset;
-			princess.y = outportalarr[i].y;
+			princess.y = outportalarr[i].y - buffer;
 		}
 
 	}
@@ -945,12 +924,12 @@ void PortalLink(void)
 		if (princess.x < inportalarr[i].x)
 		{
 			princess.x = inportalarr[i].x - teleportoffset;
-			princess.y = inportalarr[i].y;
+			princess.y = inportalarr[i].y - buffer;
 		}
 		else
 		{
 			princess.x = inportalarr[i].x + teleportoffset;
-			princess.y = inportalarr[i].y;
+			princess.y = inportalarr[i].y - buffer;
 		}
 	}
 	}
