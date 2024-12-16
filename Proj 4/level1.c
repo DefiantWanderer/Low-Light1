@@ -45,7 +45,7 @@ static CP_Vector playerposition;
 
 //Player stats
 float lightradiusarray[5] = { 10.f, 50.f, 100.f, 175.f, 275.f };
-int lightlevel = 0;
+int lightlevel = 3;
 int* ptrlightlevel = &lightlevel;
 float lightradius = 0.f;
 
@@ -93,7 +93,7 @@ struct platformdata
 	float y;
 	float width;
 	float height;
-};
+} cliffleftarr[6], cliffrightarr[6];
 struct platformdata platformarr[500];
 float numberofplatforms;
 
@@ -106,11 +106,16 @@ struct platformdata inportalarr[3];
 struct platformdata outportalarr[3];
 float numberofinportals = 0;
 float numberofoutportals = 0;
+float numberofleftcliffs = 0;
+float numberofrightcliffs = 0;
 float inportalwidth;
 float inportalheight;
 float outportalwidth;
 float outportalheight;
 float teleportoffset;
+float cliffwidth;
+float cliffheight;
+
 
 struct platformdata leftwallarr[50];
 struct platformdata rightwallarr[50];
@@ -119,6 +124,7 @@ float numberofrightwalls = 0;
 float leftwallwidth;
 float leftwallheight;
 
+//Platform fill
 struct platformdata fill1[5] = { 0 };
 struct platformdata fill2[5] = { 0 };
 struct platformdata fill3[5] = { 0 };
@@ -126,12 +132,13 @@ struct platformdata fill3[5] = { 0 };
 
 struct platformdata textarr[50];
 float numberoftexts = 0;
-
+//Array and draw function
 char arr[1000] = { 0 };
 int stopgenerate = 0;
 int onplatform = 0;
 float buffer = 5;
 
+//Level only
 char* levelnames[6] = {"C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/leveltest.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level1.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level2.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level3.txt" , "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level4.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level5.txt"}; //Set another array = to this array[level]
 static int level = 0;
 char* levelarr;
@@ -164,7 +171,7 @@ void Level1_Init(void)
 		teleportoffset = windowWidth / 40;
 
 		//Platform dimensions
-		platformheight = windowHeight / 35.f;
+		platformheight = windowHeight / 35.f; 
 		platformwidth = windowHeight /31.f; //Adjusting here makes everything smaller or bigger. Make changes in the Generate platform from data
 		leftwallwidth = 2;
 		leftwallheight = 2*platformheight;
@@ -192,7 +199,7 @@ void Level1_Init(void)
 		transparent = CP_Color_Create(0, 0, 0, 0);
 
 		//Level loading
-		level = 1;
+		level = 2;
 		levelarr = levelnames[level];
 		CreateLevelDataArray(levelarr);
 		GeneratePlatformFromData(arr);
@@ -390,6 +397,8 @@ int GeneratePlatformFromData(char arr[])
 		int fill1count = 0;
 		int fill2count = 0;
 		int fill3count = 0;
+		int cliffleftcount = 0;
+		int cliffrightcount = 0;
 
 		for (int i = 0; arr[i] != '\0';i++, plat++)
 		{
@@ -447,7 +456,36 @@ int GeneratePlatformFromData(char arr[])
 				++plat;
 				fill3count++;
 			}
-			
+			//Cliff detector (code this while drinking)
+
+			//Cliffleftside
+			if (arr[i] == 'd')
+			{
+				cliffleftarr[cliffleftcount].x = 80+ plat * platformwidth;
+				cliffleftarr[cliffleftcount].y = windowHeight / 45 * (2 * j);
+				cliffleftarr[cliffleftcount].width = platformwidth/4;
+				cliffleftarr[cliffleftcount].height = platformheight;
+
+				plat++;
+				cliffleftcount++;
+				numberofleftcliffs++;
+
+
+			}
+			//Cliff right side
+			if (arr[i] == 'D')
+			{
+				cliffrightarr[cliffrightcount].x = 80+ plat * platformwidth;
+				cliffrightarr[cliffrightcount].y = windowHeight / 45 * (2 * j);
+				cliffrightarr[cliffrightcount].width = platformwidth/4;
+				cliffrightarr[cliffrightcount].height = platformheight;
+
+				plat++;
+				cliffrightcount++;
+				numberofrightcliffs++;
+
+
+			}
 			//Platform
 			if ((arr[i] == '_')||arr[i]=='X')
 			{
@@ -726,13 +764,13 @@ int PrincessSeeLight(void)
 	//Princessmovement detection
 	if ((onplatform == 1)&&(AreCirclesIntersecting(princess.x, princess.y + princesseyelevel, princesswidth*2, playerposition.x, playerposition.y, lightradius + princesswidth*2) == 1)) //1 is right
 	{
-				if ((princess.x > playerposition.x) && (timer == 0)&& (princess.y > playerposition.y) &&(princess.x >= 6*buffer))
+				if ((princess.x > playerposition.x) && (timer == 0)&& (princess.y > playerposition.y) &&(princess.x >= 6*buffer)&&(cliffintersectcheck() != 2))
 				{
 					princess.x -= dt * princessmovement;
 					return 1;
 
 				}
-				if ((princess.x < playerposition.x) && (timer == 0) && (princess.y > playerposition.y) && (princess.x <= windowWidth-6*buffer))
+				if ((princess.x < playerposition.x) && (timer == 0) && (princess.y > playerposition.y) && (princess.x <= windowWidth-6*buffer) && (cliffintersectcheck() != 1))
 				{
 					princess.x += dt * princessmovement;
 					return 1;
@@ -837,7 +875,7 @@ void PrincessLeap(void)
 	CP_Vector leapleft = { -50, -50 };
 	
 	
-	
+	//Edit this line as the conditional check if they should jump
 	if (PrincessSeeLight() == 1)
 	{
 		if ((CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT)) && (timer == 0))
@@ -933,4 +971,23 @@ void PortalLink(void)
 		}
 	}
 	}
+}
+int cliffintersectcheck(void)
+{
+	for (int i = 0; i < numberofrightcliffs;i++)
+	{
+		if (AreRectIntersecting(princess.x, princess.y, princesswidth, princessheight, cliffleftarr[i].x, cliffleftarr[i].y, cliffleftarr[i].width, cliffleftarr[i].height) == 1)
+		{
+		return 1;
+		}
+		if (AreRectIntersecting(princess.x, princess.y, princesswidth, princessheight, cliffrightarr[i].x, cliffrightarr[i].y, cliffrightarr[i].width, cliffrightarr[i].height) == 1)
+		{
+		return 2;
+		}
+	}
+	return 0;
+}
+int leapcheck(void)
+{
+	//
 }

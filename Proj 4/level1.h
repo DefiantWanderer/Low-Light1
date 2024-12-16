@@ -33,3 +33,5 @@ int TimerOne(void);
 int CreateLevelDataArray(char arr[]);
 int GeneratePlatformFromData(char arr[]);
 void PortalLink(void);
+int cliffintersectcheck(void);
+int leapcheck(void);
