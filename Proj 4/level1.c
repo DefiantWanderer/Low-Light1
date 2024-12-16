@@ -762,6 +762,7 @@ int PrincessSeeLight(void)
 //Next step add, a check if rect intersecting for platform checks.
 {
 	//Princessmovement detection
+	//Algo for this doesn't make sense.
 	if ((onplatform == 1)&&(AreCirclesIntersecting(princess.x, princess.y + princesseyelevel, princesswidth*2, playerposition.x, playerposition.y, lightradius + princesswidth*2) == 1)) //1 is right
 	{
 				if ((princess.x > playerposition.x) && (timer == 0)&& (princess.y > playerposition.y) &&(princess.x >= 6*buffer)&&(cliffintersectcheck() != 2))
@@ -876,7 +877,7 @@ void PrincessLeap(void)
 	
 	
 	//Edit this line as the conditional check if they should jump
-	if (PrincessSeeLight() == 1)
+	if (leapcheck() == 1)
 	{
 		if ((CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT)) && (timer == 0))
 		{
@@ -989,5 +990,13 @@ int cliffintersectcheck(void)
 }
 int leapcheck(void)
 {
-	//
+	//Check if light intersect both left and rightside of the cliff
+	for (int i = 0; i < numberofleftcliffs;i++)
+	{
+		if ((AreCirclesIntersecting(playerposition.x, playerposition.y, lightradius, cliffleftarr[i].x, cliffleftarr[i].y, cliffleftarr[i].width) == 1) && (AreCirclesIntersecting(playerposition.x, playerposition.y, lightradius, cliffrightarr[i].x, cliffrightarr[i].y, cliffrightarr[i].width) == 1))
+		{
+			return 1;
+		}
+		return 0;
+	}
 }
