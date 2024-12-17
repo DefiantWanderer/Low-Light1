@@ -1,6 +1,5 @@
 #pragma once
 #include "utils.h"
-#include "sprite.h"
 
 void Level1_Init(void);
 void Level1_Update(void);
@@ -34,4 +33,6 @@ int CreateLevelDataArray(char arr[]);
 int GeneratePlatformFromData(char arr[]);
 void PortalLink(void);
 int cliffintersectcheck(void);
-int leapcheck(void);
+//int leapcheck(void);
+//int lampclicked(void);
+//int lamppickedup(void);

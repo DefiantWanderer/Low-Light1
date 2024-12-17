@@ -4,7 +4,8 @@
 #include "mainmenu.h"
 #include "level1.h"
 #include "fileloader.h"
-	
+#include <Windows.h>
+
 CP_Image LanternImage;
 CP_Image PrincessImage;
 CP_Font myfont;
@@ -143,12 +144,22 @@ char* levelnames[6] = {"C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Pr
 static int level = 0;
 char* levelarr;
 
+//Lamp 
+float lanternwidth;
+float lanternheight;
+float lanternoffset;
+float lampspawnx;
+float lampspawny;
+
+int lamppickup = 0;
 
 
 
 
 void Level1_Init(void)
 {
+	
+
 		windowWidth = (float)CP_System_GetWindowWidth();
 		windowHeight = (float)CP_System_GetWindowHeight();
 
@@ -180,6 +191,11 @@ void Level1_Init(void)
 		lightcubewidth = windowWidth / 80.f;
 		lightcubeheight = windowHeight / 41.f;
 
+		//Lantern
+		lanternwidth = windowWidth / 20;
+		lanternheight = windowHeight / 11;
+		lanternoffset = windowHeight / 20;
+
 
 		float centerX = CP_System_GetWindowWidth() / 2.0f;
 		float centerY = CP_System_GetWindowHeight() / 2.0f;
@@ -206,6 +222,8 @@ void Level1_Init(void)
 
 		//Spawn
 		princess = CP_Vector_Set(spawnx, spawny); //Set princess position to spawn point.
+		playerposition.x = lampspawnx;
+		playerposition.y = lampspawny;
 		//Image load
 		PrincessImage = CP_Image_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/IcePrincessSheet.png");
 		LanternImage = CP_Image_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Lantern.png");
@@ -217,9 +235,9 @@ void Level1_Update(void)
 	dt = CP_System_GetDt();
 	
 	//Player mouse position
-	Updateplayerposition();
+	//Updateplayerposition();
 	
-	//Set background
+	//Set background                                                              
 	CP_Graphics_ClearBackground(black);
 
 	/*Camera start
@@ -345,6 +363,12 @@ void Level1_Update(void)
 	DrawPortals();
 
 	PortalLink();
+
+	lampclicked();
+	lamppickedup();
+
+	//Use this to check for the position of the lamp.
+	//printf("Lampx: %f, Lampy: %f\n", playerposition.x, playerposition.y);
 
 }
 int CreateLevelDataArray(char levelarr[])
@@ -487,13 +511,18 @@ int GeneratePlatformFromData(char arr[])
 
 			}
 			//Platform
-			if ((arr[i] == '_')||arr[i]=='X')
+			if ((arr[i] == '_')||arr[i]=='X'|| arr[i]=='L')
 			{
 				if (arr[i] == 'X')
 				{
 					spawnx = -80 + plat * platformwidth;
 					spawny = windowHeight / 48 * (2 * j);
 					spawnpoint = CP_Vector_Set(spawnx, spawny);
+				}
+				if (arr[i] == 'L')
+				{
+					lampspawnx = -80 + plat * platformwidth;
+					lampspawny = windowHeight / 58 * (2 * j); //40 instead fo 40 as I want it to be slightly higher
 				}
 
 				platformarr[platformcount].x = -60 + plat * platformwidth;
@@ -586,10 +615,6 @@ void DrawPrincess()
 //Draw player
 int DrawLight()
 {
-	float lanternwidth = windowWidth/20;
-	float lanternheight = windowHeight / 11;
-	float lanternoffset = windowHeight / 20;
-	
 	if (lightlevel >= 0)
 	{
 		Draw_Circle(orange, strokeorange, playerposition.x, playerposition.y + lanternoffset, lightradiusarray[0]);
@@ -665,8 +690,7 @@ void Drawfill2(void)
 	fill2[4].width = (fill2[1].x - fill2[0].x);
 	fill2[4].height = (fill2[2].y - fill2[0].y);
 
-	Draw_Rect(blue, fill2[4].x, fill2[4].y, fill2[4] .width, fill2[4].height, 0, 0);
-
+	Draw_Rect(blue, fill2[4].x, fill2[4].y, fill2[4].width, fill2[4].height, 0, 0);
 }
 void Drawfill3(void)
 {
@@ -901,7 +925,7 @@ void PrincessLeap(void)
 	{
 		printf("%f\n", timer);
 		timer += 1 * dt;
-		if (timer <= 1)
+		if (timer <= 0.5)
 		{
 		//Lamp on left Jump left
 			if (leapleftmode == 1)
@@ -915,18 +939,18 @@ void PrincessLeap(void)
 			}
 					
 		}
-		if ((timer >= 1) && (timer <= 3))
+		if ((timer >= 0.5) && (timer <= 3))
 		{	
 			if (leapleftmode == 1)
 			{
 			princess.x += princessmovement * dt;
-			princess.y -= princessmovement * dt;
+			princess.y -= princessmovement/2 * dt;
 			}
 			//lamp on right walk right
 			if (leaprightmode == 1)
 			{
 			princess.x -= princessmovement * dt;
-			princess.y -= princessmovement * dt;
+			princess.y -= princessmovement/2 * dt;
 			}			
 		}
 		if (timer >= 3)
@@ -993,10 +1017,43 @@ int leapcheck(void)
 	//Check if light intersect both left and rightside of the cliff
 	for (int i = 0; i < numberofleftcliffs;i++)
 	{
-		if ((AreCirclesIntersecting(playerposition.x, playerposition.y, lightradius, cliffleftarr[i].x, cliffleftarr[i].y, cliffleftarr[i].width) == 1) && (AreCirclesIntersecting(playerposition.x, playerposition.y, lightradius, cliffrightarr[i].x, cliffrightarr[i].y, cliffrightarr[i].width) == 1))
+		if ((AreCirclesIntersecting(playerposition.x, playerposition.y, lightradius*1.2, cliffleftarr[i].x, cliffleftarr[i].y, cliffleftarr[i].width) == 1) && (AreCirclesIntersecting(playerposition.x, playerposition.y, lightradius*1.2, cliffrightarr[i].x, cliffrightarr[i].y, cliffrightarr[i].width) == 1))
 		{
 			return 1;
 		}
 		return 0;
 	}
+}
+int lampclicked(void)
+{
+	if ((CP_Input_MouseDown(MOUSE_BUTTON_LEFT)&&(lamppickup == 0)))
+	{
+		if ((IsAreaClicked(playerposition.x, playerposition.y, lanternwidth, lanternheight, CP_Input_GetMouseX(), CP_Input_GetMouseY()) == 1))
+		{
+			lamppickup = 1;
+			playerposition.x = CP_Input_GetMouseX();
+			playerposition.y = CP_Input_GetMouseY();
+			return 1;
+		}
+		return 0;
+	}
+}
+
+int lamppickedup(void) 
+{
+	if (lamppickup == 1)
+	{
+		playerposition.x = CP_Input_GetMouseX();
+		playerposition.y = CP_Input_GetMouseY();
+	}
+}
+int lampborder(void)
+{
+	//Lamp intersect wall.
+
+	//Lamp intersect platform. (lampy more than platformy. then pop it up., if lampy less than platformy then pop it up)
+
+	//Lamp intersect platform from the side.
+	//lamppickup = 0;
+	//if(playerposition.x)
 }

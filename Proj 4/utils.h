@@ -12,53 +12,38 @@ void Draw_Circle(CP_Color color, CP_Color strokecolor, float circle_center_x, fl
 void Draw_Text(CP_Color fill, float size, const char* text, float x, float y);
 void Draw_Star(CP_Color color,float x, float y);
 void PlaySound(CP_Sound Music);
-void spritesection(CP_Image, float X, float Y, float width, float height, float leftlimit, float toplimit, float rightlimit, float botlimit, float alpha);
-void SpriteRunning(CP_Image image, float X, float Y, float height);
-void SpriteJumping(CP_Image image, float X, float Y, float height);
-void SpriteHit(CP_Image image, float X, float Y, float height);
+int leapcheck(void);
+int lampclicked(void);
+int lamppickedup(void);
+int lampborder(void);
 
-CP_Color grey;
-CP_Color black;
-CP_Color red;
-CP_Color blue;
-CP_Color green;
+//int plat; //New row counter increases
+//int platformcount;
+//int inportalcount;
+//int outportalcount;
+//int lightcubecount;
+//int leftwallcount;
+//int rightwallcount;
+//int textcount;
+//int fill1count;
+//int fill2count;
+//int fill3count;
+//int cliffleftcount;
+//int cliffrightcount;
+//
+//float numberofinportals = 0;
+//float numberofoutportals = 0;
+//float numberofleftcliffs = 0;
+//float numberofrightcliffs = 0;
+//float inportalwidth;
+//float inportalheight;
+//float outportalwidth;
+//float outportalheight;
+//float teleportoffset;
+//float cliffwidth;
+//float cliffheight;
 
-//First
 
-typedef struct {
-	float Llim;
-	float Top;
-	float Rlim;
-	float Bot;
-
-}SpriteRunCoords, SpriteJumpCoords;
-
-SpriteRunCoords coords[10];
-SpriteJumpCoords coord[10];
-
-//Pointers to affect sprite.
-int increment; //increment for running
-int *ptrincrement;
-int hitincrement; //increment for running
-int* ptrhitincrement;
-int jumpincrement; //increment for jumping
-int* ptrjumpincrement;
-int flip;
-int* pflip;
-float jumptimer;
-float* ptrjumptimer;
-int jumpmode;
-int* ptrjumpmode;
-float timegap;
-float* ptrtimegap;
-float Simageheight;
-float* ptrSimageheight;
-float Simagejumpheight;
-float *ptrSimagejumpheight;
-float soundtimer;
-float* ptrsoundtimer;
-float soundmode;
-float* ptrsoundmode;
 
 //Last
 

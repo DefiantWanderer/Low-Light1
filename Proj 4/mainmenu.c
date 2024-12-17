@@ -2,15 +2,33 @@
 #include <stdio.h>
 #include "utils.h"
 #include "levelselect.h"
+#include "level1.h"
+#include "mainmenu.h"
 
+// MainMenu edits
+// Alpha works, now just try to implement different colors to make the words more obvious. I think just need to increase the alpha of the orange or change to white.
+// Yet to create pulsating light.
 
-float width;
-float height;
+float windowWidth;
+float windowHeight;
+float textoffset;
+
+int mainlightlevel = 5;
+CP_Vector playerposition;
+float lanternoffset;
+float lanternwidth;
+float lanternheight;
+float mainlightradiusarray[5] = { 10.f, 50.f, 100.f, 175.f, 275.f };
+
+float bouncetimer = 0;
+float dt;
+
 
 float play_center_x, play_center_y, play_width, play_height;
 float exit_center_x, exit_center_y, exit_width, exit_height;
 
 CP_Font myfont; //cpfont is a pointer to a struct
+CP_Image LanternImage;
 CP_Color grey;
 CP_Color black;
 CP_Color red;
@@ -19,6 +37,16 @@ CP_Color blue;
 CP_Color green;
 CP_Color blank;
 CP_Color white;
+
+//Illumination colors
+CP_Color orange;
+CP_Color amber;
+CP_Color goldenyellow;
+CP_Color strokeorange;
+CP_Color strokeamber;
+CP_Color strokegoldenyellow;
+CP_Color gold;
+CP_Color transparent;
 
 CP_Sound MainMenuMusic = NULL; //Music
 CP_Image MainMenu = NULL;
@@ -35,31 +63,40 @@ float click_y;
 void Main_Menu_Init(void)
 {
 	//Load stuff and colors
-	MainMenu = CP_Image_Load("Assets/JapanImageNight1.jpg"); //Load background image
-	myfont = CP_Font_Load("Assets/Atma-Medium.ttf"); //Load font
-	MainMenuMusic = CP_Sound_LoadMusic("Assets/MainMenuMusic.mp3"); // Music
+	myfont = CP_Font_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Atma-Medium.ttf"); //Load font
+	LanternImage = CP_Image_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Lantern.png");
 	grey = CP_Color_Create(128, 128, 128, 255);
 	black = CP_Color_Create(0, 0, 0, 255);
 	red = CP_Color_Create(230, 0, 10, 255);
 	dred = CP_Color_Create(200, 50, 50, 255);
 	blue = CP_Color_Create(0, 0, 255, 255);
 	green = CP_Color_Create(0, 255, 0, 255);
-	white = CP_Color_Create(255, 255, 255, 255);
+
+	//Play with this alpha to reveal
+	white = CP_Color_Create(255, 255, 255, 5); 
+	
 	blank = CP_Color_Create(0, 255, 0, 0);
+	orange = CP_Color_Create(255, 165, 0, 100);
+	strokeorange = CP_Color_Create(255, 165, 0, 30);
+	amber = CP_Color_Create(255, 191, 0, 100);
+	strokeamber = CP_Color_Create(255, 191, 0, 30);
+	goldenyellow = CP_Color_Create(255, 192, 0, 50);
+	strokegoldenyellow = CP_Color_Create(255, 192, 0, 15);
+	gold = CP_Color_Create(255, 215, 0, 255);
+	transparent = CP_Color_Create(0, 0, 0, 0);
 
 	//Window size
-	width = CP_System_GetWindowWidth();
-	height = CP_System_GetWindowHeight();
-	
-	//Window size array setting
-	window_settings[0] = width; //Declaring here cus cprocessing is only called in the init.
-	window_settings[1] = height;//Didn't check but should work
+	windowWidth = CP_System_GetWindowWidth();
+	windowHeight = CP_System_GetWindowHeight();
+
+	textoffset = windowWidth / 40; //40 
+
 
 	//Play button size
-	play_center_x = width / 2 - 120;
-	play_center_y = (height / 4) * 3;
-	play_width = width / 8;
-	play_height = height / 8;
+	play_center_x = windowWidth / 2 - 120;
+	play_center_y = (windowHeight / 4) * 3;
+	play_width = windowWidth / 8;
+	play_height = windowHeight / 8;
 
 	//Play button array
 	play_dimensions[0] = play_center_x;
@@ -68,47 +105,36 @@ void Main_Menu_Init(void)
 	play_dimensions[3] = play_height;
 
 	//Exit button size
-	exit_center_x = width / 2 + 165;
-	exit_center_y = (height /4) *3;
-	exit_width = width / 8;
-	exit_height = height / 8;
+	exit_center_x = windowWidth / 2 + 165;
+	exit_center_y = (windowHeight /4) *3;
+	exit_width = windowWidth / 8;
+	exit_height = windowHeight / 8;
 	//Exit button array
 	exit_dimensions[0] = exit_center_x;
 	exit_dimensions[1] = exit_center_y;
 	exit_dimensions[2] = exit_width;
 	exit_dimensions[3] = exit_height;
 
-	CP_Sound_PlayAdvanced(MainMenuMusic, 1.0, 1.0, TRUE, CP_SOUND_GROUP_0);
+	//Player (lamp)
+	playerposition.x = windowWidth / 2;
+	playerposition.y = windowHeight / 3;
+
+	//Lantern
+	lanternwidth = windowWidth / 20;
+	lanternheight = windowHeight / 11;
+	lanternoffset = windowHeight / 20;
+	dt = CP_System_GetDt();
 
 }
 
 void Main_Menu_Update(void)
 {
 	//Background and font
-	CP_Graphics_ClearBackground(CP_Color_Create(128, 128, 128, 255));
+	CP_Graphics_ClearBackground(black);
 	CP_Font_Set(myfont);
-
-	
-
-	//Background
-	CP_Image_Draw(MainMenu, width/2, height/2, width, height, 255);
-
-	//Sound stuff
-	float songLength = 500; //Not entirely sure what this does yet
-	static float timer = 0;
-
-	timer += CP_System_GetDt();
-		if (timer >= .5f * songLength)
-		{
-			CP_Sound_PauseGroup(CP_SOUND_GROUP_0); //Pause
-		}
-		if (timer >= songLength)
-		{
-			CP_Sound_ResumeGroup(CP_SOUND_GROUP_0); //Resume player
-		}
 	
 	//Gamename
-	Draw_Text(white, 200, "Phaze", width/2 - 89, height/3);
+	Draw_Text(white, 200, "Low Light", windowWidth/2 - 4*textoffset, windowHeight/3);
 
 	//Play button
 	Draw_Rect(white, play_dimensions[0], play_dimensions[1], play_dimensions[2], play_dimensions[3], 0, 0);
@@ -117,6 +143,10 @@ void Main_Menu_Update(void)
 	//Exit button
 	Draw_Rect(white, exit_dimensions[0], exit_dimensions[1], exit_dimensions[2], exit_dimensions[3], 0, 0);
 	Draw_Text(black, 60, "Exit", exit_dimensions[0] + 10, exit_dimensions[1]+10);
+
+
+	DrawMainMenuLight();
+	MainMenuLightBounce();
 
 
 	//Button detection
@@ -144,4 +174,47 @@ void Main_Menu_Update(void)
 void Main_Menu_Exit(void)
 {
 	
+}
+
+int DrawMainMenuLight()
+{
+	if (mainlightlevel >= 0)
+	{
+		Draw_Circle(orange, strokeorange, playerposition.x, playerposition.y + lanternoffset, mainlightradiusarray[0]);
+	}
+	if (mainlightlevel >= 1)
+	{
+		Draw_Circle(amber, strokeamber, playerposition.x, playerposition.y + lanternoffset, mainlightradiusarray[1]);
+	}
+	if (mainlightlevel >= 2)
+	{
+		Draw_Circle(goldenyellow, strokegoldenyellow, playerposition.x, playerposition.y + lanternoffset, mainlightradiusarray[2]);
+	}
+	if (mainlightlevel >= 3)
+	{
+		Draw_Circle(goldenyellow, strokegoldenyellow, playerposition.x, playerposition.y + lanternoffset, mainlightradiusarray[3]);
+	}
+	if (mainlightlevel >= 4)
+	{
+		Draw_Circle(goldenyellow, strokegoldenyellow, playerposition.x, playerposition.y + lanternoffset, mainlightradiusarray[4]);
+	}
+	CP_Image_DrawSubImage(LanternImage, playerposition.x + 3, playerposition.y + lanternoffset, lanternwidth, lanternheight, 0, 0, 256, 256, 255);
+	return 1;
+}
+void MainMenuLightBounce(void)
+{
+	bouncetimer += 1 * dt;
+	
+	if (bouncetimer < 1)
+	{
+		playerposition.y += 50*dt;
+	}
+	if (bouncetimer > 1)
+	{
+		playerposition.y -= 50*dt;
+	}
+	if (bouncetimer > 2)
+	{
+		bouncetimer = 0;
+	}
 }

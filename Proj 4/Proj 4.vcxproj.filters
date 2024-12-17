@@ -30,9 +30,6 @@
     <ClCompile Include="level1.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sprite.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="fileloader.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -48,9 +45,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="level1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="fileloader.h">

@@ -16,7 +16,6 @@
     <ClCompile Include="levelselect.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="mainmenu.c" />
-    <ClCompile Include="sprite.c" />
     <ClCompile Include="utils.c" />
   </ItemGroup>
   <ItemGroup>
@@ -24,7 +23,6 @@
     <ClInclude Include="level1.h" />
     <ClInclude Include="levelselect.h" />
     <ClInclude Include="mainmenu.h" />
-    <ClInclude Include="sprite.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
