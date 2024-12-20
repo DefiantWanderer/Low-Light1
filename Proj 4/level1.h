@@ -33,6 +33,7 @@ int CreateLevelDataArray(char arr[]);
 int GeneratePlatformFromData(char arr[]);
 void PortalLink(void);
 int cliffintersectcheck(void);
+void DrawInstructions(void);
 //int leapcheck(void);
 //int lampclicked(void);
 //int lamppickedup(void);

@@ -42,7 +42,7 @@ static CP_Matrix scaleMatrix, rotationMatrix, translationMatrix;
 /*Low Light variables                     */
 
 //Player mouse position
-static CP_Vector playerposition;
+CP_Vector playerposition;
 
 //Player stats
 float lightradiusarray[5] = { 10.f, 50.f, 100.f, 175.f, 275.f };
@@ -60,6 +60,7 @@ float princessvision;
 int flip = 1;
 float spriteframe = 0;
 float princessspritewidth = 24;
+float princessalpha = 50;
 					  
 //Platform dimensions
 float platformheight;
@@ -88,13 +89,16 @@ CP_Vector princess;
 float gravity = 50.f;
 
 //Map generation
-struct platformdata
-{
-	float x;
-	float y;
-	float width;
-	float height;
-} cliffleftarr[6], cliffrightarr[6];
+//
+//{
+//	float x;
+//	float y;
+//	float width;
+//	float height;
+//} 
+
+//cliffleftarr[6]; 
+//cliffrightarr[6];
 struct platformdata platformarr[500];
 float numberofplatforms;
 
@@ -125,10 +129,7 @@ float numberofrightwalls = 0;
 float leftwallwidth;
 float leftwallheight;
 
-//Platform fill
-struct platformdata fill1[5] = { 0 };
-struct platformdata fill2[5] = { 0 };
-struct platformdata fill3[5] = { 0 };
+
 
 
 struct platformdata textarr[50];
@@ -141,7 +142,6 @@ float buffer = 5;
 
 //Level only
 char* levelnames[6] = {"C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/leveltest.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level1.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level2.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level3.txt" , "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level4.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level5.txt"}; //Set another array = to this array[level]
-static int level = 0;
 char* levelarr;
 
 //Lamp 
@@ -158,7 +158,7 @@ int lamppickup = 0;
 
 void Level1_Init(void)
 {
-	
+	myfont = CP_Font_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Atma-Medium.ttf"); //Load font
 
 		windowWidth = (float)CP_System_GetWindowWidth();
 		windowHeight = (float)CP_System_GetWindowHeight();
@@ -367,6 +367,8 @@ void Level1_Update(void)
 	lampclicked();
 	lamppickedup();
 
+	DrawInstructions();
+
 	//Use this to check for the position of the lamp.
 	//printf("Lampx: %f, Lampy: %f\n", playerposition.x, playerposition.y);
 
@@ -451,7 +453,7 @@ int GeneratePlatformFromData(char arr[])
 			}
 			if (arr[i] == 'T')
 			{
-				textarr[textcount].x = -40 + plat * platformwidth;
+				textarr[textcount].x = -40 + plat * platformwidth/2;
 				textarr[textcount].y = windowHeight / 45 * (2 * j);
 				textarr[textcount].width = platformwidth;
 				textarr[textcount].height = platformheight;
@@ -610,7 +612,7 @@ void DrawPrincess()
 			flip = 1;
 		}
 	}
-	CP_Image_DrawSubImage(PrincessImage, princess.x, princess.y, princesswidth*flip, princessheight, spriteframe*princessspritewidth, 0, (spriteframe+1)*princessspritewidth, 38, 255);
+	CP_Image_DrawSubImage(PrincessImage, princess.x, princess.y, princesswidth*flip, princessheight, spriteframe*princessspritewidth, 0, (spriteframe+1)*princessspritewidth, 38, princessalpha);
 }
 //Draw player
 int DrawLight()
@@ -789,18 +791,22 @@ int PrincessSeeLight(void)
 	//Algo for this doesn't make sense.
 	if ((onplatform == 1)&&(AreCirclesIntersecting(princess.x, princess.y + princesseyelevel, princesswidth*2, playerposition.x, playerposition.y, lightradius + princesswidth*2) == 1)) //1 is right
 	{
-				if ((princess.x > playerposition.x) && (timer == 0)&& (princess.y > playerposition.y) &&(princess.x >= 6*buffer)&&(cliffintersectcheck() != 2))
+		if ((princess.x > playerposition.x) && (timer == 0) && (princess.y > playerposition.y) && (princess.x >= 6 * buffer) && (cliffintersectcheck() != 2))
 				{
 					princess.x -= dt * princessmovement;
+					princessalpha = 150;
 					return 1;
 
 				}
 				if ((princess.x < playerposition.x) && (timer == 0) && (princess.y > playerposition.y) && (princess.x <= windowWidth-6*buffer) && (cliffintersectcheck() != 1))
 				{
 					princess.x += dt * princessmovement;
+					princessalpha = 150;
+					
 					return 1;
 				}
 	}
+	princessalpha = 50;
 	return 0;
 }
 int LightCubePickup(void)
@@ -895,13 +901,15 @@ void PrincessJump(void)
 }
 void PrincessLeap(void)
 {
+	//If there are no cliff collisions the princess will leap whenever the lamp is clicked.
+
 	//printf("%d", PrincessSeeLight());
 	CP_Vector leapright = { 50,-50 };
 	CP_Vector leapleft = { -50, -50 };
 	
 	
 	//Edit this line as the conditional check if they should jump
-	if (leapcheck() == 1)
+	if ((leapcheck() == 1)&& (PrincessSeeLight() == 1))
 	{
 		if ((CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT)) && (timer == 0))
 		{
@@ -911,12 +919,14 @@ void PrincessLeap(void)
 				leapleftmode = 1;
 				leaprightmode = 0;
 				flip = 1;
+				printf("jumping");
 			}
 			if (playerposition.x < princess.x)
 			{
 				leaprightmode = 1;
 				leapleftmode = 0;
 				flip = -1;
+				printf("jumping");
 			}
 		}
 	}
@@ -1030,13 +1040,18 @@ int lampclicked(void)
 	{
 		if ((IsAreaClicked(playerposition.x, playerposition.y, lanternwidth, lanternheight, CP_Input_GetMouseX(), CP_Input_GetMouseY()) == 1))
 		{
-			lamppickup = 1;
 			playerposition.x = CP_Input_GetMouseX();
 			playerposition.y = CP_Input_GetMouseY();
+			lamppickup = 1;
 			return 1;
 		}
 		return 0;
 	}
+	//It causes the lamp to be deselected too fast
+	/*if ((CP_Input_MouseDown(MOUSE_BUTTON_LEFT) && (lamppickup == 1)))
+	{
+		lamppickup = 0;
+	}*/
 }
 
 int lamppickedup(void) 

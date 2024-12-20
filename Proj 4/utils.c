@@ -51,7 +51,13 @@ CP_Color blank; //blank = CP_Color_Create(0, 255, 0, 0);
 CP_Color white; //white = CP_Color_Create(255, 255, 255, 255);
 CP_Color gold; //gold = CP_Color_Create(255, 215, 0, 255);
 
-
+int level = 0;
+struct platformdata fill1[5] = { 0 };
+struct platformdata fill2[5] = { 0 };
+struct platformdata fill3[5] = { 0 };
+struct platformdata cliffleftarr[6] = { 0 };
+struct platformdata cliffrightarr[6] = { 0 };
+struct platformdata textarr[50] = { 0 };
 
 
 int IsAreaClicked(float area_center_x, float area_center_y, float area_width, float area_height, float click_x, float click_y)
@@ -174,4 +180,26 @@ void Draw_Text(CP_Color fill, float size, const char* text, float x, float y) //
 void PlaySound(CP_Sound Music)
 {
 	CP_Sound_PlayAdvanced(Music, 1.0, 1.0, TRUE, CP_SOUND_GROUP_0);
+}
+
+/* LowLight */
+void DrawInstructions(void)
+//Hard coding for each level
+{
+	if (level == 1)
+	{
+		Draw_Text(white, 100, "Click on the lamp to move it", textarr[0].x, textarr[0].y / 2);
+	}
+	if (level == 2)
+	{
+		//
+	}
+	if (level == 3)
+	{
+		//
+	}
+	if (level == 4)
+	{
+		//
+	}
 }

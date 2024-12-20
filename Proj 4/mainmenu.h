@@ -6,3 +6,4 @@ void Main_Menu_Exit(void);
 void ButtonClick(void);
 int DrawMainMenuLight();
 void MainMenuLightBounce(void);
+int  MainMenulampclicked(void);

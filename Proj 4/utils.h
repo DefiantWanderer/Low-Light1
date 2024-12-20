@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef UTILS_H
+#define UTILS_H
+
 #include "cprocessing.h"
 
 int IsAreaClicked(float area_center_x, float area_center_y, float area_width, float area_height, float click_x, float click_y);
@@ -16,6 +19,25 @@ int leapcheck(void);
 int lampclicked(void);
 int lamppickedup(void);
 int lampborder(void);
+
+struct platformdata
+{
+	float x;
+	float y;
+	float width;
+	float height;
+};
+
+extern int level;
+extern struct platformdata textarr[50];
+extern struct platformdata cliffleftarr[6];
+extern struct platformdata cliffrightarr[6];
+
+//Platform fill
+extern struct platformdata fill1[5];
+extern struct platformdata fill2[5];
+extern struct platformdata fill3[5];
+
 
 //int plat; //New row counter increases
 //int platformcount;
@@ -74,3 +96,5 @@ Male Leather Sole Shoes Sprinting Footstep Sound by Artninja Id-742970
 Weapons, Sword, Swipe, Hit Body, Impact, Hard, Squelch, Head Or Limb Fall To Ground SND34529
 Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122
 */;
+
+#endif // UTILS_H
