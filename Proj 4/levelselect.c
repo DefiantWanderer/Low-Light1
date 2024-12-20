@@ -24,7 +24,6 @@ CP_Color gold;
 //Declaring music and image
 CP_Sound MainMenuMusic; //Music
 CP_Image MainMenu; //Main menu image
-static float timer = 0;
 
 //Calling on arrays for relevant info
 float window_settings[2]; //Contains width and heigh

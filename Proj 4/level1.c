@@ -42,51 +42,51 @@ static CP_Matrix scaleMatrix, rotationMatrix, translationMatrix;
 /*Low Light variables                     */
 
 //Player mouse position
-CP_Vector playerposition;
-
-//Player stats
-float lightradiusarray[5] = { 10.f, 50.f, 100.f, 175.f, 275.f };
-int lightlevel = 3;
-int* ptrlightlevel = &lightlevel;
-float lightradius = 0.f;
-
-//Princess
-float princessheight;
-float princesseyelevel;
-float princesswidth;
-float princessmovement;
-float princessjumpheight;
-float princessvision;
-int flip = 1;
-float spriteframe = 0;
-float princessspritewidth = 24;
-float princessalpha = 50;
-					  
-//Platform dimensions
-float platformheight;
-float platformwidth;
-float lowestplatformy;
-float platformsgenerated = 0;
-
-//Timer related
-float timeroneactivate = 0;
-float leaptimeractivate = 0;
-int leaprightmode = 0;
-int leapleftmode = 0;
-float timer = 0;
-float princessjumpactivate = 0;
-float princessjumptimer = 0;
-
-//Spawn point x and y
-CP_Vector spawnpoint;
-float spawnx;
-float spawny;
-
-//Princess x and y
-CP_Vector princess;
-
-//Level related
-float gravity = 50.f;
+//CP_Vector playerposition;
+//
+////Player stats
+//float lightradiusarray[5] = { 10.f, 50.f, 100.f, 175.f, 275.f };
+//int lightlevel = 3;
+//int* ptrlightlevel = &lightlevel;
+//float lightradius = 0.f;
+//
+////Princess
+//float princessheight;
+//float princesseyelevel;
+//float princesswidth;
+//float princessmovement;
+//float princessjumpheight;
+//float princessvision;
+//int flip = 1;
+//float spriteframe = 0;
+//float princessspritewidth = 24;
+//float princessalpha = 50;
+//					  
+////Platform dimensions
+//float platformheight;
+//float platformwidth;
+//float lowestplatformy;
+//float platformsgenerated = 0;
+//
+////Timer related
+//float timeroneactivate = 0;
+//float leaptimeractivate = 0;
+//int leaprightmode = 0;
+//int leapleftmode = 0;
+//float timer = 0;
+//float princessjumpactivate = 0;
+//float princessjumptimer = 0;
+//
+////Spawn point x and y
+//CP_Vector spawnpoint;
+//float spawnx;
+//float spawny;
+//
+////Princess x and y
+//CP_Vector princess;
+//
+////Level related
+//float gravity = 50.f;
 
 //Map generation
 //
@@ -99,61 +99,62 @@ float gravity = 50.f;
 
 //cliffleftarr[6]; 
 //cliffrightarr[6];
-struct platformdata platformarr[500];
-float numberofplatforms;
-
-struct platformdata lightcube[5];
-float numberoflightcubes;
-float lightcubewidth;
-float lightcubeheight;
-
-struct platformdata inportalarr[3];
-struct platformdata outportalarr[3];
-float numberofinportals = 0;
-float numberofoutportals = 0;
-float numberofleftcliffs = 0;
-float numberofrightcliffs = 0;
-float inportalwidth;
-float inportalheight;
-float outportalwidth;
-float outportalheight;
-float teleportoffset;
-float cliffwidth;
-float cliffheight;
-
-
-struct platformdata leftwallarr[50];
-struct platformdata rightwallarr[50];
-float numberofleftwalls = 0;
-float numberofrightwalls = 0;
-float leftwallwidth;
-float leftwallheight;
-
-
+//struct platformdata platformarr[500];
+//float numberofplatforms;
+//
+//struct platformdata lightcube[5];
+//float numberoflightcubes;
+//float lightcubewidth;
+//float lightcubeheight;
+//
+//struct platformdata inportalarr[3];
+//struct platformdata outportalarr[3];
+//float numberofinportals = 0;
+//float numberofoutportals = 0;
+//float numberofleftcliffs = 0;
+//float numberofrightcliffs = 0;
+//float inportalwidth;
+//float inportalheight;
+//float outportalwidth;
+//float outportalheight;
+//float teleportoffset;
+//float cliffwidth;
+//float cliffheight;
+//
+//
+//struct platformdata leftwallarr[50];
+//struct platformdata rightwallarr[50];
+//float numberofleftwalls = 0;
+//float numberofrightwalls = 0;
+//float leftwallwidth;
+//float leftwallheight;
 
 
-struct platformdata textarr[50];
-float numberoftexts = 0;
-//Array and draw function
-char arr[1000] = { 0 };
-int stopgenerate = 0;
-int onplatform = 0;
-float buffer = 5;
+
+
+//struct platformdata textarr[50];
+//float numberoftexts = 0;
+////Array and draw function
+//char arr[1000] = { 0 };
+//int stopgenerate = 0;
+//int onplatform = 0;
+//float buffer = 5;
 
 //Level only
-char* levelnames[6] = {"C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/leveltest.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level1.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level2.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level3.txt" , "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level4.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level5.txt"}; //Set another array = to this array[level]
-char* levelarr;
+//char* levelnames[6] = {"C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/leveltest.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level1.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level2.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level3.txt" , "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level4.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level5.txt"}; //Set another array = to this array[level]
+//char* levelarr;
 
 //Lamp 
-float lanternwidth;
-float lanternheight;
-float lanternoffset;
-float lampspawnx;
-float lampspawny;
+//float lanternwidth;
+//float lanternheight;
+//float lanternoffset;
+//float lampspawnx;
+//float lampspawny;
+//
+//int lamppickup = 0;
 
-int lamppickup = 0;
 
-
+char* levelnames[6] = { "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/leveltest.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level1.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level2.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level3.txt" , "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level4.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level5.txt" }; //Set another array = to this array[level]
 
 
 void Level1_Init(void)
@@ -1033,42 +1034,4 @@ int leapcheck(void)
 		}
 		return 0;
 	}
-}
-int lampclicked(void)
-{
-	if ((CP_Input_MouseDown(MOUSE_BUTTON_LEFT)&&(lamppickup == 0)))
-	{
-		if ((IsAreaClicked(playerposition.x, playerposition.y, lanternwidth, lanternheight, CP_Input_GetMouseX(), CP_Input_GetMouseY()) == 1))
-		{
-			playerposition.x = CP_Input_GetMouseX();
-			playerposition.y = CP_Input_GetMouseY();
-			lamppickup = 1;
-			return 1;
-		}
-		return 0;
-	}
-	//It causes the lamp to be deselected too fast
-	/*if ((CP_Input_MouseDown(MOUSE_BUTTON_LEFT) && (lamppickup == 1)))
-	{
-		lamppickup = 0;
-	}*/
-}
-
-int lamppickedup(void) 
-{
-	if (lamppickup == 1)
-	{
-		playerposition.x = CP_Input_GetMouseX();
-		playerposition.y = CP_Input_GetMouseY();
-	}
-}
-int lampborder(void)
-{
-	//Lamp intersect wall.
-
-	//Lamp intersect platform. (lampy more than platformy. then pop it up., if lampy less than platformy then pop it up)
-
-	//Lamp intersect platform from the side.
-	//lamppickup = 0;
-	//if(playerposition.x)
 }

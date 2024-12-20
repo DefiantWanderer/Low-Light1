@@ -63,8 +63,6 @@ CP_Color transparent;
 CP_Sound MainMenuMusic = NULL; //Music
 CP_Image MainMenu = NULL;
 
-static float timer = 0;
-
 float window_settings[2]; //Contains width and height
 float play_dimensions[4]; //Contains centre in x and y and width and height
 float exit_dimensions[4];

@@ -59,6 +59,49 @@ struct platformdata cliffleftarr[6] = { 0 };
 struct platformdata cliffrightarr[6] = { 0 };
 struct platformdata textarr[50] = { 0 };
 
+//Player stats
+lightradiusarray[5] = { 10.f, 50.f, 100.f, 175.f, 275.f };
+lightlevel = 3;
+*ptrlightlevel = &lightlevel;
+lightradius = 0.f;
+
+//Princess
+flip = 1;
+spriteframe = 0;
+princessspritewidth = 24;
+princessalpha = 50;
+
+//Platform dimensions
+platformgenerated = 0;
+
+//Timer related
+timeroneactivate = 0;
+leaptimeractivate = 0;
+leaprightmode = 0;
+leapleftmode = 0;
+timer = 0;
+princessjumpactivate = 0;
+princessjumptimer = 0;
+
+//level related
+gravity = 50.f;
+
+numberofinportals = 0;
+numberofoutportals = 0;
+numberofleftcliffs = 0;
+numberofrightcliffs = 0;
+
+numberofleftwalls = 0;
+numberofrightwalls = 0;
+
+numberoftexts = 0;
+//Array and draw function
+char arr[1000] = { 0 };
+stopgenerate = 0;
+onplatform = 0;
+buffer = 5;
+
+//Level only
 
 int IsAreaClicked(float area_center_x, float area_center_y, float area_width, float area_height, float click_x, float click_y)
 {
@@ -183,6 +226,46 @@ void PlaySound(CP_Sound Music)
 }
 
 /* LowLight */
+int lampclicked(void)
+{
+	if ((CP_Input_MouseDown(MOUSE_BUTTON_LEFT) && (lamppickup == 0)))
+	{
+		if ((IsAreaClicked(playerposition.x, playerposition.y, lanternwidth, lanternheight, CP_Input_GetMouseX(), CP_Input_GetMouseY()) == 1))
+		{
+			playerposition.x = CP_Input_GetMouseX();
+			playerposition.y = CP_Input_GetMouseY();
+			lamppickup = 1;
+			return 1;
+		}
+		return 0;
+	}
+	//It causes the lamp to be deselected too fast
+	/*if ((CP_Input_MouseDown(MOUSE_BUTTON_LEFT) && (lamppickup == 1)))
+	{
+		lamppickup = 0;
+	}*/
+}
+
+int lamppickedup(void)
+{
+	if (lamppickup == 1)
+	{
+		playerposition.x = CP_Input_GetMouseX();
+		playerposition.y = CP_Input_GetMouseY();
+	}
+}
+int lampborder(void)
+{
+	//Lamp intersect wall.
+
+	//Lamp intersect platform. (lampy more than platformy. then pop it up., if lampy less than platformy then pop it up)
+
+	//Lamp intersect platform from the side.
+	//lamppickup = 0;
+	//if(playerposition.x)
+}
+
+
 void DrawInstructions(void)
 //Hard coding for each level
 {
