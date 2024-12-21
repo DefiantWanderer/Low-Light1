@@ -136,17 +136,6 @@ float gravity;
 float windowWidth;
 float windowHeight;
 
-//Map generation
-//
-//{
-//	float x;
-//	float y;
-//	float width;
-//	float height;
-//} 
-
-//cliffleftarr[6]; 
-//cliffrightarr[6];
 struct platformdata platformarr[500];
 float numberofplatforms;
 
@@ -191,6 +180,7 @@ float buffer;
 //Level only
 //char* levelnames[6];
 char* levelarr;
+char* levelnames[6];
 
 //Lamp 
 float lanternwidth;
