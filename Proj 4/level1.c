@@ -196,6 +196,7 @@ void Level1_Update(void)
 	PrincessSeeLight();
 	//PrincessJump();
 	PrincessLeap();
+	PrincessTalk();
 
 	//Player Gravity and platform collision
 	PrincessGravity();
@@ -231,6 +232,8 @@ void Level1_Update(void)
 	lamppickedup();
 
 	DrawInstructions();
+
+	
 
 	//Use this to check for the position of the lamp.
 	//printf("Lampx: %f, Lampy: %f\n", playerposition.x, playerposition.y);

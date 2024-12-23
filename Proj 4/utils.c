@@ -958,3 +958,24 @@ void DrawInstructions(void)
 		//
 	}
 }
+
+void PrincessTalk(void)
+{
+	if (level == 1)
+	{
+		//Sound, volume, pitch, looping, group
+		CP_Sound_PlayAdvanced(); 
+	}
+	if (level == 2)
+	{
+		//
+	}
+	if (level == 3)
+	{
+		//
+	}
+	if (level == 4)
+	{
+		//
+	}
+}

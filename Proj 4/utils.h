@@ -190,7 +190,7 @@ float lampspawnx;
 float lampspawny;
 
 int lamppickup;
-
+void PrincessTalk(void);
 
 
 
