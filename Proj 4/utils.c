@@ -62,6 +62,7 @@ struct platformdata fill3[5] = { 0 };
 struct platformdata cliffleftarr[6] = { 0 };
 struct platformdata cliffrightarr[6] = { 0 };
 struct platformdata textarr[50] = { 0 };
+struct platformdata nextlevelarr[5] = { 0 };
 
 //Player stats
 lightradiusarray[5] = { 10.f, 50.f, 100.f, 175.f, 275.f };
@@ -97,6 +98,8 @@ numberofrightcliffs = 0;
 
 numberofleftwalls = 0;
 numberofrightwalls = 0;
+
+numberofnextlevels = 0;
 
 numberoftexts = 0;
 //Array and draw function
@@ -283,6 +286,7 @@ int GeneratePlatformFromData(char arr[])
 		int fill3count = 0;
 		int cliffleftcount = 0;
 		int cliffrightcount = 0;
+		int nextlevelcount = 0;
 
 		for (int i = 0; arr[i] != '\0';i++, plat++)
 		{
@@ -435,6 +439,16 @@ int GeneratePlatformFromData(char arr[])
 				outportalarr[outportalcount].height = outportalheight;
 				outportalcount++;
 				numberofoutportals++;
+			}
+			//Portal out
+			if (arr[i] == 'N')
+			{
+				nextlevelarr[nextlevelcount].x = 0 + plat * platformwidth;
+				nextlevelarr[nextlevelcount].y = windowHeight / 45 * (2 * j);
+				nextlevelarr[nextlevelcount].width = outportalwidth;
+				nextlevelarr[nextlevelcount].height = outportalheight;
+				nextlevelcount++;
+				numberofnextlevels++;
 			}
 
 		}

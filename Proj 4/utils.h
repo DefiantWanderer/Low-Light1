@@ -154,6 +154,8 @@ float inportalwidth;
 float inportalheight;
 float outportalwidth;
 float outportalheight;
+struct platformdata nextlevelarr[5];
+float numberofnextlevels;
 float teleportoffset;
 float cliffwidth;
 float cliffheight;

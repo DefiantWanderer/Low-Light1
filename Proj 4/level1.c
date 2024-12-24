@@ -5,6 +5,7 @@
 #include "level1.h"
 #include "fileloader.h"
 #include <Windows.h>
+#include "sound.h"
 
 //Camera
 static const float SCALE_QUANTUM = 1.5f;
