@@ -1,16 +1,3 @@
-/******************************************************************************
-@file SoundManager.c
-@author(s) Clement Ang (ang.c), Yong Wei (l.yongwei)
-@course Software Engineering Project
-@section b
-@team BM Platformers
-@date 26/11/24
-@contribution
-Clement Ang - Collating all loading into 1 file and freeing, main menu play tracker
-Yong Wei - Loading all sounds/music and their variables, playing all sounds/music
-@brief This file contains the definition/logic for loading and freeing sounds into their variables, as well as playing main menu music
-@copyright © Copyright: 2024, Digipen Institute of Technology, Singapore
-******************************************************************************/
 #include "Sound.h"
 
 //How to use sounds?
@@ -23,37 +10,6 @@ Yong Wei - Loading all sounds/music and their variables, playing all sounds/musi
 void LoadSounds()
 {
 	//Music
-	soundMainMenuMusic = CP_Sound_LoadMusic("Assets/MainMenuMusic.mp3"); // Music
-
-	//Sounds effects. CP_Sound_PlayAdvanced(Dash, 1.0, 1.0, FALSE, CP_SOUND_GROUP_6);
-	soundEffectSwordSwing = CP_Sound_Load("Assets/SwordSwing.mp3");
-	sounndEffectSwordSwing2 = CP_Sound_Load("Assets/SwordSwing2.wav");
-	soundEffectSwordDeflect = CP_Sound_Load("Assets/SwordDeflect.mp3");
-
-	soundEffectCoin = CP_Sound_Load("Assets/Coin.wav");
-	soundEffectJump = CP_Sound_Load("Assets/Jump.wav");
-	soundEffectDash = CP_Sound_Load("Assets/Dash.wav");
-	soundEffectDoor = CP_Sound_Load("Assets/Door.wav");
-	soundEffectEnemyHit = CP_Sound_LoadMusic("Assets/EnemyHit.wav");
-	soundEffectLandingOnPlatform = CP_Sound_Load("Assets/LandingOnPlatform.wav");
-	soundEffectRunningOnWood = CP_Sound_Load("Assets/RunningOnWood.wav");
-	soundEffectMenuButton = CP_Sound_Load("Assets/MenuButton.wav");
-	soundEffectOof1 = CP_Sound_Load("Assets/Oof1.wav");
-	soundEffectOof2 = CP_Sound_LoadMusic("Assets/Oof2.wav");
-	soundEffectRunning1 = CP_Sound_Load("Assets/Running1.wav");
-	soundEffectRunning2 = CP_Sound_Load("Assets/Running2.wav");
-	soundEffectRunningOnGrass = CP_Sound_Load("Assets/RunningOnGrass.wav");
-	soundEffectShuriken1 = CP_Sound_Load("Assets/Shuriken1.wav");
-	soundEffectShuriken2 = CP_Sound_Load("Assets/Shuriken2.wav");
-
-
-	soundEffectWin1 = CP_Sound_Load("Assets/Win1.wav");
-	soundEffectWin2 = CP_Sound_Load("Assets/Win2.wav");
-	soundEffectWin3 = CP_Sound_Load("Assets/Win3.wav");
-	soundEffectWin4 = CP_Sound_Load("Assets/Win4.wav");
-	soundEffectKnifeEquip = CP_Sound_Load("Assets/KnifeEquip.wav");
-	soundEffectFallingDeath = CP_Sound_Load("Assets/FallingDeath.wav"); 
-	soundEffectLevel1music = CP_Sound_Load("Assets/level1music.mp3");
 	GottaAdmitIWouldNotHaveBeenAbleToSolveThatMyself = CP_Sound_Load("C: / Users / yongw/ SIT Stuff / CSD1401 Software Engineering Proj pass fail / New folder / Low - Light1 / Assets / GottaAdmitIWouldNotHaveBeenAbleToSolveThatMyself"); //	 GottaAdmitIWouldNotHaveBeenAbleToSolveThatMyself
 	GottaAdmitIWouldNotHaveBeenAbleToSolveThatMyself = CP_Sound_Load("C: / Users / yongw/ SIT Stuff / CSD1401 Software Engineering Proj pass fail / New folder / Low - Light1 / Assets / GottaAdmitIWouldNotHaveBeenAbleToSolveThatMyslf"); //	 GottaAdmitIWouldNotHaveBeenAbleToSolveThatMyself
 	CommentAboutDarkness = CP_Sound_Load("C: / Users / yongw/ SIT Stuff / CSD1401 Software Engineering Proj pass fail / New folder / Low - Light1 / Assets /CommentAboutDarkness");//CommentAboutDarknes
@@ -97,21 +53,21 @@ void LoadSounds()
 
 	//End of sound and graphics
 
-	isMainMenuMusicPlayedFirstTime = TRUE;
+	//sMainMenuMusicPlayedFirstTime = TRUE;
 
-	CP_Sound_PlayAdvanced(soundEffectSwordSwing, 1.0, 1.0, FALSE, CP_SOUND_GROUP_3);
+	//CP_Sound_PlayAdvanced(soundEffectSwordSwing, 1.0, 1.0, FALSE, CP_SOUND_GROUP_3);
 }
 
 void PlayMainMenuMusic()
 {
-	if (isMainMenuMusicPlayedFirstTime == TRUE)
+	/*if (isMainMenuMusicPlayedFirstTime == TRUE)
 	{
 		CP_Sound_PlayAdvanced(soundMainMenuMusic, (float)0.2, (float)0.95, TRUE, CP_SOUND_GROUP_0);
 		CP_Sound_ResumeGroup(CP_SOUND_GROUP_0);
 		isMainMenuMusicPlayedFirstTime = FALSE;
 	}
 	else
-		CP_Sound_ResumeGroup(CP_SOUND_GROUP_0);
+		CP_Sound_ResumeGroup(CP_SOUND_GROUP_0);*/
 }
 
 //Should be called on game close
@@ -119,34 +75,45 @@ void FreeSounds()
 {
 	CP_Sound_StopAll();
 
-	CP_Sound_Free(&soundMainMenuMusic);
-
 	//Sound Effects
-	CP_Sound_Free(&soundEffectSwordDeflect);
-	CP_Sound_Free(&soundEffectSwordSwing);
-	CP_Sound_Free(&sounndEffectSwordSwing2);
-	CP_Sound_Free(&soundEffectCoin);
-	CP_Sound_Free(&soundEffectDash);
-	CP_Sound_Free(&soundEffectDoor);
-	CP_Sound_Free(&soundEffectEnemyHit);
-	CP_Sound_Free(&soundEffectFallingDeath);
-	CP_Sound_Free(&soundEffectJump);
-	CP_Sound_Free(&soundEffectKnifeEquip);
-	CP_Sound_Free(&soundEffectLandingOnPlatform);
-	CP_Sound_Free(&soundEffectMenuButton);
-	CP_Sound_Free(&soundEffectOof1);
-	CP_Sound_Free(&soundEffectOof2);
-	CP_Sound_Free(&soundEffectRunning1);
-	CP_Sound_Free(&soundEffectRunning2);
-	CP_Sound_Free(&soundEffectRunningOnGrass);
-	CP_Sound_Free(&soundEffectRunningOnWood);
-	CP_Sound_Free(&soundEffectShuriken1);
-	CP_Sound_Free(&soundEffectShuriken2);
-	CP_Sound_Free(&soundEffectWin1);
-	CP_Sound_Free(&soundEffectWin2);
-	CP_Sound_Free(&soundEffectWin3);
-	CP_Sound_Free(&soundEffectWin4);
-	CP_Sound_Free(&soundEffectLevel1music);
-	CP_Sound_Free(&soundEffectLandingOnPlatform);
 
+		CP_Sound_Free(&GottaAdmitIWouldNotHaveBeenAbleToSolveThatMyself);
+		CP_Sound_Free(&CommentAboutDarkness);
+		CP_Sound_Free(&CouldYouShineSomeLightHere);
+		CP_Sound_Free(&GoodThingYouAreHere);
+		CP_Sound_Free(&GottaAdmitIWouldNotHaveBeenAbleToSolveThatMyself);
+		CP_Sound_Free(&HelloIsAnyoneThere);
+		CP_Sound_Free(&HoldThemBack);
+		CP_Sound_Free(&ICantDoThatYetShineMoreLight);
+		CP_Sound_Free(&ICantMakeThatJumpIfICantSeeIt);
+		CP_Sound_Free(&ICantSeeAnythingLightTheWay);
+		CP_Sound_Free(&IHopeYouEnjoyYourTimeHere);
+		CP_Sound_Free(&IWonderWhatThisPlaceIs);
+		CP_Sound_Free(&KeyPickUpComment);
+		CP_Sound_Free(&LightCubePickUp);
+		CP_Sound_Free(&LightTheWay);
+		CP_Sound_Free(&mmmTasty);
+		CP_Sound_Free(&mmmThatLooksDangerous);
+		CP_Sound_Free(&NiceWork);
+		CP_Sound_Free(&NotSureWhatThisPlaceIsExplore);
+		CP_Sound_Free(&ObservationOfLightOnEnemies);
+		CP_Sound_Free(&OhGoodThatYouAreHere);
+		CP_Sound_Free(&ThanksForBeingMyLight);
+		CP_Sound_Free(&ThankYouForPlaying);
+		CP_Sound_Free(&ThatsQuiteSmart);
+		CP_Sound_Free(&ThatWasALotOfDoors);
+		CP_Sound_Free(&ThereHasToBeAWayOutOfHere);
+		CP_Sound_Free(&ThisShouldIncreaseTheBrightness);
+		CP_Sound_Free(&WeMadeItSoFar);
+		CP_Sound_Free(&WeMadeItSoFarAndMore);
+		CP_Sound_Free(&WhatAreYou);
+		CP_Sound_Free(&WhatIsThat);
+		CP_Sound_Free(&WhatIsYourName);
+		CP_Sound_Free(&WhoaMadeItToTheTop);
+		CP_Sound_Free(&WhosThere);
+		CP_Sound_Free(&WhyAmIHere);
+		CP_Sound_Free(&WhyAmWowImUpHere);
+		CP_Sound_Free(&WhyAmIHereagain);
+		CP_Sound_Free(&WowMadeTheJump); //	 WowMadeTheJum);
+		CP_Sound_Free(&WowThatsBright);
 }
