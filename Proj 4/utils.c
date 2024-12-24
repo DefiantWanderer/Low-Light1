@@ -964,7 +964,7 @@ void PrincessTalk(void)
 	if (level == 1)
 	{
 		//Sound, volume, pitch, looping, group
-		CP_Sound_PlayAdvanced(); 
+		//CP_Sound_PlayAdvanced(); 
 	}
 	if (level == 2)
 	{
