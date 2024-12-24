@@ -261,6 +261,7 @@ void Level1_Update(void)
 	DrawInstructions();
 
 	DrawNextLevelDoor();
+	NextLevelLink();
 
 	
 

@@ -616,6 +616,10 @@ void PrincessGravity(void)
 }
 void wallcollision(void)
 {
+	//This might be causing double movement when near cliffs
+	if (cliffintersectcheck == 0)
+	{
+
 	for (int i = 0; i < numberofleftwalls; i++)
 	{
 		if (AreRectIntersecting(princess.x, princess.y, princesswidth, princessheight, leftwallarr[i].x, leftwallarr[i].y, leftwallarr[i].width + buffer, leftwallarr[i].height) == 1)
@@ -642,6 +646,7 @@ void wallcollision(void)
 				princess.x += 5;
 			}
 		}
+	}
 	}
 }
 //Princess moves left or right Consider increasing sensetivity
@@ -879,6 +884,18 @@ void PortalLink(void)
 		}
 	}
 }
+
+void NextLevelLink(void)
+{
+	for (int i = 0; i < numberofnextlevels; i++)
+	{
+		if (AreRectIntersecting(princess.x, princess.y, princesswidth, princessheight, nextlevelarr[i].x, nextlevelarr[i].y, nextlevelarr[i].width, nextlevelarr[i].height) == 1)
+		{
+			level = 1;
+		}
+	}
+}
+
 int cliffintersectcheck(void)
 {
 	for (int i = 0; i < numberofrightcliffs;i++)
