@@ -9,31 +9,7 @@
 2. Add "Coin = CP_Sound_LoadMusic("Assets/Coin.wav");" to your init.
 3. Use PlaySound(Coin); to play the sound
 */
-CP_Sound MainMenuMusic;				//MainMenuMusic = CP_Sound_LoadMusic("Assets/MainMenuMusic.mp3");
-CP_Sound Coin;						//Coin = CP_Sound_LoadMusic("Assets/Coin.wav");
-CP_Sound Dash;						//Dash = CP_Sound_LoadMusic("Assets/Dash.wav");
-CP_Sound Door;						//Door = CP_Sound_LoadMusic("Assets/Door.wav");
-CP_Sound EnemyHit;					//EnemyHit = CP_Sound_LoadMusic("Assets/EnemyHit.wav");
-CP_Sound FallingDeath;				//FallingDeath = CP_Sound_LoadMusic("Assets/FallingDeath.wav");
-CP_Sound Jump;						//Jump = CP_Sound_LoadMusic("Assets/Jump.wav");
-CP_Sound KnifeEquip;				//KnifeEquip = CP_Sound_LoadMusic("Assets/KnifeEquip.wav");
-CP_Sound LandingOnPlatform;			//LandingOnPlatform = CP_Sound_LoadMusic("Assets/LandingOnPlatform.wav");
-CP_Sound MenuButton;				//MenuButton = CP_Sound_LoadMusic("Assets/MenuButton.wav");
-CP_Sound Oof1;						//Oof1 = CP_Sound_LoadMusic("Assets/Oof1.wav");
-CP_Sound Oof2;						//Oof2 = CP_Sound_LoadMusic("Assets/Oof2.wav");
-CP_Sound Running1;					//Running1 = CP_Sound_LoadMusic("Assets/Running1.wav");
-CP_Sound Running2;					//Running2 = CP_Sound_LoadMusic("Assets/Running2.wav");
-CP_Sound RunningOnGrass;			//RunningOnGrass = CP_Sound_LoadMusic("Assets/RunningOnGrass.wav");
-CP_Sound RunningOnWood;				//RunningOnWood = CP_Sound_LoadMusic("Assets/RunningOnWood.wav");
-CP_Sound Shuriken1;					//Shuriken1 = CP_Sound_LoadMusic("Assets/Shuriken1.wav");
-CP_Sound Shuriken2;					//Shuriken2 = CP_Sound_LoadMusic("Assets/Shuriken2.wav");
-CP_Sound SwordSwing;				//SwordSwing = CP_Sound_LoadMusic("Assets/SwordSwing.wav");
-CP_Sound SwordSwing2;				//SwordSwing2 = CP_Sound_LoadMusic("Assets/SwordSwing2.wav");
-CP_Sound SwordDeflect;				//SwordDeflect = CP_Sound_LoadMusic("Assets/SwordDeflect.wav");
-CP_Sound Win1;						//Win1 = CP_Sound_LoadMusic("Assets/Win1.wav");
-CP_Sound Win2;						//Win2 = CP_Sound_LoadMusic("Assets/Win2.wav");
-CP_Sound Win3;						//Win3 = CP_Sound_LoadMusic("Assets/Win3.wav");
-CP_Sound Win4;						//Win4 = CP_Sound_LoadMusic("Assets/Win4.wav");
+
 
 //How to use font and colors?
 /*
@@ -41,16 +17,23 @@ CP_Sound Win4;						//Win4 = CP_Sound_LoadMusic("Assets/Win4.wav");
 2. Add "grey = CP_Color_Create(128, 128, 128, 255);" to your init.
 3. Pass "grey" into the the Draw_Text, Draw_Rect, Draw_Circle, Draw_Star
 */
-CP_Font myfont; //myfont = CP_Font_Load("Assets/Atma-Medium.ttf");
-CP_Color grey; //grey = CP_Color_Create(128, 128, 128, 255);
-CP_Color black; //black = CP_Color_Create(0, 0, 0, 255);
-CP_Color red; //red = CP_Color_Create(230, 0, 10, 255);
-CP_Color darkred; //darkred = CP_Color_Create(200, 50, 50, 255);
-CP_Color blue; //blue = CP_Color_Create(0, 0, 255, 255);
-CP_Color green; //green = CP_Color_Create(0, 255, 0, 255);
-CP_Color blank; //blank = CP_Color_Create(0, 255, 0, 0);
-CP_Color white; //white = CP_Color_Create(255, 255, 255, 255);
-CP_Color gold; //gold = CP_Color_Create(255, 215, 0, 255);
+CP_Font myfont; //cpfont is a pointer to a struct
+CP_Image LanternImage;
+CP_Color grey;
+CP_Color black;
+CP_Color red;
+CP_Color dred;
+CP_Color blue;
+CP_Color green;
+CP_Color blank;
+CP_Color white;
+CP_Color blackalpha;
+CP_Color whitealpha;
+CP_Color grey1;
+CP_Color grey2;
+CP_Color grey3;
+CP_Color grey4;
+CP_Color orangealpha;
 
 //Maybe wrong but works so far.
 char *levelnames[6] = { "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/leveltest.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level1.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level2.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level3.txt" , "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level4.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level5.txt" }; //Set another array = to this array[level]
@@ -443,8 +426,8 @@ int GeneratePlatformFromData(char arr[])
 			//Portal out
 			if (arr[i] == 'N')
 			{
-				nextlevelarr[nextlevelcount].x = 0 + plat * platformwidth;
-				nextlevelarr[nextlevelcount].y = windowHeight / 45 * (2 * j);
+				nextlevelarr[nextlevelcount].x = -40 + plat * platformwidth;
+				nextlevelarr[nextlevelcount].y = windowHeight / 48 * (2 * j);
 				nextlevelarr[nextlevelcount].width = outportalwidth;
 				nextlevelarr[nextlevelcount].height = outportalheight;
 				nextlevelcount++;
@@ -532,6 +515,16 @@ void DrawPortals(void)
 		Draw_Rect(goldenyellow, outportalarr[i].x, outportalarr[i].y, outportalarr[i].width, outportalarr[i].height, 0, 0);
 	}
 }
+void DrawNextLevelDoor(void)
+{
+	
+	for (int i = 0; i < numberofnextlevels; i++)
+	{
+		//printf("%d:\n x: %f\n y: %f\n width: %f\n, height %f\n", i, platformarr[i].x, platformarr[i].y, platformarr[i].width, platformarr[i].height);
+		//CP_Settings_Stroke(white);
+		Draw_Rect(orange, nextlevelarr[i].x, nextlevelarr[i].y, nextlevelarr[i].width, nextlevelarr[i].height, 0, 0);
+	}
+}
 void DrawRightWall(void)
 {
 	CP_Settings_Stroke(transparent);
@@ -578,7 +571,6 @@ void DrawLightCube(void)
 		Draw_Rect(gold, lightcube[i].x, lightcube[i].y, lightcube[i].width, lightcube[i].height, 0, 0);
 	}
 }
-
 
 
 //Gravity
@@ -660,16 +652,22 @@ int PrincessSeeLight(void)
 	//Algo for this doesn't make sense.
 	if ((onplatform == 1) && (AreCirclesIntersecting(princess.x, princess.y + princesseyelevel, princesswidth * 2, playerposition.x, playerposition.y, lightradius + princesswidth * 2) == 1)) //1 is right
 	{
-		if ((princess.x > playerposition.x) && (timer == 0) && (princess.y > playerposition.y) && (princess.x >= 6 * buffer) && (cliffintersectcheck() != 2))
+		if ((princess.x > playerposition.x) && (timer == 0) && (princess.y > playerposition.y) && (princess.x >= 6 * buffer))
 		{
-			princess.x -= dt * princessmovement;
+			if ((cliffintersectcheck() != 2))
+			{
+				princess.x -= dt * princessmovement;
+			};
 			princessalpha = 150;
 			return 1;
 
 		}
-		if ((princess.x < playerposition.x) && (timer == 0) && (princess.y > playerposition.y) && (princess.x <= windowWidth - 6 * buffer) && (cliffintersectcheck() != 1))
+		if ((princess.x < playerposition.x) && (timer == 0) && (princess.y > playerposition.y) && (princess.x <= windowWidth - 6 * buffer))
 		{
+			if ((cliffintersectcheck() != 1))
+			{
 			princess.x += dt * princessmovement;
+			}
 			princessalpha = 150;
 
 			return 1;
@@ -678,8 +676,6 @@ int PrincessSeeLight(void)
 	princessalpha = 50;
 	return 0;
 }
-
-
 
 int LightCubePickup(void)
 {

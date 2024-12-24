@@ -48,6 +48,7 @@ int lampclicked(void);
 int lamppickedup(void);
 int lampborder(void);
 
+void DrawNextLevelDoor(void);
 
 CP_Image LanternImage;
 CP_Image PrincessImage;

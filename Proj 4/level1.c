@@ -18,6 +18,23 @@ static float currentRotation;
 static CP_Vector currentPosition, centerOffset;
 static CP_Matrix scaleMatrix, rotationMatrix, translationMatrix;
 
+CP_Image LanternImage;
+CP_Color grey;
+CP_Color black;
+CP_Color red;
+CP_Color dred;
+CP_Color blue;
+CP_Color green;
+CP_Color blank;
+CP_Color white;
+CP_Color blackalpha;
+CP_Color whitealpha;
+CP_Color grey1;
+CP_Color grey2;
+CP_Color grey3;
+CP_Color grey4;
+CP_Color orangealpha;
+float alpha;
 
 
 void Level1_Init(void)
@@ -97,7 +114,16 @@ void Level1_Init(void)
 void Level1_Update(void)
 {
 	dt = CP_System_GetDt();
-	
+
+	//Color updates
+	orangealpha = CP_Color_Create(255, 165, 0, alpha);
+	blackalpha = CP_Color_Create(0, 0, 0, alpha);
+	whitealpha = CP_Color_Create(255, 255, 255, alpha);
+	grey1 = CP_Color_Create(129, 133, 137, alpha);
+	grey2 = CP_Color_Create(211, 211, 211, alpha);
+	grey3 = CP_Color_Create(137, 148, 153, alpha);
+	grey4 = CP_Color_Create(133, 121, 126, alpha);
+
 	//Player mouse position
 	//Updateplayerposition();
 	
@@ -233,6 +259,8 @@ void Level1_Update(void)
 	lamppickedup();
 
 	DrawInstructions();
+
+	DrawNextLevelDoor();
 
 	
 
