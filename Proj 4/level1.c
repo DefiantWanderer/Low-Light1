@@ -96,7 +96,7 @@ void Level1_Init(void)
 		transparent = CP_Color_Create(0, 0, 0, 0);
 
 		//Level loading
-		level = 2;
+		//level = 2;
 		levelarr = levelnames[level];
 		CreateLevelDataArray(levelarr);
 		GeneratePlatformFromData(arr);

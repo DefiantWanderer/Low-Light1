@@ -4,6 +4,7 @@
 #include "levelselect.h"
 #include "level1.h"
 #include "mainmenu.h"
+#include "loadingscreen.h"
 
 // MainMenu edits
 // Alpha works, now just try to implement different colors to make the words more obvious. I think just need to increase the alpha of the orange or change to white.
@@ -28,6 +29,7 @@ float dt;
 
 float alpha = 5;
 
+int level = 1;
 
 float play_center_x, play_center_y, play_width, play_height;
 float exit_center_x, exit_center_y, exit_width, exit_height;
@@ -184,12 +186,13 @@ void Main_Menu_Update(void)
 		{
 			printf("Play\n");
 			//CP_Sound_PauseGroup(CP_SOUND_GROUP_0); //Pause music
-			CP_Engine_SetNextGameState(Level1_Init, Level1_Update, Level1_Exit); //CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
+			CP_Engine_SetNextGameState(LoadingScreen_Init, LoadingScreen_Update, LoadingScreen_Exit);
+			//CP_Engine_SetNextGameState(Level1_Init, Level1_Update, Level1_Exit); //CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
 		}
 		if (IsAreaClicked(exit_dimensions[0], exit_dimensions[1], exit_dimensions[2], exit_dimensions[3], click_x, click_y) == 1)
 		{
 			printf("Exit\n");
-			CP_Sound_PauseGroup(CP_SOUND_GROUP_0);
+			//CP_Sound_PauseGroup(CP_SOUND_GROUP_0);
 			CP_Engine_Terminate();
 		}
 

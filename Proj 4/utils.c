@@ -1,5 +1,6 @@
 #include <math.h>
 #include "utils.h"
+#include "loadingscreen.h"
 #include "cprocessing.h"
 #include <stdio.h>
 
@@ -38,7 +39,8 @@ CP_Color orangealpha;
 //Maybe wrong but works so far.
 char *levelnames[6] = { "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/leveltest.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level1.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level2.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level3.txt" , "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level4.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level5.txt" }; //Set another array = to this array[level]
 
-int level = 0;
+int level;
+int *ptrlevel = &level;
 struct platformdata fill1[5] = { 0 };
 struct platformdata fill2[5] = { 0 };
 struct platformdata fill3[5] = { 0 };
@@ -891,7 +893,11 @@ void NextLevelLink(void)
 	{
 		if (AreRectIntersecting(princess.x, princess.y, princesswidth, princessheight, nextlevelarr[i].x, nextlevelarr[i].y, nextlevelarr[i].width, nextlevelarr[i].height) == 1)
 		{
-			level = 1;
+			{
+				*ptrlevel += 1;
+				CP_Engine_SetNextGameState(LoadingScreen_Init, LoadingScreen_Update,LoadingScreen_Exit);
+				break;
+			}
 		}
 	}
 }
