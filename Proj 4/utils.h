@@ -146,8 +146,8 @@ float numberoflightcubes;
 float lightcubewidth;
 float lightcubeheight;
 
-struct platformdata inportalarr[3];
-struct platformdata outportalarr[3];
+struct platformdata inportalarr[5];
+struct platformdata outportalarr[5];
 float numberofinportals;
 float numberofoutportals;
 float numberofleftcliffs;

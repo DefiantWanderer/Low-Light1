@@ -37,6 +37,7 @@ void LoadingScreen_Update(void)
 
 	whitewithalpha = CP_Color_Create(255, 255, 255, alphachange);
 
+	stopgenerate = 0;
 
 	if (level == 1)
 	{

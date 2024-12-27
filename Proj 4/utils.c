@@ -273,6 +273,61 @@ int GeneratePlatformFromData(char arr[])
 		int cliffrightcount = 0;
 		int nextlevelcount = 0;
 
+		//Clear all
+		//Can make this into a function to be more concise
+		for (int i = 0; i < 5; i++)
+		{
+			fill1[i].x = 0;
+			fill2[i].x = 0;
+			fill3[i].x = 0;
+			fill1[i].y = 0;
+			fill2[i].y = 0;
+			fill3[i].y = 0;
+			fill1[i].width = 0;
+			fill2[i].width = 0;
+			fill3[i].width = 0;
+			fill1[i].height = 0;
+			fill2[i].height = 0;
+			fill3[i].height = 0;
+			nextlevelarr[i].x = 0;
+			nextlevelarr[i].y = 0;
+			lightcube[i].x = 0;
+			lightcube[i].y = 0;
+			outportalarr[i].x = 0;
+			outportalarr[i].y = 0;
+			outportalarr[i].width = 0;
+			outportalarr[i].height = 0;
+			inportalarr[i].x = 0;
+			inportalarr[i].y = 0;
+			inportalarr[i].width = 0;
+			inportalarr[i].height = 0;
+			
+		}
+		for (int i = 0; i < 6; i++)
+		{
+			cliffleftarr[i].x = 0 ;
+			cliffrightarr[i].y = 0;
+			cliffleftarr[i].width = 0;
+			cliffrightarr[i].height = 0;
+
+		}
+		for (int i = 0; i < 50; i++)
+		{
+			//Not sure what textarr is.
+		textarr[i].x = 0;
+		textarr[i].y = 0;
+		textarr[i].width = 0;
+		textarr[i].height = 0;
+
+		platformarr[i].x = 0;
+		platformarr[i].y = 0;
+		platformarr[i].width = 0;
+		platformarr[i].height = 0;
+		}
+
+
+
+
 		for (int i = 0; arr[i] != '\0';i++, plat++)
 		{
 			//Lightcube
