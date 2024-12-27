@@ -283,7 +283,6 @@ void Level1_Update(void)
 		DrawRedLines(red, redlinex[i], redliney[i]);
 		redliney[i] += gravity * dt;
 
-		//This doesnt work look into it.
 		if (redliney[i] >= 800)
 		{
 			printf("passed midpoint");
