@@ -4,7 +4,8 @@
 #include "mainmenu.h"
 #include "level1.h"
 #include "fileloader.h"
-#include <Windows.h>
+#include "loadingscreen.h"
+#include <stdlib.h>
 #include "sound.h"
 
 //Camera
@@ -17,6 +18,9 @@ static float currentScale;
 static float currentRotation;
 static CP_Vector currentPosition, centerOffset;
 static CP_Matrix scaleMatrix, rotationMatrix, translationMatrix;
+
+float redlinex[10];
+float redliney[10];
 
 CP_Image LanternImage;
 CP_Color grey;
@@ -93,6 +97,7 @@ void Level1_Init(void)
 		goldenyellow = CP_Color_Create(255, 192, 0, 50);
 		strokegoldenyellow = CP_Color_Create(255, 192, 0, 15);
 		gold = CP_Color_Create(255, 215, 0, 255);
+		red = CP_Color_Create(255, 0, 0, 255);
 		transparent = CP_Color_Create(0, 0, 0, 0);
 
 		//Level loading
@@ -108,6 +113,14 @@ void Level1_Init(void)
 		//Image load
 		PrincessImage = CP_Image_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/IcePrincessSheet.png");
 		LanternImage = CP_Image_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Lantern.png");
+		
+		//Rng for redlines
+		srand(100);
+		for (int i = 0; i < 10; i++)
+		{
+			redlinex[i] = (float)(rand() % (int)windowWidth);
+			redliney[i] = (float)(rand() % 200) - 0;
+		}
 
 
 }
@@ -201,7 +214,7 @@ void Level1_Update(void)
 
 	
 	//Draw environment props that do not move
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	//CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Font_DrawText("R and T to rotate camera", 255, 255);
 	CP_Font_DrawText("I and O to zoom", 450, 200);
 	CP_Font_DrawText("Arrow keys to translate", 750, 20);
@@ -211,7 +224,7 @@ void Level1_Update(void)
 	
 	CP_Graphics_DrawCircle(offsetVector.x, offsetVector.y, 50.0f);
 
-	//Camera end
+	Camera end
 
 	//Accounts for panning, zooming still has issues.
 	playerposition = CP_Vector_Add(playerposition, offsetOrigin);
@@ -264,6 +277,30 @@ void Level1_Update(void)
 	DrawNextLevelDoor();
 	NextLevelLink();
 
+	//Redline is drawn, redline drops to ground, redline y is reset and the x is randomized.
+	for (int i = 0; i < 10; i++)
+	{
+		DrawRedLines(red, redlinex[i], redliney[i]);
+		redliney[i] += gravity * dt;
+
+		//This doesnt work look into it.
+		if (redliney[i] >= 800)
+		{
+			printf("passed midpoint");
+			redlinex[i] = (float)(rand() % (int)windowWidth);
+			redliney[i] = (float)(rand() % 200) - 0;
+		}
+	}
+	
+	DrawSpikes(blue, windowWidth/3, windowHeight /2);
+	
+	
+	//Skip
+	/*if (CP_Input_KeyTriggered(KEY_5))
+	{
+		level += 1;
+		CP_Engine_SetNextGameState(LoadingScreen_Init, LoadingScreen_Update, LoadingScreen_Exit);
+	}*/
 	
 
 	//Use this to check for the position of the lamp.

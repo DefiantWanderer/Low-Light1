@@ -51,6 +51,9 @@ int lampborder(void);
 void DrawNextLevelDoor(void);
 void NextLevelLink(void);
 
+void DrawRedLines(CP_Color color, float x, float y);
+void DrawSpikes(CP_Color color, float x, float y);
+
 CP_Image LanternImage;
 CP_Image PrincessImage;
 CP_Font myfont;
@@ -163,8 +166,8 @@ float cliffwidth;
 float cliffheight;
 
 
-struct platformdata leftwallarr[50];
-struct platformdata rightwallarr[50];
+struct platformdata leftwallarr[100];
+struct platformdata rightwallarr[100];
 float numberofleftwalls;
 float numberofrightwalls;
 float leftwallwidth;

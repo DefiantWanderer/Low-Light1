@@ -3,6 +3,7 @@
 #include "loadingscreen.h"
 #include "cprocessing.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 //How to use sounds?
 /*
@@ -254,7 +255,7 @@ int CreateLevelDataArray(char levelarr[])
 //Able to generate platform, need to see how we can store each into the struct then pass it to be checked for collision.
 int GeneratePlatformFromData(char arr[])
 {
-
+	
 	if (stopgenerate == 0)
 	{
 		int j = 1; //Increments to newline
@@ -291,8 +292,12 @@ int GeneratePlatformFromData(char arr[])
 			fill3[i].height = 0;
 			nextlevelarr[i].x = 0;
 			nextlevelarr[i].y = 0;
+			nextlevelarr[i].width = 0;
+			nextlevelarr[i].height = 0;
 			lightcube[i].x = 0;
 			lightcube[i].y = 0;
+			lightcube[i].width = 0;
+			lightcube[i].height = 0;
 			outportalarr[i].x = 0;
 			outportalarr[i].y = 0;
 			outportalarr[i].width = 0;
@@ -306,19 +311,36 @@ int GeneratePlatformFromData(char arr[])
 		for (int i = 0; i < 6; i++)
 		{
 			cliffleftarr[i].x = 0 ;
-			cliffrightarr[i].y = 0;
+			cliffleftarr[i].y = 0;
 			cliffleftarr[i].width = 0;
+			cliffleftarr[i].height = 0;
+			cliffrightarr[i].x = 0;
+			cliffrightarr[i].y = 0;
+			cliffrightarr[i].width = 0;
 			cliffrightarr[i].height = 0;
 
 		}
 		for (int i = 0; i < 50; i++)
 		{
-			//Not sure what textarr is.
-		textarr[i].x = 0;
-		textarr[i].y = 0;
-		textarr[i].width = 0;
-		textarr[i].height = 0;
-
+			//Textarr is the position that the text is to be drawn.
+			textarr[i].x = 0;
+			textarr[i].y = 0;
+			textarr[i].width = 0;
+			textarr[i].height = 0;
+		}
+		for (int i = 0; i < 100; i++)
+		{
+			leftwallarr[i].x = 0;
+			leftwallarr[i].y = 0;
+			leftwallarr[i].width = 0;
+			leftwallarr[i].height = 0;
+			rightwallarr[i].x = 0;
+			rightwallarr[i].y = 0;
+			rightwallarr[i].width = 0;
+			rightwallarr[i].height = 0;
+		}
+		for (int i = 0; i < 499; i++)
+		{
 		platformarr[i].x = 0;
 		platformarr[i].y = 0;
 		platformarr[i].width = 0;
@@ -386,13 +408,22 @@ int GeneratePlatformFromData(char arr[])
 			}
 			//Cliff detector (code this while drinking)
 
+			/* Room for improvement
+			Currently slightly ajar
+			*/
+
+
+
 			//Cliffleftside
 			if (arr[i] == 'd')
 			{
-				cliffleftarr[cliffleftcount].x = 80 + plat * platformwidth;
-				cliffleftarr[cliffleftcount].y = windowHeight / 45 * (2 * j);
+				cliffleftarr[cliffleftcount].x = (-30 + plat * (platformwidth-2)) - platformwidth + 35;
+				cliffleftarr[cliffleftcount].y = windowHeight / 44 * (2 * j);
+
+
 				cliffleftarr[cliffleftcount].width = platformwidth / 4;
 				cliffleftarr[cliffleftcount].height = platformheight;
+				//printf("x: %f\n y: %f\n width: %f\n, height: %f\n", cliffleftarr[cliffleftcount].x, cliffleftarr[cliffleftcount].y, cliffleftarr[cliffleftcount].width, cliffleftarr[cliffleftcount].height);
 
 				plat++;
 				cliffleftcount++;
@@ -403,8 +434,8 @@ int GeneratePlatformFromData(char arr[])
 			//Cliff right side
 			if (arr[i] == 'D')
 			{
-				cliffrightarr[cliffrightcount].x = 80 + plat * platformwidth;
-				cliffrightarr[cliffrightcount].y = windowHeight / 45 * (2 * j);
+				cliffrightarr[cliffrightcount].x = (-21 + plat * (platformwidth-2)) + platformwidth / 1.4 -20;
+				cliffrightarr[cliffrightcount].y = windowHeight / 44 * (2 * j);
 				cliffrightarr[cliffrightcount].width = platformwidth / 4;
 				cliffrightarr[cliffrightcount].height = platformheight;
 
@@ -590,6 +621,12 @@ void DrawRightWall(void)
 		//printf("%d:\n x: %f\n y: %f\n width: %f\n, height %f\n", i, platformarr[i].x, platformarr[i].y, platformarr[i].width, platformarr[i].height);
 		Draw_Rect(orange, leftwallarr[i].x, leftwallarr[i].y, leftwallarr[i].width, leftwallarr[i].height, 0, 0);
 		Draw_Rect(goldenyellow, rightwallarr[i].x, rightwallarr[i].y, rightwallarr[i].width, rightwallarr[i].height, 0, 0);
+	}
+	for (int i = 0; i < numberofleftcliffs; i++)
+	{
+		//printf("%d:\n x: %f\n y: %f\n width: %f\n, height %f\n", i, platformarr[i].x, platformarr[i].y, platformarr[i].width, platformarr[i].height);
+		Draw_Rect(orange, cliffleftarr[i].x, cliffleftarr[i].y, cliffleftarr[i].width, cliffleftarr[i].height, 0, 0);
+		Draw_Rect(goldenyellow, cliffrightarr[i].x, cliffrightarr[i].y, cliffrightarr[i].width, cliffrightarr[i].height, 0, 0);
 	}
 }
 void Drawfill1(void)
@@ -963,10 +1000,12 @@ int cliffintersectcheck(void)
 	{
 		if (AreRectIntersecting(princess.x, princess.y, princesswidth, princessheight, cliffleftarr[i].x, cliffleftarr[i].y, cliffleftarr[i].width, cliffleftarr[i].height) == 1)
 		{
+			printf("leftcliff");
 			return 1;
 		}
 		if (AreRectIntersecting(princess.x, princess.y, princesswidth, princessheight, cliffrightarr[i].x, cliffrightarr[i].y, cliffrightarr[i].width, cliffrightarr[i].height) == 1)
 		{
+			printf("rightcliff");
 			return 2;
 		}
 	}
@@ -976,14 +1015,26 @@ int cliffintersectcheck(void)
 int leapcheck(void)
 {
 	//Check if light intersect both left and rightside of the cliff
-	for (int i = 0; i < numberofleftcliffs;i++)
-	{
-		if ((AreCirclesIntersecting(playerposition.x, playerposition.y, lightradius * 1.2, cliffleftarr[i].x, cliffleftarr[i].y, cliffleftarr[i].width) == 1) && (AreCirclesIntersecting(playerposition.x, playerposition.y, lightradius * 1.2, cliffrightarr[i].x, cliffrightarr[i].y, cliffrightarr[i].width) == 1))
+	//Funky thing that a for loop doesn't work
+
+		if ((AreCirclesIntersecting(playerposition.x, playerposition.y, lightradius * 1.2, cliffleftarr[0].x, cliffleftarr[0].y, cliffleftarr[0].width) == 1))
 		{
+			if ((AreCirclesIntersecting(playerposition.x, playerposition.y, lightradius * 1.2, cliffrightarr[0].x, cliffrightarr[0].y, cliffrightarr[0].width) == 1))
+			{
+				printf("leap confirmed");
 			return 1;
+			}
+		}
+		if ((AreCirclesIntersecting(playerposition.x, playerposition.y, lightradius * 1.2, cliffleftarr[1].x, cliffleftarr[1].y, cliffleftarr[1].width) == 1))
+		{
+			if ((AreCirclesIntersecting(playerposition.x, playerposition.y, lightradius * 1.2, cliffrightarr[1].x, cliffrightarr[1].y, cliffrightarr[1].width) == 1))
+			{
+				printf("leap confirmed");
+				return 1;
+			}
 		}
 		return 0;
-	}
+	//}
 }
 
 int lampclicked(void)
@@ -1024,10 +1075,24 @@ int lampborder(void)
 	//lamppickup = 0;
 	//if(playerposition.x)
 }
+void DrawRedLines(CP_Color color, float x, float y)
+{
+	Draw_Rect(color, x, y, windowWidth / 200, windowHeight / 10, 0, 0);
+	
+}
 
-
+void DrawSpikes(CP_Color color, float x,  float y)
+{
+	CP_Graphics_BeginShape(); //x=800, height = 180
+	CP_Settings_Fill(color);
+	CP_Graphics_AddVertex(x, y); //Tip
+	CP_Graphics_AddVertex(x - 12, y - windowHeight/10); //2
+	CP_Graphics_AddVertex(x + 12, y - windowHeight / 10);//10
+	CP_Graphics_EndShape();
+}
 void DrawInstructions(void)
 //Hard coding for each level
+//Might opt for subtitles and audio only.
 {
 	if (level == 1)
 	{
@@ -1035,7 +1100,7 @@ void DrawInstructions(void)
 	}
 	if (level == 2)
 	{
-		//
+		Draw_Text(white, 100, "", textarr[0].x, textarr[0].y / 2);
 	}
 	if (level == 3)
 	{

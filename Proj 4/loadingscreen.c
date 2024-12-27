@@ -27,6 +27,8 @@ void LoadingScreen_Init(void)
 	black = CP_Color_Create(0, 0, 0, 255);
 	textsize = windowWidth / 16; //100
 	myfont = CP_Font_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Atma-Medium.ttf"); //Load font
+
+	lamppickup = 0;
 	
 }
 
@@ -42,7 +44,7 @@ void LoadingScreen_Update(void)
 	if (level == 1)
 	{
 		
-		Draw_Text(whitewithalpha, textsize, "The light in the darkness", windowWidth / 3, windowHeight / 2);
+		Draw_Text(whitewithalpha, textsize, "The light in the darkness", windowWidth / 2.7, windowHeight / 2);
 	}
 	if (level == 2)
 	{
@@ -50,7 +52,7 @@ void LoadingScreen_Update(void)
 	}
 	if (level == 3)
 	{
-		Draw_Text(whitewithalpha, textsize, "Catastrophy", windowWidth / 2, windowHeight / 2);
+		Draw_Text(whitewithalpha, textsize, "Catastrophy", windowWidth / 2.4, windowHeight / 2);
 	}
 	LoadingTimer += dt * 1;
 	if (LoadingTimer > 0.5 && LoadingTimer < 1)

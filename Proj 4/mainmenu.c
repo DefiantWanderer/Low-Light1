@@ -165,11 +165,6 @@ void Main_Menu_Update(void)
 	Draw_Rect(blackalpha, exit_dimensions[0], exit_dimensions[1], exit_dimensions[2], exit_dimensions[3], 0, 0);
 	Draw_Text(whitealpha, 60, "Exit", exit_dimensions[0] + 10, exit_dimensions[1]+10);
 
-	/*Draw_Rect(grey1, play_dimensions[0], play_dimensions[1]/2, play_dimensions[2], play_dimensions[3], 0, 0);
-	Draw_Rect(grey2, play_dimensions[0], play_dimensions[1] / 4, play_dimensions[2], play_dimensions[3], 0, 0);
-	Draw_Rect(grey3, exit_dimensions[0], exit_dimensions[1]/2, exit_dimensions[2], exit_dimensions[3], 0, 0);
-	Draw_Rect(grey4, exit_dimensions[0], exit_dimensions[1]/4, exit_dimensions[2], exit_dimensions[3], 0, 0);*/
-
 	DrawMainMenuLight();
 	MainMenuLightBounce();
 
