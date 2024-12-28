@@ -831,6 +831,8 @@ int TimerOne(void)
 			timeroneactivate = 0;
 			timer = 0;
 			*ptrlightlevel += 1;
+			Draw_Text(white, 100, "Wow thats bright!", subtitlex, subtitley);
+			CP_Sound_PlayAdvanced(WowThatsBright, 1, 1, 0, 1);
 			return 1;
 		}
 	}
@@ -851,25 +853,6 @@ void PrincessJump(void)
 			jumpspeed = CP_Math_ClampFloat(jumpspeed, -4000 * 30, 6000);
 			princess.y += jumpspeed * dt;
 
-			/*princessjumpactivate = 1;
-			if ((princessjumpactivate == 1) && (princessjumptimer <= 1))
-			{
-
-				princessjumptimer += 1 * dt;
-
-				for (int i = 0; timer <= 1; i++)
-				{
-					if()
-				}
-
-				if (princessjumptimer >= 1.0)
-				{
-					princessjumpactivate = 0;
-					princessjumptimer = 0;
-					return 1;
-				}
-
-			}*/
 		}
 	}
 }
@@ -909,7 +892,7 @@ void PrincessLeap(void)
 	{
 		printf("%f\n", timer);
 		timer += 1 * dt;
-		if (timer <= 0.5)
+		if (timer <= 0.4)
 		{
 			//Lamp on left Jump left
 			if (leapleftmode == 1)
@@ -923,21 +906,35 @@ void PrincessLeap(void)
 			}
 
 		}
-		if ((timer >= 0.5) && (timer <= 3))
+		if ((timer >= 0.4) && (timer <= 0.845))
 		{
 			if (leapleftmode == 1)
 			{
-				princess.x += princessmovement * dt;
-				princess.y -= princessmovement / 2 * dt;
+				princess.x += princessmovement * 2 *dt;
+				princess.y -= princessmovement * dt * 1.3;
 			}
 			//lamp on right walk right
 			if (leaprightmode == 1)
 			{
-				princess.x -= princessmovement * dt;
-				princess.y -= princessmovement / 2 * dt;
+				princess.x -= princessmovement *2* dt;
+				princess.y -= princessmovement * dt * 1.3;
 			}
 		}
-		if (timer >= 3)
+		if ((timer >= 0.845) && (timer <= 1.5))
+		{
+			if (leapleftmode == 1)
+			{
+				princess.x += princessmovement * 2 * dt;
+				princess.y += princessmovement * dt;
+			}
+			//lamp on right walk right
+			if (leaprightmode == 1)
+			{
+				princess.x -= princessmovement * 2 * dt;
+				princess.y += princessmovement * dt;
+			}
+		}
+		if (timer >= 1.5)
 		{
 			Draw_Text(white, 100, "Wow made the jump!", subtitlex, subtitley);
 			CP_Sound_PlayAdvanced(WowMadeTheJump, 1, 1, 0, 1);
@@ -1096,12 +1093,17 @@ void DrawSpikes(CP_Color color, float x, float y)
 	CP_Graphics_AddVertex(x + 12, y - windowHeight / 10);//10 
 	CP_Graphics_EndShape();
 }
+void DrawFallingStar(CP_Color color, float x, float y)
+{
+	//FYI Lightcubewidth is declared in level1.c it is hard coded
+	Draw_Rect(gold, x, y, lightcubewidth, lightcubeheight, 0, 0);
+}
 void RedLineSpawning(void)
 {
 	for (int i = 0; i < 10; i++)
 	{
 	DrawRedLines(red, redlinearr[i].x, redlinearr[i].y);
-	redlinearr[i].y += gravity * dt;
+	redlinearr[i].y += gravity * dt * 2;
 	//Respawn the redline.
 	if (redlinearr[i].y >= 800)
 	{
@@ -1116,7 +1118,7 @@ void SpikeSpawning(void)
 	for (int i = 0; i < 10; i++)
 	{
 		DrawSpikes(blue, spikearr[i].x, spikearr[i].y);
-		spikearr[i].y += gravity * dt;
+		spikearr[i].y += gravity * dt * 2;
 	if (spikearr[i].y >= 800)
 	{
 		//printf("passed midpoint");
