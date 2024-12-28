@@ -53,7 +53,10 @@ void NextLevelLink(void);
 
 void DrawRedLines(CP_Color color, float x, float y);
 void DrawSpikes(CP_Color color, float x, float y);
-
+void RedLineSpawning(void);
+void RedLinePlayer(void);
+void SpikeSpawning(void);
+void SpikePrincess(void);
 CP_Image LanternImage;
 CP_Image PrincessImage;
 CP_Font myfont;
@@ -177,6 +180,12 @@ float leftwallheight;
 
 
 extern struct platformdata textarr[50];
+extern struct platformdata redlinearr[50];
+extern struct platformdata spikearr[50];
+float redlinewidth;
+float redlineheight;
+float spikewidth;
+float spikeheight;
 float numberoftexts;
 //Array and draw function
 extern char arr[1000];

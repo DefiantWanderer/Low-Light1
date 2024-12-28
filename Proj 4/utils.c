@@ -49,6 +49,8 @@ struct platformdata cliffleftarr[6] = { 0 };
 struct platformdata cliffrightarr[6] = { 0 };
 struct platformdata textarr[50] = { 0 };
 struct platformdata nextlevelarr[5] = { 0 };
+struct platformdata redlinearr[50] = { 0 };
+struct platformdata spikearr[50] = { 0 };
 
 //Player stats
 lightradiusarray[5] = { 10.f, 50.f, 100.f, 175.f, 275.f };
@@ -1077,19 +1079,74 @@ int lampborder(void)
 }
 void DrawRedLines(CP_Color color, float x, float y)
 {
-	Draw_Rect(color, x, y, windowWidth / 200, windowHeight / 10, 0, 0);
-	
+	Draw_Rect(color, x, y, windowWidth / 200, windowHeight / 10, 0, 0);	
 }
 
-void DrawSpikes(CP_Color color, float x,  float y)
+void DrawSpikes(CP_Color color, float x, float y)
 {
 	CP_Graphics_BeginShape(); //x=800, height = 180
 	CP_Settings_Fill(color);
 	CP_Graphics_AddVertex(x, y); //Tip
-	CP_Graphics_AddVertex(x - 12, y - windowHeight/10); //2
-	CP_Graphics_AddVertex(x + 12, y - windowHeight / 10);//10
+	CP_Graphics_AddVertex(x - 12, y - windowHeight / 10); //2
+	CP_Graphics_AddVertex(x + 12, y - windowHeight / 10);//10 
 	CP_Graphics_EndShape();
 }
+void RedLineSpawning(void)
+{
+	for (int i = 0; i < 10; i++)
+	{
+	DrawRedLines(red, redlinearr[i].x, redlinearr[i].y);
+	redlinearr[i].y += gravity * dt;
+	//Respawn the redline.
+	if (redlinearr[i].y >= 800)
+	{
+		printf("passed midpoint");
+		redlinearr[i].x = (float)(rand() % (int)windowWidth);
+		redlinearr[i].y = (float)(rand() % 200) - 0;
+	}
+	}
+}
+void SpikeSpawning(void)
+{
+	for (int i = 0; i < 10; i++)
+	{
+		DrawSpikes(blue, spikearr[i].x, spikearr[i].y);
+		spikearr[i].y += gravity * dt;
+	if (spikearr[i].y >= 800)
+	{
+		printf("passed midpoint");
+		spikearr[i].x = (float)(rand() % (int)windowWidth);
+		spikearr[i].y = (float)(rand() % 200) - 0;
+	}
+	}
+}
+void RedLinePlayer(void)
+{
+	//RedLine and player
+	for (int i = 0; i < 10; i++)
+	{
+		if (AreRectIntersecting(playerposition.x, playerposition.y, lanternwidth, lanternheight, redlinearr[i].x, redlinearr[i].y, redlinewidth, redlineheight) == 1)
+		{
+			//Choose what happens after collision
+			printf("Redline\n");
+		}
+	}
+}
+void SpikePrincess(void)
+{
+	//Spike and princess
+	for (int i = 0; i < 10; i++)
+	{
+		if (AreRectIntersecting(princess.x, princess.y, princesswidth, princessheight, spikearr[i].x, spikearr[i].y, spikewidth, spikeheight) == 1)
+		{
+			//Choose what happens after collision
+			printf("Spike");
+
+		}
+	}
+}
+
+
 void DrawInstructions(void)
 //Hard coding for each level
 //Might opt for subtitles and audio only.

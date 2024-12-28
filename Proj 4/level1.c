@@ -81,6 +81,13 @@ void Level1_Init(void)
 		lanternheight = windowHeight / 11;
 		lanternoffset = windowHeight / 20;
 
+		//RedLine and spikes
+		redlinewidth = windowWidth / 200;
+		redlineheight = windowHeight / 10;
+		
+ 		spikewidth = windowWidth / 67; //24 and 90
+		spikeheight = windowHeight / 10;
+		
 
 		float centerX = CP_System_GetWindowWidth() / 2.0f;
 		float centerY = CP_System_GetWindowHeight() / 2.0f;
@@ -118,8 +125,10 @@ void Level1_Init(void)
 		srand(100);
 		for (int i = 0; i < 10; i++)
 		{
-			redlinex[i] = (float)(rand() % (int)windowWidth);
-			redliney[i] = (float)(rand() % 200) - 0;
+			redlinearr[i].x = (float)(rand() % (int)windowWidth);
+			redlinearr[i].y = (float)(rand() % 200) - 0;
+			spikearr[i].x = (float)(rand() % (int)windowWidth);
+			spikearr[i].y = (float)(rand() % 200) - 0;
 		}
 
 
@@ -277,21 +286,14 @@ void Level1_Update(void)
 	DrawNextLevelDoor();
 	NextLevelLink();
 
-	//Redline is drawn, redline drops to ground, redline y is reset and the x is randomized.
-	for (int i = 0; i < 10; i++)
-	{
-		DrawRedLines(red, redlinex[i], redliney[i]);
-		redliney[i] += gravity * dt;
+	//This is the draw redline and spawning logic.
+	RedLineSpawning();
+	RedLinePlayer();
+	SpikeSpawning();
+	SpikePrincess();
 
-		if (redliney[i] >= 800)
-		{
-			printf("passed midpoint");
-			redlinex[i] = (float)(rand() % (int)windowWidth);
-			redliney[i] = (float)(rand() % 200) - 0;
-		}
-	}
-	
-	DrawSpikes(blue, windowWidth/3, windowHeight /2);
+
+
 	
 	
 	//Skip
