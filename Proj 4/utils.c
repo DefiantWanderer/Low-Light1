@@ -2,6 +2,7 @@
 #include "utils.h"
 #include "loadingscreen.h"
 #include "cprocessing.h"
+#include "sound.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -36,6 +37,8 @@ CP_Color grey2;
 CP_Color grey3;
 CP_Color grey4;
 CP_Color orangealpha;
+
+
 
 //Maybe wrong but works so far.
 char *levelnames[6] = { "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/leveltest.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level1.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level2.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level3.txt" , "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level4.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level5.txt" }; //Set another array = to this array[level]
@@ -936,6 +939,8 @@ void PrincessLeap(void)
 		}
 		if (timer >= 3)
 		{
+			Draw_Text(white, 100, "Wow made the jump!", subtitlex, subtitley);
+			CP_Sound_PlayAdvanced(WowMadeTheJump, 1, 1, 0, 1);
 			leaptimeractivate = 0;
 			timer = 0;
 			leaprightmode = 0;
@@ -1002,12 +1007,12 @@ int cliffintersectcheck(void)
 	{
 		if (AreRectIntersecting(princess.x, princess.y, princesswidth, princessheight, cliffleftarr[i].x, cliffleftarr[i].y, cliffleftarr[i].width, cliffleftarr[i].height) == 1)
 		{
-			printf("leftcliff");
+			//printf("leftcliff");
 			return 1;
 		}
 		if (AreRectIntersecting(princess.x, princess.y, princesswidth, princessheight, cliffrightarr[i].x, cliffrightarr[i].y, cliffrightarr[i].width, cliffrightarr[i].height) == 1)
 		{
-			printf("rightcliff");
+			//printf("rightcliff");
 			return 2;
 		}
 	}
@@ -1100,7 +1105,7 @@ void RedLineSpawning(void)
 	//Respawn the redline.
 	if (redlinearr[i].y >= 800)
 	{
-		printf("passed midpoint");
+		//printf("passed midpoint");
 		redlinearr[i].x = (float)(rand() % (int)windowWidth);
 		redlinearr[i].y = (float)(rand() % 200) - 0;
 	}
@@ -1114,7 +1119,7 @@ void SpikeSpawning(void)
 		spikearr[i].y += gravity * dt;
 	if (spikearr[i].y >= 800)
 	{
-		printf("passed midpoint");
+		//printf("passed midpoint");
 		spikearr[i].x = (float)(rand() % (int)windowWidth);
 		spikearr[i].y = (float)(rand() % 200) - 0;
 	}
@@ -1129,6 +1134,7 @@ void RedLinePlayer(void)
 		{
 			//Choose what happens after collision
 			printf("Redline\n");
+			CP_Engine_SetNextGameState(LoadingScreen_Init, LoadingScreen_Update, LoadingScreen_Exit);
 		}
 	}
 }
@@ -1141,6 +1147,7 @@ void SpikePrincess(void)
 		{
 			//Choose what happens after collision
 			printf("Spike");
+			CP_Engine_SetNextGameState(LoadingScreen_Init, LoadingScreen_Update, LoadingScreen_Exit);
 
 		}
 	}
@@ -1173,15 +1180,123 @@ void PrincessTalk(void)
 {
 	if (level == 1)
 	{
+		//Draw text using subtitilex and subtitley
+		Draw_Text(white, 100, "Hello is anyone there?", subtitlex, subtitley);
+		CP_Sound_PlayAdvanced(HelloIsAnyoneThere, 1, 1, 0, 1);
+
+		Draw_Text(white, 100, "What is that?", subtitlex, subtitley);
+		CP_Sound_PlayAdvanced(WhatIsThat, 1, 1, 0, 1);
+
+		Draw_Text(white, 100, "I cant see anything! Light the way!", subtitlex, subtitley);
+		CP_Sound_PlayAdvanced(ICantSeeAnythingLightTheWay, 1, 1, 0, 1);
+		
+		Draw_Text(white, 100, "What are you?", subtitlex, subtitley);
+		CP_Sound_PlayAdvanced(WhatAreYou, 1, 1, 0, 1);
+
+		Draw_Text(white, 100, "Hello is anyone there?", subtitlex, subtitley);
+		CP_Sound_PlayAdvanced(HelloIsAnyoneThere, 1, 1, 0, 1);
+		
+		// 
 		//Sound, volume, pitch, looping, group
 		//CP_Sound_PlayAdvanced(); 
+	 
+		/*Level 1
+		HelloIsAnyoneThere;
+		ICantSeeAnythingLightTheWay;
+		WhatIsThat;
+		WhatAreYou;
+		*/
+
+		/* Level 2
+		
+		//IWonderWhatThisPlaceIs;
+		//WowThatsBright;
+		//LightTheWay;
+		//ThisShouldIncreaseTheBrightness;
+		//ICantDoThatYetShineMoreLight;
+		//ICantMakeThatJumpIfICantSeeIt;
+		//WowMadeTheJump;
+		
+		*/
+		/* Level 3
+		
+		
+		
+		//mmmThatLooksDangerous;
+
+		*/
+		//GottaAdmitIWouldNotHaveBeenAbleToSolveThatMyself;
+		//CommentAboutDarkness;
+		//CouldYouShineSomeLightHere;
+		//GoodThingYouAreHere;
+		//GottaAdmitIWouldNotHaveBeenAbleToSolveThatMyself;
+		
+		//HoldThemBack;
+		
+		
+		//IHopeYouEnjoyYourTimeHere;
+		
+		//KeyPickUpComment;
+		//LightCubePickUp;
+		
+		//mmmTasty;
+		
+		//NiceWork;
+		//NotSureWhatThisPlaceIsExplore;
+		//ObservationOfLightOnEnemies;
+		//OhGoodThatYouAreHere;
+		//ThanksForBeingMyLight;
+		//ThankYouForPlaying;
+		//ThatsQuiteSmart;
+		//ThatWasALotOfDoors;
+		//ThereHasToBeAWayOutOfHere;
+		
+		//WeMadeItSoFar;
+		//WeMadeItSoFarAndMore;
+		
+		//WhatIsYourName;
+		//WhoaMadeItToTheTop;
+		//WhosThere;
+		//WhyAmIHere;
+		//WhyAmWowImUpHere;
+		//WhyAmIHereagain;
+		
+		
 	}
 	if (level == 2)
 	{
-		//
+		Draw_Text(white, 100, "I wonder what this place is?", subtitlex, subtitley);
+		CP_Sound_PlayAdvanced(IWonderWhatThisPlaceIs, 1, 1, 0, 1);
+
+		Draw_Text(white, 100, "Wow thats bright!", subtitlex, subtitley);
+		CP_Sound_PlayAdvanced(WowThatsBright, 1, 1, 0, 1);
+		
+		Draw_Text(white, 100, "Light the way!", subtitlex, subtitley);
+		CP_Sound_PlayAdvanced(LightTheWay, 1, 1, 0, 1);
+		
+		Draw_Text(white, 100, "This should increase the brightness", subtitlex, subtitley);
+		CP_Sound_PlayAdvanced(ThisShouldIncreaseTheBrightness, 1, 1, 0, 1);
+
+		Draw_Text(white, 100, "I cant do that yet shine more light!", subtitlex, subtitley);
+		CP_Sound_PlayAdvanced(ICantDoThatYetShineMoreLight, 1, 1, 0, 1);
+		
+		Draw_Text(white, 100, "I cant make that jump if I cant see it?", subtitlex, subtitley);
+		CP_Sound_PlayAdvanced(ICantMakeThatJumpIfICantSeeIt, 1, 1, 0, 1);
 	}
 	if (level == 3)
 	{
+		
+		Draw_Text(white, 100, "That looks dangerous", subtitlex, subtitley);
+		CP_Sound_PlayAdvanced(mmmThatLooksDangerous, 1, 1, 0, 1);
+		
+		Draw_Text(white, 100, "mmmtasty?", subtitlex, subtitley);
+		CP_Sound_PlayAdvanced(mmmTasty, 1, 1, 0, 1);
+		
+		Draw_Text(white, 100, "mmmtasty?", subtitlex, subtitley);
+		CP_Sound_PlayAdvanced(mmmTasty, 1, 1, 0, 1);
+		
+		Draw_Text(white, 100, "mmmtasty?", subtitlex, subtitley);
+		CP_Sound_PlayAdvanced(mmmTasty, 1, 1, 0, 1);
 		//
 	}
 	if (level == 4)
@@ -1189,3 +1304,5 @@ void PrincessTalk(void)
 		//
 	}
 }
+
+

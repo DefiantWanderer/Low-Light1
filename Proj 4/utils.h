@@ -205,6 +205,9 @@ float lanternoffset;
 float lampspawnx;
 float lampspawny;
 
+float subtitlex;
+float subtitley;
+
 int lamppickup;
 void PrincessTalk(void);
 

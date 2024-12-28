@@ -38,12 +38,15 @@ CP_Color grey2;
 CP_Color grey3;
 CP_Color grey4;
 CP_Color orangealpha;
+
+CP_Sound test;
 float alpha;
 
 
 void Level1_Init(void)
 {
-	myfont = CP_Font_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Atma-Medium.ttf"); //Load font
+	myfont = CP_Font_Load("C:/ Users /yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Atma-Medium.ttf"); //Load font
+	test = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/ThanksForBeingMyLight.mp3");
 
 		windowWidth = (float)CP_System_GetWindowWidth();
 		windowHeight = (float)CP_System_GetWindowHeight();
@@ -87,6 +90,9 @@ void Level1_Init(void)
 		
  		spikewidth = windowWidth / 67; //24 and 90
 		spikeheight = windowHeight / 10;
+
+		subtitlex = windowWidth / 4;
+		subtitley = windowHeight / 0.9;
 		
 
 		float centerX = CP_System_GetWindowWidth() / 2.0f;
@@ -242,11 +248,16 @@ void Level1_Update(void)
 	//Player lamp //Got some known bug when zooming in, the draw circle is not off centre from mouse.
 	lightradius = lightradiusarray[lightlevel]/2;
 
+
+	LoadSounds();
+
 	//Princess movt
 	PrincessSeeLight();
 	//PrincessJump();
 	PrincessLeap();
-	PrincessTalk();
+
+	//Deactivated for now
+	//PrincessTalk();
 
 	//Player Gravity and platform collision
 	PrincessGravity();
@@ -287,21 +298,29 @@ void Level1_Update(void)
 	NextLevelLink();
 
 	//This is the draw redline and spawning logic.
+	
+	if (level == 3)
+	{
 	RedLineSpawning();
 	RedLinePlayer();
 	SpikeSpawning();
 	SpikePrincess();
+	}
 
+	if (CP_Input_KeyTriggered(KEY_6))
+	{
+		CP_Sound_PlayAdvanced(mmmThatLooksDangerous, 100, 1, FALSE, CP_SOUND_GROUP_0);
+	}
 
 
 	
 	
 	//Skip
-	/*if (CP_Input_KeyTriggered(KEY_5))
+	if (CP_Input_KeyTriggered(KEY_5))
 	{
 		level += 1;
 		CP_Engine_SetNextGameState(LoadingScreen_Init, LoadingScreen_Update, LoadingScreen_Exit);
-	}*/
+	}
 	
 
 	//Use this to check for the position of the lamp.

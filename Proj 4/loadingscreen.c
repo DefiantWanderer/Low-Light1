@@ -48,11 +48,11 @@ void LoadingScreen_Update(void)
 	}
 	if (level == 2)
 	{
-		Draw_Text(whitewithalpha, textsize, "The Cliff", windowWidth / 2, windowHeight / 2);
+		Draw_Text(whitewithalpha, textsize, "The Cliff", windowWidth / 2.2, windowHeight / 2);
 	}
 	if (level == 3)
 	{
-		Draw_Text(whitewithalpha, textsize, "Catastrophy", windowWidth / 2.4, windowHeight / 2);
+		Draw_Text(whitewithalpha, textsize, "Catastrophe", windowWidth / 2.4, windowHeight / 2);
 	}
 	LoadingTimer += dt * 1;
 	if (LoadingTimer > 0.5 && LoadingTimer < 1)
