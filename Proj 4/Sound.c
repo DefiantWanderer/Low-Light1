@@ -12,7 +12,7 @@ void LoadSounds()
 	//Music
 	GottaAdmitIWouldNotHaveBeenAbleToSolveThatMyself = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/GottaAdmitIWouldNotHaveBeenAbleToSolveThatMyself.mp3"); //	 GottaAdmitIWouldNotHaveBeenAbleToSolveThatMyself
 	GottaAdmitIWouldNotHaveBeenAbleToSolveThatMyself = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/GottaAdmitIWouldNotHaveBeenAbleToSolveThatMyslf.mp3"); //	 GottaAdmitIWouldNotHaveBeenAbleToSolveThatMyself
-	CommentAboutDarkness = CP_Sound_Load("C: /Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/CommentAboutDarkness.mp3");//CommentAboutDarknes
+	CommentAboutDarkness = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/CommentAboutDarkness.mp3");//CommentAboutDarknes
 	CouldYouShineSomeLightHere = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/CouldYouShineSomeLightHere.mp3"); //	 CouldYouShineSomeLightHer
 	GoodThingYouAreHere = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/GoodThingYouAreHere.mp3"); //	 GoodThingYouAreHer
 	GottaAdmitIWouldNotHaveBeenAbleToSolveThatMyself = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low - Light1/Assets/GottaAdmitIWouldNotHaveBeenAbleToSolveThatMyself.mp3");//	 GottaAdmitIWouldNotHaveBeenAbleToSolveThatMyself
@@ -38,18 +38,18 @@ void LoadSounds()
 	ThatWasALotOfDoors = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/ThatWasALotOfDoors.mp3"); //	 ThatWasALotOfDoor
 	ThereHasToBeAWayOutOfHere = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/ThereHasToBeAWayOutOfHere.mp3"); //	 ThereHasToBeAWayOutOfHer
 	ThisShouldIncreaseTheBrightness = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/ThisShouldIncreaseTheBrightness.mp3"); //	 ThisShouldIncreaseTheBrightnes
-	WeMadeItSoFar = CP_Sound_Load("		C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WeMadeItSoFar.mp3"); //	 WeMadeItSoFa
+	WeMadeItSoFar = CP_Sound_Load("	C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WeMadeItSoFar.mp3"); //	 WeMadeItSoFa
 	WeMadeItSoFarAndMore = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WeMadeItSoFarAndMore.mp3"); //	 WeMadeItSoFarAndMor
-	WhatAreYou = CP_Sound_Load("		C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WhatAreYou.mp3"); //	 WhatAreYo
-	WhatIsThat = CP_Sound_Load("		C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WhatIsThat.mp3"); //	 WhatIsTha
-	WhatIsYourName = CP_Sound_Load("	C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WhatIsYourName.mp3"); //	 WhatIsYourNam
+	WhatAreYou = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WhatAreYou.mp3"); //	 WhatAreYo
+	WhatIsThat = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WhatIsThat.mp3"); //	 WhatIsTha
+	WhatIsYourName = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WhatIsYourName.mp3"); //	 WhatIsYourNam
 	WhoaMadeItToTheTop = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WhoaMadeItToTheTop.mp3"); //	 WhoaMadeItToTheTo
-	WhosThere = CP_Sound_Load("		C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WhosThere.mp3"); //	 WhosTher
-	WhyAmIHere = CP_Sound_Load("		C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WhyAmIHere.mp3");//	 WhyAmIHer
-	WhyAmWowImUpHere = CP_Sound_Load("	C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WhyAmWowImUpHere.mp3"); //	 WhyAmWowImUpHer
-	WhyAmIHereagain = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/ Low-Light1/Assets/WhyAmIHereagain.mp3"); //	 WhyAmIHereagai
-	WowMadeTheJump = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/ Low-Light1/Assets/WowMadeTheJump.mp3"); //	 WowMadeTheJum
-	WowThatsBright = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/ Low-Light1/Assets/WowThatsBright.mp3"); //	 WowThatsBrigh
+	WhosThere = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WhosThere.mp3"); //	 WhosTher
+	WhyAmIHere = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WhyAmIHere.mp3");//	 WhyAmIHer
+	WhyAmWowImUpHere = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WhyAmWowImUpHere.mp3"); //	 WhyAmWowImUpHer
+	WhyAmIHereagain = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WhyAmIHereagain.mp3"); //	 WhyAmIHereagai
+	WowMadeTheJump = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WowMadeTheJump.mp3"); //	 WowMadeTheJum
+	WowThatsBright = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WowThatsBright.mp3"); //	 WowThatsBrigh
 
 	//End of sound and graphics
 

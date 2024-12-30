@@ -91,8 +91,8 @@ void Level1_Init(void)
  		spikewidth = windowWidth / 67; //24 and 90
 		spikeheight = windowHeight / 10;
 
-		subtitlex = windowWidth / 4;
-		subtitley = windowHeight / 0.9;
+		subtitlex = 500;//windowWidth / 4;
+			subtitley = 700;//windowHeight / 0.9;
 		
 
 		float centerX = CP_System_GetWindowWidth() / 2.0f;
@@ -305,6 +305,8 @@ void Level1_Update(void)
 	RedLinePlayer();
 	SpikeSpawning();
 	SpikePrincess();
+	
+	//FallingStarSpawning();
 	}
 
 	if (CP_Input_KeyTriggered(KEY_6))

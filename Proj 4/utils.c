@@ -54,6 +54,7 @@ struct platformdata textarr[50] = { 0 };
 struct platformdata nextlevelarr[5] = { 0 };
 struct platformdata redlinearr[50] = { 0 };
 struct platformdata spikearr[50] = { 0 };
+struct platformdata fallingstararr[5] = { 0 };
 
 //Player stats
 lightradiusarray[5] = { 10.f, 50.f, 100.f, 175.f, 275.f };
@@ -91,6 +92,9 @@ numberofleftwalls = 0;
 numberofrightwalls = 0;
 
 numberofnextlevels = 0;
+
+speechtimer = 0;
+speechtimeractivate = 0;
 
 numberoftexts = 0;
 //Array and draw function
@@ -456,7 +460,7 @@ int GeneratePlatformFromData(char arr[])
 				if (arr[i] == 'X')
 				{
 					spawnx = -80 + plat * platformwidth;
-					spawny = windowHeight / 48 * (2 * j);
+					spawny = windowHeight / 54 * (2 * j);
 					spawnpoint = CP_Vector_Set(spawnx, spawny);
 				}
 				if (arr[i] == 'L')
@@ -934,14 +938,23 @@ void PrincessLeap(void)
 				princess.y += princessmovement * dt;
 			}
 		}
-		if (timer >= 1.5)
+		if (timer >= 1.4 && timer < 1.41)
 		{
-			Draw_Text(white, 100, "Wow made the jump!", subtitlex, subtitley);
+			
 			CP_Sound_PlayAdvanced(WowMadeTheJump, 1, 1, 0, 1);
-			leaptimeractivate = 0;
-			timer = 0;
 			leaprightmode = 0;
 			leapleftmode = 0;
+		}
+		if (timer >= 1.4 && timer < 3.2)
+		{
+			Draw_Text(white, 100, "Wow that was quite a big leap!", subtitlex, subtitley);
+		}
+		if (timer >= 3.2)
+		{
+			leaptimeractivate = 0;
+			timer = 0;
+			//speechtimeractivate = 1;
+			
 		}
 	}
 
@@ -1093,7 +1106,7 @@ void DrawSpikes(CP_Color color, float x, float y)
 	CP_Graphics_AddVertex(x + 12, y - windowHeight / 10);//10 
 	CP_Graphics_EndShape();
 }
-void DrawFallingStar(CP_Color color, float x, float y)
+void DrawFallingStars(CP_Color color, float x, float y)
 {
 	//FYI Lightcubewidth is declared in level1.c it is hard coded
 	Draw_Rect(gold, x, y, lightcubewidth, lightcubeheight, 0, 0);
@@ -1124,6 +1137,21 @@ void SpikeSpawning(void)
 		//printf("passed midpoint");
 		spikearr[i].x = (float)(rand() % (int)windowWidth);
 		spikearr[i].y = (float)(rand() % 200) - 0;
+	}
+	}
+}
+void FallingStarSpawning(void)
+{
+	for (int i = 0; i < 3; i++)
+	{
+	DrawFallingStars(goldenyellow, fallingstararr[i].x, fallingstararr[i].y);
+	fallingstararr[i].y += gravity * dt * 2;
+	//Respawn the redline.
+	if (fallingstararr[i].y >= 800)
+	{
+		//printf("passed midpoint");
+		fallingstararr[i].x = (float)(rand() % (int)windowWidth);
+		fallingstararr[i].y = (float)(rand() % 200) - 0;
 	}
 	}
 }
@@ -1177,6 +1205,20 @@ void DrawInstructions(void)
 		//
 	}
 }
+
+//Logic doesn't make sense as I think it is constantly playing the sound instead of making it a one time thing.
+void speechtimerone(CP_Sound sound)
+{
+	if (speechtimeractivate == 1)
+	{
+		speechtimer += dt;
+	}
+	if (speechtimer >= 0.1 && speechtimer <= 1)
+	{
+		CP_Sound_PlayAdvanced(sound, 100, 1, FALSE, CP_SOUND_GROUP_0);
+	}
+}
+
 
 void PrincessTalk(void)
 {

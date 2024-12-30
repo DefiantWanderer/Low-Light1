@@ -57,6 +57,9 @@ void RedLineSpawning(void);
 void RedLinePlayer(void);
 void SpikeSpawning(void);
 void SpikePrincess(void);
+void DrawFallingStars(CP_Color color, float x, float y);
+void FallingStarSpawning(void);
+void speechtimerone(CP_Sound sound);
 CP_Image LanternImage;
 CP_Image PrincessImage;
 CP_Font myfont;
@@ -182,6 +185,7 @@ float leftwallheight;
 extern struct platformdata textarr[50];
 extern struct platformdata redlinearr[50];
 extern struct platformdata spikearr[50];
+extern struct platformdata fallingstararr[5];
 float redlinewidth;
 float redlineheight;
 float spikewidth;
@@ -208,8 +212,12 @@ float lampspawny;
 float subtitlex;
 float subtitley;
 
+float speechtimer;
+int speechtimeractivate;
+
 int lamppickup;
 void PrincessTalk(void);
+
 
 
 
