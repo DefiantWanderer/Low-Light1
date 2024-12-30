@@ -282,6 +282,15 @@ int GeneratePlatformFromData(char arr[])
 		int cliffleftcount = 0;
 		int cliffrightcount = 0;
 		int nextlevelcount = 0;
+		numberoflightcubes= 0;
+		numberofleftcliffs= 0;
+		numberofrightcliffs= 0;
+		numberofplatforms= 0;
+		numberofleftwalls= 0;
+		numberofrightwalls = 0;
+		numberofinportals = 0;
+		numberofoutportals = 0;
+		numberofnextlevels = 0;
 
 		//Clear all
 		//Can make this into a function to be more concise
@@ -439,6 +448,7 @@ int GeneratePlatformFromData(char arr[])
 				numberofleftcliffs++;
 
 
+
 			}
 			//Cliff right side
 			if (arr[i] == 'D')
@@ -451,7 +461,6 @@ int GeneratePlatformFromData(char arr[])
 				plat++;
 				cliffrightcount++;
 				numberofrightcliffs++;
-
 
 			}
 			//Platform
@@ -476,6 +485,7 @@ int GeneratePlatformFromData(char arr[])
 				//printf("%d:\n x: %f\n y: %f\n width: %f\n, height %f\n", platformcount, platformarr[platformcount].x, platformarr[platformcount].y, platformarr[platformcount].width, platformarr[platformcount].height);
 				platformcount++;
 				numberofplatforms++;
+			
 			}
 			//left Wall
 			if (arr[i] == '[')
@@ -488,6 +498,7 @@ int GeneratePlatformFromData(char arr[])
 				//printf("%d:\n x: %f\n y: %f\n width: %f\n, height %f\n", platformcount, platformarr[platformcount].x, platformarr[platformcount].y, platformarr[platformcount].width, platformarr[platformcount].height);
 				leftwallcount++;
 				numberofleftwalls++;
+				
 			}
 			//Right Wall
 			if (arr[i] == ']')
@@ -499,6 +510,7 @@ int GeneratePlatformFromData(char arr[])
 				//printf("%d:\n x: %f\n y: %f\n width: %f\n, height %f\n", platformcount, platformarr[platformcount].x, platformarr[platformcount].y, platformarr[platformcount].width, platformarr[platformcount].height);
 				rightwallcount++;
 				numberofrightwalls++;
+				
 			}
 			//Portal entry
 			if (arr[i] == 'I')
@@ -509,6 +521,7 @@ int GeneratePlatformFromData(char arr[])
 				inportalarr[inportalcount].height = inportalheight;
 				inportalcount++;
 				numberofinportals++;
+				
 			}
 			//Portal out
 			if (arr[i] == 'O')
@@ -519,6 +532,7 @@ int GeneratePlatformFromData(char arr[])
 				outportalarr[outportalcount].height = outportalheight;
 				outportalcount++;
 				numberofoutportals++;
+				
 			}
 			//Portal out
 			if (arr[i] == 'N')
@@ -549,7 +563,7 @@ void Updateplayerposition(void)
 void DrawPrincess()
 {
 	//Draw_Rect(white, princess.x, princess.y, princesswidth, princessheight, 0, 0);
-	if (leaptimeractivate == 0)
+	if (leaptimeractivate == 0|| (leaptimeractivate ==1 && onplatform ==1))
 	{
 		if (princess.x > playerposition.x)
 		{
@@ -738,7 +752,7 @@ void wallcollision(void)
 	//got some issue here.
 	for (int i = 0; i < numberofplatforms; i++)
 	{
-		if (AreRectIntersecting(princess.x, princess.y, princesswidth, princessheight, platformarr[i].x, platformarr[i].y, platformarr[i].width + buffer, platformarr[i].height - buffer) == 1)
+		if (AreRectIntersecting(princess.x, princess.y, princesswidth, princessheight, platformarr[i].x, platformarr[i].y, platformarr[i].width + buffer, platformarr[i].height - buffer*1.3) == 1)
 		{
 			if (princess.x < platformarr[i].x)
 			{
@@ -760,7 +774,7 @@ int PrincessSeeLight(void)
 	//Algo for this doesn't make sense.
 	if ((onplatform == 1) && (AreCirclesIntersecting(princess.x, princess.y + princesseyelevel, princesswidth * 2, playerposition.x, playerposition.y, lightradius + princesswidth * 2) == 1)) //1 is right
 	{
-		if ((princess.x > playerposition.x) && (timer == 0) && (princess.y > playerposition.y) && (princess.x >= 6 * buffer))
+		if ((princess.x > playerposition.x) /* && (timer == 0)*/ && (princess.y > playerposition.y) && (princess.x >= 6 * buffer))
 		{
 			if ((cliffintersectcheck() != 2))
 			{
@@ -770,7 +784,7 @@ int PrincessSeeLight(void)
 			return 1;
 
 		}
-		if ((princess.x < playerposition.x) && (timer == 0) && (princess.y > playerposition.y) && (princess.x <= windowWidth - 6 * buffer))
+		if ((princess.x < playerposition.x) /* && (timer == 0)*/ && (princess.y > playerposition.y) && (princess.x <= windowWidth - 6 * buffer))
 		{
 			if ((cliffintersectcheck() != 1))
 			{
@@ -845,21 +859,21 @@ int TimerOne(void)
 }
 
 
-void PrincessJump(void)
-//Make it so that she can leap in a direction by adding vector. Need to check if she is facing left or right.
-{
-	//Don't quite understand the jumping but it's a start.
-	if (onplatform == 1)
-	{
-		if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
-		{
-			float jumpspeed = -2000;//-gravity * 40;
-			jumpspeed = CP_Math_ClampFloat(jumpspeed, -4000 * 30, 6000);
-			princess.y += jumpspeed * dt;
-
-		}
-	}
-}
+//void PrincessJump(void)
+////Make it so that she can leap in a direction by adding vector. Need to check if she is facing left or right.
+//{
+//	//Don't quite understand the jumping but it's a start.
+//	if (onplatform == 1)
+//	{
+//		if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
+//		{
+//			float jumpspeed = -2000;//-gravity * 40;
+//			jumpspeed = CP_Math_ClampFloat(jumpspeed, -4000 * 30, 6000);
+//			princess.y += jumpspeed * dt;
+//
+//		}
+//	}
+//}
 void PrincessLeap(void)
 {
 	//If there are no cliff collisions the princess will leap whenever the lamp is clicked.
@@ -898,7 +912,7 @@ void PrincessLeap(void)
 		timer += 1 * dt;
 		if (timer <= 0.4)
 		{
-			//Lamp on left Jump left
+			/*Lamp on left Jump left*/
 			if (leapleftmode == 1)
 			{
 				princess.x += princessmovement * dt;
@@ -914,14 +928,14 @@ void PrincessLeap(void)
 		{
 			if (leapleftmode == 1)
 			{
-				princess.x += princessmovement * 2 *dt;
-				princess.y -= princessmovement * dt * 1.3;
+				princess.x += princessmovement * 2.3 *dt;
+				princess.y -= princessmovement * dt * 1.5;
 			}
 			//lamp on right walk right
 			if (leaprightmode == 1)
 			{
-				princess.x -= princessmovement *2* dt;
-				princess.y -= princessmovement * dt * 1.3;
+				princess.x -= princessmovement *2.3* dt;
+				princess.y -= princessmovement * dt * 1.5;
 			}
 		}
 		if ((timer >= 0.845) && (timer <= 1.5))
@@ -929,16 +943,23 @@ void PrincessLeap(void)
 			if (leapleftmode == 1)
 			{
 				princess.x += princessmovement * 2 * dt;
-				princess.y += princessmovement * dt;
+				if (onplatform == 0)
+				{
+					princess.y += princessmovement * dt;
+				}
+
 			}
 			//lamp on right walk right
 			if (leaprightmode == 1)
 			{
 				princess.x -= princessmovement * 2 * dt;
-				princess.y += princessmovement * dt;
+				if (onplatform == 0)
+				{
+					princess.y += princessmovement * dt;
+				}
 			}
 		}
-		if (timer >= 1.4 && timer < 1.41)
+		if (timer >= 1.4 && timer < 1.42)
 		{
 			
 			CP_Sound_PlayAdvanced(WowMadeTheJump, 1, 1, 0, 1);

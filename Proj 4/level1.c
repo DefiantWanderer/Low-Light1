@@ -314,7 +314,10 @@ void Level1_Update(void)
 		CP_Sound_PlayAdvanced(mmmThatLooksDangerous, 100, 1, FALSE, CP_SOUND_GROUP_0);
 	}
 
-
+	if (onplatform == 0)
+	{
+		princess.y += dt * gravity;
+	}
 	
 	
 	//Skip
