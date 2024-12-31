@@ -70,10 +70,10 @@ void Level1_Init(void)
 		teleportoffset = windowWidth / 40;
 
 		//Platform dimensions
-		platformheight = windowHeight / 35.f; 
+		platformheight = windowHeight / 25.f; 
 		platformwidth = windowHeight /31.f; //Adjusting here makes everything smaller or bigger. Make changes in the Generate platform from data
 		leftwallwidth = 2;
-		leftwallheight = 2*platformheight;
+		leftwallheight = windowHeight / 16.f;
 
 		//Lightcube dimensions
 		lightcubewidth = windowWidth / 80.f;
@@ -135,6 +135,24 @@ void Level1_Init(void)
 			redlinearr[i].y = (float)(rand() % 200) - 0;
 			spikearr[i].x = (float)(rand() % (int)windowWidth);
 			spikearr[i].y = (float)(rand() % 200) - 0;
+		}
+		for (int i = 0; i < 3; i++)
+		{
+			fallingstararr[i].x = windowWidth/16 + 100 * i;
+			fallingstararr[i].y = (float)(rand() % 200) - 0;
+			
+		}
+		if (level == 1)
+		{
+			lightlevel = 0;
+		}
+		if (level == 2)
+		{
+			lightlevel = 0;
+		}
+		if (level == 3)
+		{
+			lightlevel = 0;
 		}
 
 
@@ -267,7 +285,7 @@ void Level1_Update(void)
 	DrawLightCube();
 	
 	//LightCubePickup need to make a timer as it's adding a bit too fast.
-	if (LightCubePickup() == 1)
+	if ((LightCubePickup() == 1))
 	{
 		timeroneactivate = 1;
 	}
@@ -306,7 +324,7 @@ void Level1_Update(void)
 	SpikeSpawning();
 	SpikePrincess();
 	
-	//FallingStarSpawning();
+	FallingStarSpawning();
 	}
 
 	if (CP_Input_KeyTriggered(KEY_6))

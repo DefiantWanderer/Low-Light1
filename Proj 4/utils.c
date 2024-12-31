@@ -57,8 +57,8 @@ struct platformdata spikearr[50] = { 0 };
 struct platformdata fallingstararr[5] = { 0 };
 
 //Player stats
-lightradiusarray[5] = { 10.f, 50.f, 100.f, 175.f, 275.f };
-lightlevel = 3;
+lightradiusarray[6] = {0.f, 50.f, 90.f, 165.f, 265.f, 350.f };
+lightlevel = 0;
 *ptrlightlevel = &lightlevel;
 lightradius = 0.f;
 
@@ -77,6 +77,7 @@ leaptimeractivate = 0;
 leaprightmode = 0;
 leapleftmode = 0;
 timer = 0;
+lightcubetimer = 0;
 princessjumpactivate = 0;
 princessjumptimer = 0;
 
@@ -398,7 +399,7 @@ int GeneratePlatformFromData(char arr[])
 				textarr[textcount].x = -40 + plat * platformwidth / 2;
 				textarr[textcount].y = windowHeight / 45 * (2 * j);
 				textarr[textcount].width = platformwidth;
-				textarr[textcount].height = platformheight;
+				textarr[textcount].height = windowHeight/16;
 				numberoftexts++;
 				++plat;
 			}
@@ -435,15 +436,16 @@ int GeneratePlatformFromData(char arr[])
 			//Cliffleftside
 			if (arr[i] == 'd')
 			{
-				cliffleftarr[cliffleftcount].x = (-30 + plat * (platformwidth-2)) - platformwidth + 35;
+				cliffleftarr[cliffleftcount].x = (-40 + plat * platformwidth) - platformwidth + 10;
+				//cliffleftarr[cliffleftcount].x = (-30 + plat * (platformwidth-2)) - platformwidth + 35;
 				cliffleftarr[cliffleftcount].y = windowHeight / 44 * (2 * j);
 
 
 				cliffleftarr[cliffleftcount].width = platformwidth / 4;
-				cliffleftarr[cliffleftcount].height = platformheight;
+				cliffleftarr[cliffleftcount].height = windowHeight /16;
 				//printf("x: %f\n y: %f\n width: %f\n, height: %f\n", cliffleftarr[cliffleftcount].x, cliffleftarr[cliffleftcount].y, cliffleftarr[cliffleftcount].width, cliffleftarr[cliffleftcount].height);
 
-				plat++;
+				//plat++;
 				cliffleftcount++;
 				numberofleftcliffs++;
 
@@ -453,12 +455,13 @@ int GeneratePlatformFromData(char arr[])
 			//Cliff right side
 			if (arr[i] == 'D')
 			{
-				cliffrightarr[cliffrightcount].x = (-21 + plat * (platformwidth-2)) + platformwidth / 1.4 -20;
+				cliffrightarr[cliffrightcount].x = (-31 + plat * platformwidth) + platformwidth / 2 - 41;
+				//cliffrightarr[cliffrightcount].x = (-21 + plat * (platformwidth-2)) + platformwidth / 1.4 -20;
 				cliffrightarr[cliffrightcount].y = windowHeight / 44 * (2 * j);
 				cliffrightarr[cliffrightcount].width = platformwidth / 4;
-				cliffrightarr[cliffrightcount].height = platformheight;
+				cliffrightarr[cliffrightcount].height = windowHeight / 16;
 
-				plat++;
+				//plat++;
 				cliffrightcount++;
 				numberofrightcliffs++;
 
@@ -565,11 +568,12 @@ void DrawPrincess()
 	//Draw_Rect(white, princess.x, princess.y, princesswidth, princessheight, 0, 0);
 	if (leaptimeractivate == 0|| (leaptimeractivate ==1 && onplatform ==1))
 	{
-		if (princess.x > playerposition.x)
+		if (princess.x > playerposition.x && princess.x - playerposition.x > 5 * buffer)
 		{
 			flip = -1;
 		}
-		else {
+		if (princess.x < playerposition.x && playerposition.x - princess.x > 5*buffer )
+		{
 			flip = 1;
 		}
 	}
@@ -597,6 +601,10 @@ int DrawLight()
 	if (lightlevel >= 4)
 	{
 		Draw_Circle(goldenyellow, strokegoldenyellow, playerposition.x, playerposition.y + lanternoffset, lightradiusarray[4]);
+	}
+	if (lightlevel >= 5)
+	{
+		Draw_Circle(goldenyellow, strokegoldenyellow, playerposition.x, playerposition.y + lanternoffset, lightradiusarray[5]);
 	}
 	CP_Image_DrawSubImage(LanternImage, playerposition.x + 3, playerposition.y + lanternoffset, lanternwidth, lanternheight, 0, 0, 256, 256, 255);
 	return lightlevel;
@@ -772,11 +780,11 @@ int PrincessSeeLight(void)
 {
 	//Princessmovement detection
 	//Algo for this doesn't make sense.
-	if ((onplatform == 1) && (AreCirclesIntersecting(princess.x, princess.y + princesseyelevel, princesswidth * 2, playerposition.x, playerposition.y, lightradius + princesswidth * 2) == 1)) //1 is right
+	if ((onplatform == 1) && (AreCirclesIntersecting(princess.x, princess.y + princesseyelevel, princesswidth * 2, playerposition.x, playerposition.y, lightradiusarray[lightlevel] + princesswidth * 2) == 1)) //1 is right
 	{
-		if ((princess.x > playerposition.x) /* && (timer == 0)*/ && (princess.y > playerposition.y) && (princess.x >= 6 * buffer))
+		if ((princess.x > playerposition.x) && (lightpickuptimer == 0) && (princess.y > playerposition.y) && (princess.x >= 6 * buffer) )
 		{
-			if ((cliffintersectcheck() != 2))
+			if ((cliffintersectcheck() != 2) && princess.x - playerposition.x > 5 * buffer)
 			{
 				princess.x -= dt * princessmovement;
 			};
@@ -784,9 +792,9 @@ int PrincessSeeLight(void)
 			return 1;
 
 		}
-		if ((princess.x < playerposition.x) /* && (timer == 0)*/ && (princess.y > playerposition.y) && (princess.x <= windowWidth - 6 * buffer))
+		if ((princess.x < playerposition.x) && (lightpickuptimer == 0) && (princess.y > playerposition.y) && (princess.x <= windowWidth - 6 * buffer) )
 		{
-			if ((cliffintersectcheck() != 1))
+			if ((cliffintersectcheck() != 1) && playerposition.x - princess.x > 5 * buffer)
 			{
 			princess.x += dt * princessmovement;
 			}
@@ -817,38 +825,41 @@ int TimerOne(void)
 {
 	if ((timeroneactivate == 1) && (timer <= 2))
 	{
-		timer += 1 * dt;
-		printf("%f\n", timer);
-		if ((timer >= 0.1) && (timer <= 0.18))
+		lightpickuptimer += 1 * dt;
+		printf("%f\n", lightpickuptimer);
+		if ((lightpickuptimer >= 0.1) && (lightpickuptimer <= 0.18))
 		{
 			spriteframe = 3;
 		}
-		if ((timer >= 0.2) && (timer <= 0.28))
+		if ((lightpickuptimer >= 0.2) && (lightpickuptimer <= 0.28))
 		{
 			spriteframe = 2;
 		}
-		if ((timer >= 0.3) && (timer <= 0.38))
+		if ((lightpickuptimer >= 0.3) && (lightpickuptimer <= 0.38))
 		{
 			spriteframe = 1;
 		}
-		if ((timer >= 0.4) && (timer <= 0.48))
+		if ((lightpickuptimer >= 0.4) && (lightpickuptimer <= 0.48))
 		{
 			spriteframe = 2;
 		}
-		if ((timer >= 0.5) && (timer <= 0.58))
+		if ((lightpickuptimer >= 0.5) && (lightpickuptimer <= 0.58))
 		{
 			spriteframe = 3;
 		}
-		if ((timer >= 0.6) && (timer <= 0.68))
+		if ((lightpickuptimer >= 0.6) && (lightpickuptimer <= 0.68))
 		{
 			spriteframe = 0;
 		}
 
-		if (timer >= 1.0)
+		if (lightpickuptimer >= 1.0)
 		{
 			timeroneactivate = 0;
-			timer = 0;
+			lightpickuptimer = 0;
+			if (lightlevel < 5)
+			{
 			*ptrlightlevel += 1;
+			}
 			Draw_Text(white, 100, "Wow thats bright!", subtitlex, subtitley);
 			CP_Sound_PlayAdvanced(WowThatsBright, 1, 1, 0, 1);
 			return 1;
@@ -894,14 +905,15 @@ void PrincessLeap(void)
 				leapleftmode = 1;
 				leaprightmode = 0;
 				flip = 1;
-				printf("jumping");
+				lightlevel -= 2;
 			}
 			if (playerposition.x < princess.x)
 			{
 				leaprightmode = 1;
 				leapleftmode = 0;
 				flip = -1;
-				printf("jumping");
+				lightlevel -= 2;
+				
 			}
 		}
 	}
@@ -974,6 +986,7 @@ void PrincessLeap(void)
 		{
 			leaptimeractivate = 0;
 			timer = 0;
+			
 			//speechtimeractivate = 1;
 			
 		}
@@ -1143,7 +1156,7 @@ void RedLineSpawning(void)
 	{
 		//printf("passed midpoint");
 		redlinearr[i].x = (float)(rand() % (int)windowWidth);
-		redlinearr[i].y = (float)(rand() % 200) - 0;
+		redlinearr[i].y = 0 - (float)(rand() % 400);
 	}
 	}
 }
@@ -1157,23 +1170,30 @@ void SpikeSpawning(void)
 	{
 		//printf("passed midpoint");
 		spikearr[i].x = (float)(rand() % (int)windowWidth);
-		spikearr[i].y = (float)(rand() % 200) - 0;
+		spikearr[i].y = 0 - (float)(rand() % 400);
 	}
 	}
 }
-void FallingStarSpawning(void)
+int FallingStarSpawning(void)
 {
 	for (int i = 0; i < 3; i++)
 	{
-	DrawFallingStars(goldenyellow, fallingstararr[i].x, fallingstararr[i].y);
-	fallingstararr[i].y += gravity * dt * 2;
-	//Respawn the redline.
-	if (fallingstararr[i].y >= 800)
-	{
-		//printf("passed midpoint");
-		fallingstararr[i].x = (float)(rand() % (int)windowWidth);
-		fallingstararr[i].y = (float)(rand() % 200) - 0;
-	}
+		DrawFallingStars(goldenyellow, fallingstararr[i].x, fallingstararr[i].y); //The additional checks below check if the the cube spawns in the chasm
+		if (AreRectIntersecting(princess.x, princess.y, princesswidth, princessheight, fallingstararr[i].x, fallingstararr[i].y, lightcubewidth, lightcubeheight) == 1 || (fallingstararr[i].x >= cliffleftarr [0].x && fallingstararr[i].x <= cliffrightarr[0].x)|| (fallingstararr[i].x >= cliffleftarr[1].x && fallingstararr[i].x <= cliffrightarr[1].x))
+		{
+
+			fallingstararr[i].x = (float)(rand() % ((int)windowWidth) / (i+1)); //this was supposed to spawn one light cube for one part
+			fallingstararr[i].y = (float)(rand() % 200) - 0;
+			printf("intersect");
+			timeroneactivate = 1;
+		}
+		//Respawn the redline.
+		if (fallingstararr[i].y < 800)
+		{
+			//printf("passed midpoint");
+			fallingstararr[i].y += gravity * dt * 2;
+
+		}
 	}
 }
 void RedLinePlayer(void)

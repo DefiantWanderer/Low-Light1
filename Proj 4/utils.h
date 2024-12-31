@@ -31,7 +31,7 @@ void Updateplayerposition(void);
 void PrincessGravity(void);
 void wallcollision(void);
 int PrincessSeeLight(void);
-void PrincessJump(void);
+//void PrincessJump(void);
 void PrincessLeap(void);
 //
 int LightCubePickup(void);
@@ -58,8 +58,9 @@ void RedLinePlayer(void);
 void SpikeSpawning(void);
 void SpikePrincess(void);
 void DrawFallingStars(CP_Color color, float x, float y);
-void FallingStarSpawning(void);
+int FallingStarSpawning(void);
 void speechtimerone(CP_Sound sound);
+void PrincessTalk(void);
 CP_Image LanternImage;
 CP_Image PrincessImage;
 CP_Font myfont;
@@ -102,7 +103,7 @@ float dt;
 extern CP_Vector playerposition;
 
 //Player stats
-float lightradiusarray[5];
+float lightradiusarray[6];
 int lightlevel;
 int* ptrlightlevel;
 float lightradius;
@@ -131,6 +132,7 @@ float leaptimeractivate;
 int leaprightmode;
 int leapleftmode;
 float timer;
+float lightpickuptimer;
 float princessjumpactivate;
 float princessjumptimer;
 
@@ -216,7 +218,7 @@ float speechtimer;
 int speechtimeractivate;
 
 int lamppickup;
-void PrincessTalk(void);
+
 
 
 
