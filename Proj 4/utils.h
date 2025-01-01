@@ -61,6 +61,10 @@ void DrawFallingStars(CP_Color color, float x, float y);
 int FallingStarSpawning(void);
 void speechtimerone(CP_Sound sound);
 void PrincessTalk(void);
+
+void lampintersectstuff(struct platformdata arr[], int numberof, int maxalpha);
+void lampintersectwall(void);
+
 CP_Image LanternImage;
 CP_Image PrincessImage;
 CP_Font myfont;
@@ -78,12 +82,14 @@ CP_Color strokegoldenyellow;
 CP_Color gold;
 CP_Color transparent;
 
+//The struct is here!
 struct platformdata
 {
 	float x;
 	float y;
 	float width;
 	float height;
+	float alpha;
 };
 
 extern int level;

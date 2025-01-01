@@ -57,7 +57,7 @@ struct platformdata spikearr[50] = { 0 };
 struct platformdata fallingstararr[5] = { 0 };
 
 //Player stats
-lightradiusarray[6] = {0.f, 50.f, 90.f, 165.f, 265.f, 350.f };
+lightradiusarray[6] = {10.f, 50.f, 90.f, 165.f, 265.f, 350.f };
 lightlevel = 0;
 *ptrlightlevel = &lightlevel;
 lightradius = 0.f;
@@ -329,12 +329,12 @@ int GeneratePlatformFromData(char arr[])
 		}
 		for (int i = 0; i < 6; i++)
 		{
-			cliffleftarr[i].x = 0 ;
-			cliffleftarr[i].y = 0;
+			cliffleftarr[i].x = -500 ;
+			cliffleftarr[i].y = -500;
 			cliffleftarr[i].width = 0;
 			cliffleftarr[i].height = 0;
-			cliffrightarr[i].x = 0;
-			cliffrightarr[i].y = 0;
+			cliffrightarr[i].x = -500;
+			cliffrightarr[i].y = -500;
 			cliffrightarr[i].width = 0;
 			cliffrightarr[i].height = 0;
 
@@ -400,29 +400,30 @@ int GeneratePlatformFromData(char arr[])
 				textarr[textcount].y = windowHeight / 45 * (2 * j);
 				textarr[textcount].width = platformwidth;
 				textarr[textcount].height = windowHeight/16;
+				textarr[textcount].alpha = 255;
 				numberoftexts++;
 				++plat;
 			}
 			//Fill
 			if (arr[i] == 'f')
 			{
-				fill1[fill1count].x = -40 + plat * platformwidth;
+				fill1[fill1count].x = -60 +plat * platformwidth;
 				fill1[fill1count].y = windowHeight / 45 * (2 * j);
-				++plat;
+				fill1[fill1count].alpha = 255;
 				fill1count++;
 			}
 			if (arr[i] == 'F')
 			{
-				fill2[fill2count].x = -40 + plat * platformwidth;
+				fill2[fill2count].x = -60 + plat * platformwidth;
 				fill2[fill2count].y = windowHeight / 45 * (2 * j);
-				++plat;
+				fill2[fill2count].alpha = 255;
 				fill2count++;
 			}
 			if (arr[i] == 'g') //This will be the bottom
 			{
-				fill3[fill3count].x = -40 + plat * platformwidth;
+				fill3[fill3count].x = -60 + plat * platformwidth;
 				fill3[fill3count].y = windowHeight / 45 * (2 * j);
-				++plat;
+				fill3[fill3count].alpha = 255;
 				fill3count++;
 			}
 			//Cliff detector (code this while drinking)
@@ -443,11 +444,27 @@ int GeneratePlatformFromData(char arr[])
 
 				cliffleftarr[cliffleftcount].width = platformwidth / 4;
 				cliffleftarr[cliffleftcount].height = windowHeight /16;
+				cliffleftarr[cliffleftcount].alpha = 255;
 				//printf("x: %f\n y: %f\n width: %f\n, height: %f\n", cliffleftarr[cliffleftcount].x, cliffleftarr[cliffleftcount].y, cliffleftarr[cliffleftcount].width, cliffleftarr[cliffleftcount].height);
 
 				//plat++;
 				cliffleftcount++;
 				numberofleftcliffs++;
+
+				leftwallarr[leftwallcount].x = (-40 + plat * platformwidth) - platformwidth + 8;
+				//leftwallarr[leftwallcount].x = (-30 plat * platformwidth) + platformwidth / 2 - 41;
+				leftwallarr[leftwallcount].y = windowHeight / 41 * (2 * j) + 2;
+				leftwallarr[leftwallcount].width = leftwallwidth;
+				leftwallarr[leftwallcount].height = leftwallheight;
+				leftwallarr[leftwallcount].alpha = 0;
+				if (level == 3)
+				{
+					leftwallarr[leftwallcount].y = windowHeight / 41.7 * (2 * j) + 2;
+				}
+				//printf("%d:\n x: %f\n y: %f\n width: %f\n, height %f\n", platformcount, platformarr[platformcount].x, platformarr[platformcount].y, platformarr[platformcount].width, platformarr[platformcount].height);
+				leftwallcount++;
+				numberofleftwalls++;
+
 
 
 
@@ -460,10 +477,24 @@ int GeneratePlatformFromData(char arr[])
 				cliffrightarr[cliffrightcount].y = windowHeight / 44 * (2 * j);
 				cliffrightarr[cliffrightcount].width = platformwidth / 4;
 				cliffrightarr[cliffrightcount].height = windowHeight / 16;
+				cliffrightarr[cliffrightcount].alpha = 255;
 
 				//plat++;
 				cliffrightcount++;
 				numberofrightcliffs++;
+
+				rightwallarr[rightwallcount].x = (-31 + plat * platformwidth) + platformwidth / 2 - 43;
+				rightwallarr[rightwallcount].y = windowHeight / 41 * (2 * j) + 2;
+				rightwallarr[rightwallcount].width = leftwallwidth;
+				rightwallarr[rightwallcount].height = leftwallheight;
+				rightwallarr[rightwallcount].alpha = 0;
+				if (level == 3)
+				{
+					rightwallarr[rightwallcount].y = windowHeight / 41.7 * (2 * j) + 2;
+				}
+				//printf("%d:\n x: %f\n y: %f\n width: %f\n, height %f\n", platformcount, platformarr[platformcount].x, platformarr[platformcount].y, platformarr[platformcount].width, platformarr[platformcount].height);
+				rightwallcount++;
+				numberofrightwalls++;
 
 			}
 			//Platform
@@ -493,11 +524,16 @@ int GeneratePlatformFromData(char arr[])
 			//left Wall
 			if (arr[i] == '[')
 			{
-				leftwallarr[leftwallcount].x = (-40 + plat * platformwidth) - platformwidth + 10;
+				leftwallarr[leftwallcount].x = (-40 + plat * platformwidth) - platformwidth + 8;
 				//leftwallarr[leftwallcount].x = (-30 plat * platformwidth) + platformwidth / 2 - 41;
-				leftwallarr[leftwallcount].y = windowHeight / 44 * (2 * j);
+				leftwallarr[leftwallcount].y = windowHeight / 41 * (2 * j)+2;
+				if(level ==3)
+				{
+					leftwallarr[leftwallcount].y = windowHeight / 41.7 * (2 * j) + 2;
+				}
 				leftwallarr[leftwallcount].width = leftwallwidth;
 				leftwallarr[leftwallcount].height = leftwallheight;
+				leftwallarr[leftwallcount].alpha = 0;
 				//printf("%d:\n x: %f\n y: %f\n width: %f\n, height %f\n", platformcount, platformarr[platformcount].x, platformarr[platformcount].y, platformarr[platformcount].width, platformarr[platformcount].height);
 				leftwallcount++;
 				numberofleftwalls++;
@@ -506,10 +542,15 @@ int GeneratePlatformFromData(char arr[])
 			//Right Wall
 			if (arr[i] == ']')
 			{
-				rightwallarr[rightwallcount].x = (-31 + plat * platformwidth) + platformwidth / 2 - 41;
-				rightwallarr[rightwallcount].y = windowHeight / 44 * (2 * j);
+				rightwallarr[rightwallcount].x = (-31 + plat * platformwidth) + platformwidth / 2 - 43;
+				rightwallarr[rightwallcount].y = windowHeight / 41 * (2 * j)+2;
+				if (level == 3)
+				{
+					rightwallarr[rightwallcount].y = windowHeight / 41.7 * (2 * j) + 2;
+				}
 				rightwallarr[rightwallcount].width = leftwallwidth;
 				rightwallarr[rightwallcount].height = leftwallheight;
+				rightwallarr[rightwallcount].alpha = 0;
 				//printf("%d:\n x: %f\n y: %f\n width: %f\n, height %f\n", platformcount, platformarr[platformcount].x, platformarr[platformcount].y, platformarr[platformcount].width, platformarr[platformcount].height);
 				rightwallcount++;
 				numberofrightwalls++;
@@ -519,9 +560,10 @@ int GeneratePlatformFromData(char arr[])
 			if (arr[i] == 'I')
 			{
 				inportalarr[inportalcount].x = 0 + plat * platformwidth;
-				inportalarr[inportalcount].y = windowHeight / 45 * (2 * j);
+				inportalarr[inportalcount].y = windowHeight / 46 * (2 * j);
 				inportalarr[inportalcount].width = inportalwidth;
 				inportalarr[inportalcount].height = inportalheight;
+				inportalarr[inportalcount].alpha = 0;
 				inportalcount++;
 				numberofinportals++;
 				
@@ -530,20 +572,22 @@ int GeneratePlatformFromData(char arr[])
 			if (arr[i] == 'O')
 			{
 				outportalarr[outportalcount].x = 0 + plat * platformwidth;
-				outportalarr[outportalcount].y = windowHeight / 45 * (2 * j);
+				outportalarr[outportalcount].y = windowHeight / 48 * (2 * j);
 				outportalarr[outportalcount].width = outportalwidth;
 				outportalarr[outportalcount].height = outportalheight;
+				outportalarr[outportalcount].alpha = 0;
 				outportalcount++;
 				numberofoutportals++;
 				
 			}
-			//Portal out
+			//Next level
 			if (arr[i] == 'N')
 			{
 				nextlevelarr[nextlevelcount].x = -40 + plat * platformwidth;
-				nextlevelarr[nextlevelcount].y = windowHeight / 48 * (2 * j);
+				nextlevelarr[nextlevelcount].y = windowHeight / 49 * (2 * j);
 				nextlevelarr[nextlevelcount].width = outportalwidth;
 				nextlevelarr[nextlevelcount].height = outportalheight;
+				nextlevelarr[nextlevelcount].alpha = 0;
 				nextlevelcount++;
 				numberofnextlevels++;
 			}
@@ -618,9 +662,25 @@ void DrawPlatform(float level)
 		for (int i = 0; i < numberofplatforms; i++)
 		{
 			//printf("%d:\n x: %f\n y: %f\n width: %f\n, height %f\n", i, platformarr[i].x, platformarr[i].y, platformarr[i].width, platformarr[i].height);
-			CP_Settings_Stroke(transparent);
-			Draw_Rect(blue, platformarr[i].x, platformarr[i].y, platformarr[i].width, platformarr[i].height, 0, 0);
+			//CP_Settings_Stroke(CP_Color_Create(255, 165, 0, platformarr[i].alpha));
+			//CP_Settings_Stroke(CP_Color_Create(0, 0, 0, platformarr[i].alpha));
+			
+			CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 0));
+			Draw_Rect(black, platformarr[i].x, platformarr[i].y, platformarr[i].width, platformarr[i].height, 0, 0); //Blue
+			CP_Settings_Stroke(CP_Color_Create(255, 165, 0, 0));
+			Draw_Rect(CP_Color_Create(255, 165, 0, platformarr[i].alpha), platformarr[i].x, platformarr[i].y - 18, platformarr[i].width, 0, 0, 0);
 		}
+		/*white = CP_Color_Create(255, 255, 255, 255);
+		black = CP_Color_Create(0, 0, 0, 255);
+		blue = CP_Color_Create(10, 10, 235, 255);
+		orange = CP_Color_Create(255, 165, 0, 100);
+		strokeorange = CP_Color_Create(255, 165, 0, 30);
+		amber = CP_Color_Create(255, 191, 0, 100);
+		strokeamber = CP_Color_Create(255, 191, 0, 30);
+		goldenyellow = CP_Color_Create(255, 192, 0, 50);
+		strokegoldenyellow = CP_Color_Create(255, 192, 0, 15);
+		gold = CP_Color_Create(255, 215, 0, 255);
+		red = CP_Color_Create(255, 0, 0, 255);*/
 	}
 	level = 2;
 }
@@ -630,8 +690,8 @@ void DrawPortals(void)
 	for (int i = 0; i < numberofinportals; i++)
 	{
 		//printf("%d:\n x: %f\n y: %f\n width: %f\n, height %f\n", i, platformarr[i].x, platformarr[i].y, platformarr[i].width, platformarr[i].height);
-		Draw_Rect(orange, inportalarr[i].x, inportalarr[i].y, inportalarr[i].width, inportalarr[i].height, 0, 0);
-		Draw_Rect(goldenyellow, outportalarr[i].x, outportalarr[i].y, outportalarr[i].width, outportalarr[i].height, 0, 0);
+		Draw_Rect(CP_Color_Create(255, 165, 0, inportalarr[i].alpha+ outportalarr[i].alpha), inportalarr[i].x, inportalarr[i].y, inportalarr[i].width, inportalarr[i].height, 0, 0); //Portal
+		Draw_Rect(CP_Color_Create(255, 192, 0, inportalarr[i].alpha+ outportalarr[i].alpha), outportalarr[i].x, outportalarr[i].y, outportalarr[i].width, outportalarr[i].height, 0, 0);
 	}
 }
 void DrawNextLevelDoor(void)
@@ -641,7 +701,7 @@ void DrawNextLevelDoor(void)
 	{
 		//printf("%d:\n x: %f\n y: %f\n width: %f\n, height %f\n", i, platformarr[i].x, platformarr[i].y, platformarr[i].width, platformarr[i].height);
 		//CP_Settings_Stroke(white);
-		Draw_Rect(orange, nextlevelarr[i].x, nextlevelarr[i].y, nextlevelarr[i].width, nextlevelarr[i].height, 0, 0);
+		Draw_Rect(CP_Color_Create(255, 255, 255, nextlevelarr[i].alpha), nextlevelarr[i].x, nextlevelarr[i].y, nextlevelarr[i].width, nextlevelarr[i].height, 0, 0);//White
 	}
 }
 void DrawRightWall(void)
@@ -650,43 +710,45 @@ void DrawRightWall(void)
 	for (int i = 0; i < numberofrightwalls; i++)
 	{
 		//printf("%d:\n x: %f\n y: %f\n width: %f\n, height %f\n", i, platformarr[i].x, platformarr[i].y, platformarr[i].width, platformarr[i].height);
-		Draw_Rect(orange, leftwallarr[i].x, leftwallarr[i].y, leftwallarr[i].width, leftwallarr[i].height, 0, 0);
-		Draw_Rect(goldenyellow, rightwallarr[i].x, rightwallarr[i].y, rightwallarr[i].width, rightwallarr[i].height, 0, 0);
+		//Draw_Rect(CP_Color_Create(0, 0, 0, leftwallarr[i].alpha), leftwallarr[i].x, leftwallarr[i].y, leftwallarr[i].width, leftwallarr[i].height, 0, 0);
+		//Draw_Rect(CP_Color_Create(0, 0, 0, rightwallarr[i].alpha), rightwallarr[i].x, rightwallarr[i].y, rightwallarr[i].width, rightwallarr[i].height, 0, 0);
+		Draw_Rect(CP_Color_Create(255, 165, 0, leftwallarr[i].alpha), leftwallarr[i].x, leftwallarr[i].y, leftwallarr[i].width, leftwallarr[i].height, 0, 0);
+		Draw_Rect(CP_Color_Create(255, 165, 0, rightwallarr[i].alpha), rightwallarr[i].x, rightwallarr[i].y, rightwallarr[i].width, rightwallarr[i].height, 0, 0);
 	}
 	for (int i = 0; i < numberofleftcliffs; i++)
 	{
 		//printf("%d:\n x: %f\n y: %f\n width: %f\n, height %f\n", i, platformarr[i].x, platformarr[i].y, platformarr[i].width, platformarr[i].height);
-		Draw_Rect(orange, cliffleftarr[i].x, cliffleftarr[i].y, cliffleftarr[i].width, cliffleftarr[i].height, 0, 0);
-		Draw_Rect(goldenyellow, cliffrightarr[i].x, cliffrightarr[i].y, cliffrightarr[i].width, cliffrightarr[i].height, 0, 0);
+		//Draw_Rect(orange, cliffleftarr[i].x, cliffleftarr[i].y, cliffleftarr[i].width, cliffleftarr[i].height, 0, 0);
+		//Draw_Rect(orange, cliffrightarr[i].x, cliffrightarr[i].y, cliffrightarr[i].width, cliffrightarr[i].height, 0, 0);
 	}
 }
 void Drawfill1(void)
 {
-	fill1[4].x = (fill1[0].x + fill1[1].x) / 2;
+	fill1[4].x =-50+ (fill1[0].x + fill1[1].x) / 2;
 	fill1[4].y = (fill1[0].y + fill1[2].y) / 2;
-	fill1[4].width = (fill1[1].x - fill1[0].x);
-	fill1[4].height = (fill1[2].y - fill1[0].y);
+	fill1[4].width = (fill1[1].x - fill1[0].x)*1.2;
+	fill1[4].height = (fill1[2].y - fill1[0].y)*1.9;
 
-	Draw_Rect(blue, fill1[4].x, fill1[4].y, fill1[4].width, fill1[4].height, 0, 0);
+	Draw_Rect(black, fill1[4].x, fill1[4].y, fill1[4].width, fill1[4].height, 0, 0);
 
 }
 void Drawfill2(void)
 {
-	fill2[4].x = (fill2[0].x + fill2[1].x) / 2;
+	fill2[4].x = 1+(fill2[0].x + fill2[1].x) / 2;
 	fill2[4].y = (fill2[0].y + fill2[2].y) / 2;
-	fill2[4].width = (fill2[1].x - fill2[0].x);
-	fill2[4].height = (fill2[2].y - fill2[0].y);
+	fill2[4].width = (fill2[1].x - fill2[0].x)*1.1;
+	fill2[4].height = (fill2[2].y - fill2[0].y)*1.9;
 
-	Draw_Rect(blue, fill2[4].x, fill2[4].y, fill2[4].width, fill2[4].height, 0, 0);
+	Draw_Rect(black, fill2[4].x, fill2[4].y, fill2[4].width, fill2[4].height, 0, 0);
 }
 void Drawfill3(void)
 {
 	fill3[4].x = -60 + (fill3[0].x + fill3[1].x) / 2;
 	fill3[4].y = (fill3[0].y + fill3[2].y) / 1.9;
-	fill3[4].width = (fill3[1].x - fill3[0].x) * 1.2;
+	fill3[4].width = (fill3[1].x - fill3[0].x);
 	fill3[4].height = 5 * (fill3[2].y - fill3[0].y);
 
-	Draw_Rect(blue, fill3[4].x, fill3[4].y, fill3[4].width, fill3[4].height, 0, 0);
+	Draw_Rect(black, fill3[4].x, fill3[4].y, fill3[4].width, fill3[4].height, 0, 0);
 
 }
 void DrawLightCube(void)
@@ -860,8 +922,11 @@ int TimerOne(void)
 			{
 			*ptrlightlevel += 1;
 			}
+			if (lightlevel == 5)
+			{
 			Draw_Text(white, 100, "Wow thats bright!", subtitlex, subtitley);
 			CP_Sound_PlayAdvanced(WowThatsBright, 1, 1, 0, 1);
+			}
 			return 1;
 		}
 	}
@@ -907,7 +972,7 @@ void PrincessLeap(void)
 				flip = 1;
 				lightlevel -= 2;
 			}
-			if (playerposition.x < princess.x)
+			else if (playerposition.x < princess.x)
 			{
 				leaprightmode = 1;
 				leapleftmode = 0;
@@ -980,7 +1045,7 @@ void PrincessLeap(void)
 		}
 		if (timer >= 1.4 && timer < 3.2)
 		{
-			Draw_Text(white, 100, "Wow that was quite a big leap!", subtitlex, subtitley);
+			//Draw_Text(white, 100, "Wow that was quite a big leap!", subtitlex, subtitley);
 		}
 		if (timer >= 3.2)
 		{
@@ -991,7 +1056,6 @@ void PrincessLeap(void)
 			
 		}
 	}
-
 }
 
 
@@ -1152,7 +1216,7 @@ void RedLineSpawning(void)
 	DrawRedLines(red, redlinearr[i].x, redlinearr[i].y);
 	redlinearr[i].y += gravity * dt * 2;
 	//Respawn the redline.
-	if (redlinearr[i].y >= 800)
+	if (redlinearr[i].y >= 780)
 	{
 		//printf("passed midpoint");
 		redlinearr[i].x = (float)(rand() % (int)windowWidth);
@@ -1246,7 +1310,6 @@ void DrawInstructions(void)
 		//
 	}
 }
-
 //Logic doesn't make sense as I think it is constantly playing the sound instead of making it a one time thing.
 void speechtimerone(CP_Sound sound)
 {
@@ -1259,7 +1322,6 @@ void speechtimerone(CP_Sound sound)
 		CP_Sound_PlayAdvanced(sound, 100, 1, FALSE, CP_SOUND_GROUP_0);
 	}
 }
-
 
 void PrincessTalk(void)
 {
@@ -1387,6 +1449,46 @@ void PrincessTalk(void)
 	if (level == 4)
 	{
 		//
+	}
+}
+
+void lampintersectstuff(struct platformdata arr[], int numberof, int maxalpha)
+{
+	for (int i = 0; i < numberof; i++)
+	{
+		if ((AreCirclesIntersecting(playerposition.x, playerposition.y + lanternoffset, lightradius * 2 + 50, arr[i].x, arr[i].y, arr[i].width) == 1) && playerposition.y + lanternoffset <= arr[i].y)
+		{
+				arr[i].alpha = maxalpha;
+		}
+		else
+		{
+		arr[i].alpha = 0;
+		}
+	}	
+}
+void lampintersectwall(void)
+{
+	for (int i = 0; i < numberofleftwalls; i++)
+	{
+		if ((AreCirclesIntersecting(playerposition.x, playerposition.y + lanternoffset, lightradius * 2 + 100, leftwallarr[i].x, leftwallarr[i].y, leftwallarr[i].width) == 1) && playerposition.x >= leftwallarr[i].x)
+		{
+			leftwallarr[i].alpha = 255;
+		}
+		else
+		{
+			leftwallarr[i].alpha = 0;
+		}
+	}
+	for (int i = 0; i < numberofleftwalls; i++)
+	{
+		if ((AreCirclesIntersecting(playerposition.x, playerposition.y + lanternoffset, lightradius * 2 + 100, rightwallarr[i].x, rightwallarr[i].y, rightwallarr[i].width) == 1) && playerposition.x <= rightwallarr[i].x)
+		{
+			rightwallarr[i].alpha = 255;
+		}
+		else
+		{
+			rightwallarr[i].alpha = 0;
+		}
 	}
 }
 

@@ -55,7 +55,7 @@ void Level1_Init(void)
 		princessheight = windowHeight / 14.0625f;	//64.f;
 		princesseyelevel = -(windowHeight / 45);	//20.f;
 		princesswidth = windowWidth / 40;//40.f;
-		princessmovement = windowWidth / 18; //50.f;
+		princessmovement = windowWidth / 12; //50.f;
 		princessvision = 0; //This controls how far the princess can see the light. Edit value below
 		princessjumpheight = platformheight;
 
@@ -72,8 +72,8 @@ void Level1_Init(void)
 		//Platform dimensions
 		platformheight = windowHeight / 25.f; 
 		platformwidth = windowHeight /31.f; //Adjusting here makes everything smaller or bigger. Make changes in the Generate platform from data
-		leftwallwidth = 2;
-		leftwallheight = windowHeight / 16.f;
+		leftwallwidth = 1;
+		leftwallheight = windowHeight / 10.3f;
 
 		//Lightcube dimensions
 		lightcubewidth = windowWidth / 80.f;
@@ -148,7 +148,7 @@ void Level1_Init(void)
 		}
 		if (level == 2)
 		{
-			lightlevel = 0;
+			lightlevel = 5;
 		}
 		if (level == 3)
 		{
@@ -293,6 +293,7 @@ void Level1_Update(void)
 
 	//Illumination and Princess
 	DrawPrincess();
+	
 	DrawLight(lightlevel);
 
 	//Platform
@@ -301,6 +302,8 @@ void Level1_Update(void)
 	Drawfill2();
 	Drawfill3();
 	DrawRightWall();
+
+	
 
 	//Portals
 	DrawPortals();
@@ -345,7 +348,12 @@ void Level1_Update(void)
 		CP_Engine_SetNextGameState(LoadingScreen_Init, LoadingScreen_Update, LoadingScreen_Exit);
 	}
 	
-
+	//Check if lamp intersects and increase alpha.
+	lampintersectstuff(inportalarr, numberofinportals, 50);
+	lampintersectstuff(outportalarr, numberofoutportals, 50);
+	lampintersectstuff(platformarr, numberofplatforms, 255);
+	lampintersectstuff(nextlevelarr, numberofnextlevels, 150);
+	lampintersectwall();
 	//Use this to check for the position of the lamp.
 	//printf("Lampx: %f, Lampy: %f\n", playerposition.x, playerposition.y);
 

@@ -29,7 +29,7 @@ float dt;
 
 float alpha = 5;
 
-int level =3;
+int level =2;
 
 float play_center_x, play_center_y, play_width, play_height;
 float exit_center_x, exit_center_y, exit_width, exit_height;
