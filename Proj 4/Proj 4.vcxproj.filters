@@ -39,6 +39,9 @@
     <ClCompile Include="loadingscreen.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="story.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mainmenu.h">
@@ -60,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="loadingscreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="story.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

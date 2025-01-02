@@ -150,7 +150,7 @@ void Level1_Init(void)
 		}
 		if (level == 2)
 		{
-			lightlevel = 5;
+			lightlevel = 0;
 			numberofspikes = 0;
 			numberofredlines = 0;
 		}

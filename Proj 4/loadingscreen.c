@@ -43,7 +43,6 @@ void LoadingScreen_Update(void)
 
 	if (level == 1)
 	{
-		
 		Draw_Text(whitewithalpha, textsize, "The light in the darkness", windowWidth / 2.7, windowHeight / 2);
 	}
 	if (level == 2)
