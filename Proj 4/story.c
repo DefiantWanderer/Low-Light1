@@ -34,7 +34,7 @@ void StoryScreen_Init(void)
 {
 	StoryTimer = 0;
 	
-	black = CP_Color_Create(0, 0, 0, 255);
+	black = CP_Color_Create(255, 0, 0, 255);
 	textsize = windowWidth/16; //100
 	myfont = CP_Font_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Atma-Medium.ttf"); //Load font
 
@@ -50,7 +50,7 @@ void StoryScreen_Init(void)
 	for (int i = 0; i < 4;i++)
 	{
 		char currentletter[2] = { level1story[i], '\0' };
-		Draw_Text(CP_Color_Create(255, 255, 255, 255), textsize, currentletter, textstartpointx, textstartpointy);
+		Draw_Text(CP_Color_Create(255, 255, 255, 255), 1000, currentletter, 800, 400);
 		
 	}
 	
@@ -63,6 +63,8 @@ void StoryScreen_Update(void)
 	CP_Graphics_ClearBackground(black);
 
 	whitewithalpha = CP_Color_Create(255, 255, 255, alphachange);
+
+	Draw_Text(CP_Color_Create(255, 255, 255, 255), 500, "currentletter", 800, 400);
 
 	stopgenerate = 0;
 
