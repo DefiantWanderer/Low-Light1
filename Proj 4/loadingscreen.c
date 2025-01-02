@@ -13,6 +13,13 @@ float alphachange = 0;
 float windowWidth;
 float windowHeight;
 float dt;
+char level1story[200] = { "The Princess born in darkness. She knew nothing, and saw nothing. Then a light appeared. She was drawn towards the light." };
+char level2story[200] = { "The Princess followed the light. Though it was dim she found brightness. The Princess realized she could affect the light. The light was a lamp unto her feet" };
+char level3story[200] = { "The light revealed a catatrophe." };
+float textstartpointx;
+float textstartpointy;
+float textintervalx;
+float textintervaly;
 //Might need to double check if the value stored in level is transferred.
 //Need to test and check the position of the words.
 int level;
@@ -29,7 +36,10 @@ void LoadingScreen_Init(void)
 	myfont = CP_Font_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Atma-Medium.ttf"); //Load font
 
 	lamppickup = 0;
-	
+	textstartpointx = windowWidth / 16;
+	textstartpointy = windowHeight / 9;
+	textintervalx = windowWidth / 60;
+	textintervaly = windowHeight / 9;
 }
 
 void LoadingScreen_Update(void)
@@ -44,6 +54,17 @@ void LoadingScreen_Update(void)
 	if (level == 1)
 	{
 		Draw_Text(whitewithalpha, textsize, "The light in the darkness", windowWidth / 2.7, windowHeight / 2);
+		for (int i = 0, j = 0, k=0; level1story[i] != '\0';i++, k++)
+		{
+			char currentletter[2] = { level1story[i], '\0' };
+			Draw_Text(CP_Color_Create(255, 255, 255, 255), textsize, currentletter, textstartpointx + k*textintervalx, textstartpointy + j*textintervaly);
+			if (level1story[i] == '.')
+			{
+				k = 0;
+				j++;
+			}
+
+		}
 	}
 	if (level == 2)
 	{
@@ -68,7 +89,7 @@ void LoadingScreen_Update(void)
 	}*/
 	if (LoadingTimer > 2.5 && LoadingTimer < 2.6)
 	{
-		CP_Engine_SetNextGameState(Level1_Init, Level1_Update, Level1_Exit);
+		//CP_Engine_SetNextGameState(Level1_Init, Level1_Update, Level1_Exit);
 	}
 }
 

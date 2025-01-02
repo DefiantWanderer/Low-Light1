@@ -5,6 +5,7 @@
 #include "level1.h"
 #include "mainmenu.h"
 #include "loadingscreen.h"
+#include "story.h"
 
 // MainMenu edits
 // Alpha works, now just try to implement different colors to make the words more obvious. I think just need to increase the alpha of the orange or change to white.
@@ -181,6 +182,7 @@ void Main_Menu_Update(void)
 		{
 			printf("Play\n");
 			//CP_Sound_PauseGroup(CP_SOUND_GROUP_0); //Pause music
+			//CP_Engine_SetNextGameState(StoryScreen_Init, StoryScreen_Update, StoryScreen_Exit);
 			CP_Engine_SetNextGameState(LoadingScreen_Init, LoadingScreen_Update, LoadingScreen_Exit);
 			//CP_Engine_SetNextGameState(Level1_Init, Level1_Update, Level1_Exit); //CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
 		}

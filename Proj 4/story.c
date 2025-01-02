@@ -11,13 +11,15 @@ CP_Color black;
 CP_Color whitewithalpha;
 
 float StoryTimer = 0;
-float storyalpha = 0;
+LoadingTimer;
+float storyalpha;
+alphachange;
 float windowWidth;
 float windowHeight;
 float dt;
-char level1story[200] = { "The Princess born in darkness. She knew nothing, and saw nothing. Then a light appeared. She was drawn towards the light." };
-char level2story[200] = { "The Princess followed the light. Though it was dim she found brightness. The Princess realized she could affect the light. The light was a lamp unto her feet" };
-char level3story[200] = { "The light revealed a catatrophe." };
+//char level1story[200] = { "The Princess born in darkness. She knew nothing, and saw nothing. Then a light appeared. She was drawn towards the light." };
+//char level2story[200] = { "The Princess followed the light. Though it was dim she found brightness. The Princess realized she could affect the light. The light was a lamp unto her feet" };
+//char level3story[200] = { "The light revealed a catatrophe." };
 float textstartpointx;
 float textstartpointy;
 //Might need to double check if the value stored in level is transferred.
@@ -31,7 +33,7 @@ CP_Font myfont;
 void StoryScreen_Init(void)
 {
 	StoryTimer = 0;
-	storyalpha = 255;
+	
 	black = CP_Color_Create(0, 0, 0, 255);
 	textsize = windowWidth/16; //100
 	myfont = CP_Font_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Atma-Medium.ttf"); //Load font
@@ -43,6 +45,16 @@ void StoryScreen_Init(void)
 	printf("end");
 	textstartpointx = windowWidth / 16;
 	textstartpointy = windowHeight / 9;
+	if (level == 1)
+{
+	for (int i = 0; i < 4;i++)
+	{
+		char currentletter[2] = { level1story[i], '\0' };
+		Draw_Text(CP_Color_Create(255, 255, 255, 255), textsize, currentletter, textstartpointx, textstartpointy);
+		
+	}
+	
+}
 }
 
 void StoryScreen_Update(void)
@@ -50,27 +62,13 @@ void StoryScreen_Update(void)
 	CP_Font_Set(myfont);
 	CP_Graphics_ClearBackground(black);
 
-	whitewithalpha = CP_Color_Create(255, 255, 255, storyalpha);
+	whitewithalpha = CP_Color_Create(255, 255, 255, alphachange);
 
 	stopgenerate = 0;
 
-	Draw_Text(whitewithalpha, textsize, "The Cliff", windowWidth / 2.2, windowHeight / 2);
-	
 	if (level == 1)
 	{
 		Draw_Text(whitewithalpha, textsize, "The light in the darkness", windowWidth / 2.7, windowHeight / 2);
-	}
-
-
-	if (level == 1)
-	{
-		for (int i = 0; i < 4;i++)
-		{
-			char currentletter[2] = { level1story[i], '\0' };
-			Draw_Text(CP_Color_Create(255, 255, 255, 255), textsize, currentletter, textstartpointx, textstartpointy);
-			
-		}
-		
 	}
 	if (level == 2)
 	{
@@ -80,26 +78,24 @@ void StoryScreen_Update(void)
 	{
 		Draw_Text(whitewithalpha, textsize, "Catastrophe", windowWidth / 2.4, windowHeight / 2);
 	}
-	StoryTimer += dt * 1;
-	if (StoryTimer > 0.5 && StoryTimer < 1)
+	LoadingTimer += dt * 1;
+	if (LoadingTimer > 0.5 && LoadingTimer < 1)
 	{
-		StoryTimer = 200;
+		alphachange = 200;
 	}
-	if (StoryTimer > 1.0 && StoryTimer < 2.5)
+	if (LoadingTimer > 1.0 && LoadingTimer < 2.5)
 	{
-		storyalpha = 255;
-
-		/*if (LoadingTimer > 1.5&& LoadingTimer < 2.0)
-		{
-			alphachange = 200;
-		}*/
-		if (StoryTimer > 2.5 && StoryTimer < 2.6)
-		{
-			CP_Engine_SetNextGameState(LoadingScreen_Init, LoadingScreen_Update, LoadingScreen_Exit);
-		}
+		alphachange = 255;
+	}
+	/*if (LoadingTimer > 1.5&& LoadingTimer < 2.0)
+	{
+		alphachange = 200;
+	}*/
+	if (LoadingTimer > 2.5 && LoadingTimer < 2.6)
+	{
+		CP_Engine_SetNextGameState(Level1_Init, Level1_Update, Level1_Exit);
 	}
 }
-
 void StoryScreen_Exit(void)
 {
 
