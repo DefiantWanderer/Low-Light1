@@ -31,6 +31,7 @@ void Updateplayerposition(void);
 void PrincessGravity(void);
 void wallcollision(void);
 int PrincessSeeLight(void);
+int princessseelight;
 //void PrincessJump(void);
 void PrincessLeap(void);
 //
@@ -43,7 +44,8 @@ void PortalLink(void);
 int cliffintersectcheck(void);
 void DrawInstructions(void);
 
-int leapcheck(void);
+int LeapCheck(void);
+int leapcheck;
 int lampclicked(void);
 int lamppickedup(void);
 int lampborder(void);
@@ -58,12 +60,13 @@ void RedLinePlayer(void);
 void SpikeSpawning(void);
 void SpikePrincess(void);
 void DrawFallingStars(CP_Color color, float x, float y);
-int FallingStarSpawning(void);
+void FallingStarSpawning(void);
 void speechtimerone(CP_Sound sound);
 void PrincessTalk(void);
 
 void lampintersectstuff(struct platformdata arr[], int numberof, int maxalpha);
 void lampintersectwall(void);
+void LampIntersectSpike(struct platformdata arr[], int numberof, int maxalpha);
 
 CP_Image LanternImage;
 CP_Image PrincessImage;
@@ -194,6 +197,8 @@ extern struct platformdata textarr[50];
 extern struct platformdata redlinearr[50];
 extern struct platformdata spikearr[50];
 extern struct platformdata fallingstararr[5];
+int numberofspikes;
+int numberofredlines;
 float redlinewidth;
 float redlineheight;
 float spikewidth;
@@ -224,6 +229,7 @@ float speechtimer;
 int speechtimeractivate;
 
 int lamppickup;
+
 
 
 

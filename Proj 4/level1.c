@@ -85,11 +85,11 @@ void Level1_Init(void)
 		lanternoffset = windowHeight / 20;
 
 		//RedLine and spikes
-		redlinewidth = windowWidth / 200;
-		redlineheight = windowHeight / 10;
+		redlinewidth = (windowWidth/2) / 3200;
+		redlineheight = windowHeight /720;
 		
  		spikewidth = windowWidth / 67; //24 and 90
-		spikeheight = windowHeight / 10;
+		spikeheight = windowHeight / 45;
 
 		subtitlex = 500;//windowWidth / 4;
 			subtitley = 700;//windowHeight / 0.9;
@@ -145,14 +145,20 @@ void Level1_Init(void)
 		if (level == 1)
 		{
 			lightlevel = 0;
+			numberofspikes = 0;
+			numberofredlines = 0;
 		}
 		if (level == 2)
 		{
 			lightlevel = 5;
+			numberofspikes = 0;
+			numberofredlines = 0;
 		}
 		if (level == 3)
 		{
 			lightlevel = 0;
+			numberofspikes = 15;
+			numberofredlines = 15;
 		}
 
 
@@ -270,7 +276,7 @@ void Level1_Update(void)
 	LoadSounds();
 
 	//Princess movt
-	PrincessSeeLight();
+	princessseelight = PrincessSeeLight();
 	//PrincessJump();
 	PrincessLeap();
 
@@ -354,6 +360,8 @@ void Level1_Update(void)
 	lampintersectstuff(platformarr, numberofplatforms, 255);
 	lampintersectstuff(nextlevelarr, numberofnextlevels, 150);
 	lampintersectwall();
+	LampIntersectSpike(spikearr, numberofspikes, 150);
+	LampIntersectSpike(redlinearr, numberofredlines, 150);
 	//Use this to check for the position of the lamp.
 	//printf("Lampx: %f, Lampy: %f\n", playerposition.x, playerposition.y);
 

@@ -127,7 +127,7 @@ int IsCircleClicked(float circle_center_x, float circle_center_y, float diameter
 int AreCirclesIntersecting(float c1_x, float c1_y, float r1, float c2_x, float c2_y, float r2) 
 {
 	float c1c2diff;
-	c1c2diff = sqrt(((c1_x - c2_x) * (c1_x - c2_x)) + ((c1_y - c2_y) * (c1_y - c2_y)));
+	c1c2diff = (float)sqrt(((c1_x - c2_x) * (c1_x - c2_x)) + ((c1_y - c2_y) * (c1_y - c2_y)));
 	{
 		if (c1c2diff <= (r1 - r2)) //Right side and bot right
 		{
@@ -459,7 +459,7 @@ int GeneratePlatformFromData(char arr[])
 				leftwallarr[leftwallcount].alpha = 0;
 				if (level == 3)
 				{
-					leftwallarr[leftwallcount].y = windowHeight / 41.7 * (2 * j) + 2;
+					leftwallarr[leftwallcount].y = (float)windowHeight / 41.7 * (2 * j) + 2;
 				}
 				//printf("%d:\n x: %f\n y: %f\n width: %f\n, height %f\n", platformcount, platformarr[platformcount].x, platformarr[platformcount].y, platformarr[platformcount].width, platformarr[platformcount].height);
 				leftwallcount++;
@@ -490,7 +490,7 @@ int GeneratePlatformFromData(char arr[])
 				rightwallarr[rightwallcount].alpha = 0;
 				if (level == 3)
 				{
-					rightwallarr[rightwallcount].y = windowHeight / 41.7 * (2 * j) + 2;
+					rightwallarr[rightwallcount].y = (float)windowHeight / 41.7 * (2 * j) + 2;
 				}
 				//printf("%d:\n x: %f\n y: %f\n width: %f\n, height %f\n", platformcount, platformarr[platformcount].x, platformarr[platformcount].y, platformarr[platformcount].width, platformarr[platformcount].height);
 				rightwallcount++;
@@ -529,7 +529,7 @@ int GeneratePlatformFromData(char arr[])
 				leftwallarr[leftwallcount].y = windowHeight / 41 * (2 * j)+2;
 				if(level ==3)
 				{
-					leftwallarr[leftwallcount].y = windowHeight / 41.7 * (2 * j) + 2;
+					leftwallarr[leftwallcount].y = (float)windowHeight / 41.7 * (2 * j) + 2;
 				}
 				leftwallarr[leftwallcount].width = leftwallwidth;
 				leftwallarr[leftwallcount].height = leftwallheight;
@@ -546,7 +546,7 @@ int GeneratePlatformFromData(char arr[])
 				rightwallarr[rightwallcount].y = windowHeight / 41 * (2 * j)+2;
 				if (level == 3)
 				{
-					rightwallarr[rightwallcount].y = windowHeight / 41.7 * (2 * j) + 2;
+					rightwallarr[rightwallcount].y = (float)windowHeight / 41.7 * (2 * j) + 2;
 				}
 				rightwallarr[rightwallcount].width = leftwallwidth;
 				rightwallarr[rightwallcount].height = leftwallheight;
@@ -670,17 +670,6 @@ void DrawPlatform(float level)
 			CP_Settings_Stroke(CP_Color_Create(255, 165, 0, 0));
 			Draw_Rect(CP_Color_Create(255, 165, 0, platformarr[i].alpha), platformarr[i].x, platformarr[i].y - 18, platformarr[i].width, 0, 0, 0);
 		}
-		/*white = CP_Color_Create(255, 255, 255, 255);
-		black = CP_Color_Create(0, 0, 0, 255);
-		blue = CP_Color_Create(10, 10, 235, 255);
-		orange = CP_Color_Create(255, 165, 0, 100);
-		strokeorange = CP_Color_Create(255, 165, 0, 30);
-		amber = CP_Color_Create(255, 191, 0, 100);
-		strokeamber = CP_Color_Create(255, 191, 0, 30);
-		goldenyellow = CP_Color_Create(255, 192, 0, 50);
-		strokegoldenyellow = CP_Color_Create(255, 192, 0, 15);
-		gold = CP_Color_Create(255, 215, 0, 255);
-		red = CP_Color_Create(255, 0, 0, 255);*/
 	}
 	level = 2;
 }
@@ -728,6 +717,11 @@ void Drawfill1(void)
 	fill1[4].y = (fill1[0].y + fill1[2].y) / 2;
 	fill1[4].width = (fill1[1].x - fill1[0].x)*1.2;
 	fill1[4].height = (fill1[2].y - fill1[0].y)*1.9;
+	if (level == 3)
+	{
+		fill1[4].width = (fill1[1].x - fill1[0].x) * 1.54;
+	}
+
 
 	Draw_Rect(black, fill1[4].x, fill1[4].y, fill1[4].width, fill1[4].height, 0, 0);
 
@@ -738,15 +732,24 @@ void Drawfill2(void)
 	fill2[4].y = (fill2[0].y + fill2[2].y) / 2;
 	fill2[4].width = (fill2[1].x - fill2[0].x)*1.1;
 	fill2[4].height = (fill2[2].y - fill2[0].y)*1.9;
+	if (level == 3)
+	{
+		fill2[4].x = 1 + (fill2[0].x + fill2[1].x) / 1.975;
+		fill2[4].width = (fill2[1].x - fill2[0].x) * 1.1+4;
+	}
 
 	Draw_Rect(black, fill2[4].x, fill2[4].y, fill2[4].width, fill2[4].height, 0, 0);
 }
 void Drawfill3(void)
 {
 	fill3[4].x = -60 + (fill3[0].x + fill3[1].x) / 2;
-	fill3[4].y = (fill3[0].y + fill3[2].y) / 1.9;
-	fill3[4].width = (fill3[1].x - fill3[0].x);
-	fill3[4].height = 5 * (fill3[2].y - fill3[0].y);
+	fill3[4].y = (fill3[0].y + fill3[2].y) / 2;
+	fill3[4].width = (fill3[1].x - fill3[0].x)*1.1;
+	fill3[4].height = (fill3[2].y - fill3[0].y)*1.9;
+	if (level == 3)
+	{
+		fill3[4].x = -60 + (fill3[0].x + fill3[1].x) / 1.985;
+	}
 
 	Draw_Rect(black, fill3[4].x, fill3[4].y, fill3[4].width, fill3[4].height, 0, 0);
 
@@ -955,12 +958,12 @@ void PrincessLeap(void)
 	//If there are no cliff collisions the princess will leap whenever the lamp is clicked.
 
 	//printf("%d", PrincessSeeLight());
-	CP_Vector leapright = { 50,-50 };
-	CP_Vector leapleft = { -50, -50 };
+	//CP_Vector leapright = { 50,-50 };
+	//CP_Vector leapleft = { -50, -50 };
 
 
 	//Edit this line as the conditional check if they should jump
-	if ((leapcheck() == 1) && (PrincessSeeLight() == 1))
+	if ((LeapCheck() == 1) && (princessseelight == 1))
 	{
 		if ((CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT)) && (timer == 0))
 		{
@@ -1127,11 +1130,10 @@ int cliffintersectcheck(void)
 	return 0;
 }
 
-int leapcheck(void)
-{
+int LeapCheck(void)
 	//Check if light intersect both left and rightside of the cliff
 	//Funky thing that a for loop doesn't work
-
+{
 		if ((AreCirclesIntersecting(playerposition.x, playerposition.y, lightradius * 1.2, cliffleftarr[0].x, cliffleftarr[0].y, cliffleftarr[0].width) == 1))
 		{
 			if ((AreCirclesIntersecting(playerposition.x, playerposition.y, lightradius * 1.2, cliffrightarr[0].x, cliffrightarr[0].y, cliffrightarr[0].width) == 1))
@@ -1189,6 +1191,7 @@ int lampborder(void)
 	//Lamp intersect platform from the side.
 	//lamppickup = 0;
 	//if(playerposition.x)
+	return 0;
 }
 void DrawRedLines(CP_Color color, float x, float y)
 {
@@ -1211,9 +1214,9 @@ void DrawFallingStars(CP_Color color, float x, float y)
 }
 void RedLineSpawning(void)
 {
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < numberofredlines; i++)
 	{
-	DrawRedLines(red, redlinearr[i].x, redlinearr[i].y);
+	DrawRedLines(CP_Color_Create(255, 0, 0, redlinearr[i].alpha), redlinearr[i].x, redlinearr[i].y);
 	redlinearr[i].y += gravity * dt * 2;
 	//Respawn the redline.
 	if (redlinearr[i].y >= 780)
@@ -1226,9 +1229,10 @@ void RedLineSpawning(void)
 }
 void SpikeSpawning(void)
 {
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < numberofspikes; i++)
 	{
-		DrawSpikes(blue, spikearr[i].x, spikearr[i].y);
+		CP_Settings_Stroke(CP_Color_Create(255, 192, 0, spikearr[i].alpha));
+		DrawSpikes(black, spikearr[i].x, spikearr[i].y);
 		spikearr[i].y += gravity * dt * 2;
 	if (spikearr[i].y >= 800)
 	{
@@ -1238,7 +1242,7 @@ void SpikeSpawning(void)
 	}
 	}
 }
-int FallingStarSpawning(void)
+void FallingStarSpawning(void)
 {
 	for (int i = 0; i < 3; i++)
 	{
@@ -1263,7 +1267,7 @@ int FallingStarSpawning(void)
 void RedLinePlayer(void)
 {
 	//RedLine and player
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < numberofredlines; i++)
 	{
 		if (AreRectIntersecting(playerposition.x, playerposition.y, lanternwidth, lanternheight, redlinearr[i].x, redlinearr[i].y, redlinewidth, redlineheight) == 1)
 		{
@@ -1276,7 +1280,7 @@ void RedLinePlayer(void)
 void SpikePrincess(void)
 {
 	//Spike and princess
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < numberofspikes; i++)
 	{
 		if (AreRectIntersecting(princess.x, princess.y, princesswidth, princessheight, spikearr[i].x, spikearr[i].y, spikewidth, spikeheight) == 1)
 		{
@@ -1491,5 +1495,20 @@ void lampintersectwall(void)
 		}
 	}
 }
+void LampIntersectSpike(struct platformdata arr[], int numberof, int maxalpha)
+{
+	for (int i = 0; i < numberof; i++)
+	{
+		if ((AreCirclesIntersecting(playerposition.x, playerposition.y + lanternoffset, lightradius * 2 + 250, arr[i].x, arr[i].y, arr[i].width*2) == 1))
+		{
+			arr[i].alpha = maxalpha;
+		}
+		else
+		{
+			arr[i].alpha = 0;
+		}
+	}
+}
+
 
 
