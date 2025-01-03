@@ -25,6 +25,9 @@ float textstartpointy;
 //Might need to double check if the value stored in level is transferred.
 //Need to test and check the position of the words.
 int level;
+int princessdown;
+int lampbreak;
+int storymode;
 float textsize;
 
 

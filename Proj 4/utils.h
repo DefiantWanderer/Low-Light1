@@ -52,6 +52,7 @@ int lampborder(void);
 
 void DrawNextLevelDoor(void);
 void NextLevelLink(void);
+void DrawStoryText(char arr[]);
 
 void DrawRedLines(CP_Color color, float x, float y);
 void DrawSpikes(CP_Color color, float x, float y);
@@ -67,6 +68,7 @@ void PrincessTalk(void);
 void lampintersectstuff(struct platformdata arr[], int numberof, int maxalpha);
 void lampintersectwall(void);
 void LampIntersectSpike(struct platformdata arr[], int numberof, int maxalpha);
+
 
 CP_Image LanternImage;
 CP_Image PrincessImage;

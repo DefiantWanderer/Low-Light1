@@ -44,6 +44,9 @@ CP_Color orangealpha;
 char *levelnames[6] = { "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/leveltest.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level1.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level2.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level3.txt" , "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level4.txt", "C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/LevelDesigns/level5.txt" }; //Set another array = to this array[level]
 
 int level;
+int princessdown;
+int lampbreak;
+int storymode;
 int *ptrlevel = &level;
 struct platformdata fill1[5] = { 0 };
 struct platformdata fill2[5] = { 0 };
@@ -103,6 +106,13 @@ char arr[1000] = { 0 };
 stopgenerate = 0;
 onplatform = 0;
 buffer = 5;
+
+//Story
+float textstartpointx;
+float textstartpointy;
+float textintervalx;
+float textintervaly;
+float textsize;
 
 //Level only
 
@@ -1105,6 +1115,7 @@ void NextLevelLink(void)
 		{
 			{
 				*ptrlevel += 1;
+				storymode = 1;
 				CP_Engine_SetNextGameState(LoadingScreen_Init, LoadingScreen_Update,LoadingScreen_Exit);
 				break;
 			}
@@ -1239,6 +1250,7 @@ void SpikeSpawning(void)
 		//printf("passed midpoint");
 		spikearr[i].x = (float)(rand() % (int)windowWidth);
 		spikearr[i].y = 0 - (float)(rand() % 400);
+
 	}
 	}
 }
@@ -1273,6 +1285,14 @@ void RedLinePlayer(void)
 		{
 			//Choose what happens after collision
 			printf("Redline\n");
+			for (int i = 0; i < numberofspikes; i++)
+			{
+				spikearr[i].x = (float)(rand() % (int)windowWidth);
+				spikearr[i].y = 0 - (float)(rand() % 400);
+				redlinearr[i].x = (float)(rand() % (int)windowWidth);
+				redlinearr[i].y = 0 - (float)(rand() % 400);
+			}
+			lampbreak = 1;
 			CP_Engine_SetNextGameState(LoadingScreen_Init, LoadingScreen_Update, LoadingScreen_Exit);
 		}
 	}
@@ -1286,6 +1306,14 @@ void SpikePrincess(void)
 		{
 			//Choose what happens after collision
 			printf("Spike");
+			for (int i = 0; i < numberofspikes; i++)
+			{
+					spikearr[i].x = (float)(rand() % (int)windowWidth);
+					spikearr[i].y = 0 - (float)(rand() % 400);
+					redlinearr[i].x = (float)(rand() % (int)windowWidth);
+					redlinearr[i].y = 0 - (float)(rand() % 400);
+			}
+			princessdown = 1;
 			CP_Engine_SetNextGameState(LoadingScreen_Init, LoadingScreen_Update, LoadingScreen_Exit);
 
 		}
@@ -1312,6 +1340,19 @@ void DrawInstructions(void)
 	if (level == 4)
 	{
 		//
+	}
+}
+void DrawStoryText(char arr[])
+{
+	for (int i = 0, j = 0, k = 0; arr[i] != '\0';i++, k++)
+	{
+		char currentletter[2] = { arr[i], '\0' };
+		Draw_Text(CP_Color_Create(255, 255, 255, 255), textsize, currentletter, textstartpointx + k * textintervalx, textstartpointy + j * textintervaly);
+		if (arr[i] == '.')
+		{
+			k = 0;
+			j++;
+		}
 	}
 }
 //Logic doesn't make sense as I think it is constantly playing the sound instead of making it a one time thing.
@@ -1460,7 +1501,7 @@ void lampintersectstuff(struct platformdata arr[], int numberof, int maxalpha)
 {
 	for (int i = 0; i < numberof; i++)
 	{
-		if ((AreCirclesIntersecting(playerposition.x, playerposition.y + lanternoffset, lightradius * 2 + 50, arr[i].x, arr[i].y, arr[i].width) == 1) && playerposition.y + lanternoffset <= arr[i].y)
+		if ((AreCirclesIntersecting(playerposition.x, playerposition.y + lanternoffset, lightradius * 2 + 30, arr[i].x, arr[i].y, arr[i].width) == 1) && playerposition.y + lanternoffset <= arr[i].y)
 		{
 				arr[i].alpha = maxalpha;
 		}
