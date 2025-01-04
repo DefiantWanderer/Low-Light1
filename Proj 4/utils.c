@@ -106,6 +106,10 @@ char arr[1000] = { 0 };
 stopgenerate = 0;
 onplatform = 0;
 buffer = 5;
+static int storycharacteri;
+static int storycharacterj;
+static int storycharacterk;
+int words;
 
 //Story
 float textstartpointx;
@@ -1344,14 +1348,30 @@ void DrawInstructions(void)
 }
 void DrawStoryText(char arr[])
 {
-	for (int i = 0, j = 0, k = 0; arr[i] != '\0';i++, k++)
+	/*for (; arr[storycharacteri] != '\0';storycharacteri++, storycharacterk++)
 	{
-		char currentletter[2] = { arr[i], '\0' };
+		char currentletter[2] = { arr[storycharacteri], '\0' };
+		Draw_Text(CP_Color_Create(255, 255, 255, 255), textsize, currentletter, textstartpointx + storycharacterk * textintervalx, textstartpointy + storycharacterj * textintervaly);
+		if (arr[storycharacteri] == '.')
+		{
+			storycharacterk = 0;
+			storycharacterj++;
+			
+		}
+	}*/
+	//if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
+	//{
+	//	storycharacteri++;
+	//}
+	for (int i =0, j =0, k=0; arr[i] != '\0' && i<words;i++, k++)
+	{
+		char currentletter[2] = { arr[i], '\0'};
 		Draw_Text(CP_Color_Create(255, 255, 255, 255), textsize, currentletter, textstartpointx + k * textintervalx, textstartpointy + j * textintervaly);
 		if (arr[i] == '.')
 		{
-			k = 0;
+			k = -1;
 			j++;
+			
 		}
 	}
 }

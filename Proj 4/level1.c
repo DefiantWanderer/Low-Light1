@@ -142,6 +142,7 @@ void Level1_Init(void)
 			fallingstararr[i].y = (float)(rand() % 200) - 0;
 			
 		}
+		
 		if (level == 1)
 		{
 			lightlevel = 0;

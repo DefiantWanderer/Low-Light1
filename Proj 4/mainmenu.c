@@ -30,7 +30,7 @@ float dt;
 
 float alpha = 5;
 
-int level =1;
+int level =3;
 int princessdown = 0;
 int lampbreak = 0;
 int storymode = 1;
