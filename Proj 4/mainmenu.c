@@ -6,6 +6,7 @@
 #include "mainmenu.h"
 #include "loadingscreen.h"
 #include "story.h"
+#include "sound.h"
 
 // MainMenu edits
 // Alpha works, now just try to implement different colors to make the words more obvious. I think just need to increase the alpha of the orange or change to white.
@@ -30,7 +31,7 @@ float dt;
 
 float alpha = 5;
 
-int level =3;
+int level =1;
 int princessdown = 0;
 int lampbreak = 0;
 int storymode = 1;
@@ -72,6 +73,8 @@ CP_Image MainMenu = NULL;
 float window_settings[2]; //Contains width and height
 float play_dimensions[4]; //Contains centre in x and y and width and height
 float exit_dimensions[4];
+
+int soundplay = 0;
 
 float click_x;
 float click_y;
@@ -142,11 +145,19 @@ void Main_Menu_Init(void)
 	lanternheight = windowHeight / 11;
 	lanternoffset = windowHeight / 20;
 	dt = CP_System_GetDt();
-
+	LoadSounds();
+	
 }
 
 void Main_Menu_Update(void)
 {
+	if (soundplay == 0)
+	{
+		CP_Sound_PlayAdvanced(mainmenu1, 100, 1, 0, CP_SOUND_GROUP_0);
+		soundplay = 1;
+	}
+	
+
 	orangealpha = CP_Color_Create(255, 165, 0, alpha);
 	blackalpha = CP_Color_Create(0, 0, 0, alpha);
 	whitealpha = CP_Color_Create(255, 255, 255, alpha);
@@ -202,7 +213,7 @@ void Main_Menu_Update(void)
 
 void Main_Menu_Exit(void)
 {
-	
+	CP_Sound_PauseGroup(CP_SOUND_GROUP_0);
 }
 
 int DrawMainMenuLight()

@@ -518,7 +518,12 @@ int GeneratePlatformFromData(char arr[])
 				{
 					spawnx = -80 + plat * platformwidth;
 					spawny = windowHeight / 54 * (2 * j);
+					if (level == 1)
+					{
+						spawny -= 50;
+					}
 					spawnpoint = CP_Vector_Set(spawnx, spawny);
+
 				}
 				if (arr[i] == 'L')
 				{
@@ -813,10 +818,11 @@ void PrincessGravity(void)
 			break;
 		}
 	}
-	if ((!onplatform) && (timer == 0))
+	//Had to remove this cus the princess ended up spawning below the platform for some reason.
+	/*if ((!onplatform) && (timer == 0))
 	{
 		princess.y += dt * gravity * 2;
-	}
+	}*/
 }
 void wallcollision(void)
 {

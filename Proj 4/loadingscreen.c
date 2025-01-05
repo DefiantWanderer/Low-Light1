@@ -40,6 +40,7 @@ int words = 30;
 float click_x;
 float click_y;
 float atimer = 0;
+int levelsong;
 
 
 CP_Font myfont;
@@ -107,9 +108,10 @@ void LoadingScreen_Update(void)
 		if (atimer > 2.5 && atimer < 2.6)
 		{
 			atimer = 0;
+			alphachange = 0;
 			princessdown = 0;
 			lampbreak = 0;
-			alphachange = 0;
+			
 		}
 	}
 	if (lampbreak == 1)
@@ -145,6 +147,7 @@ void LoadingScreen_Update(void)
 		{
 			LoadingTimer += dt * 1;
 			Draw_Text(whitewithalpha, textsize, "The light in the darkness", windowWidth / 2.7f, windowHeight / 2);
+			levelsong = 1;
 		}
 		if (level == 1 && storymode == 1)
 		{

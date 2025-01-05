@@ -29,6 +29,7 @@ int princessdown;
 int lampbreak;
 int storymode;
 float textsize;
+int levelsong;
 
 
 CP_Font myfont;
@@ -58,6 +59,7 @@ void StoryScreen_Init(void)
 	}
 	
 }
+	LoadSounds();
 }
 
 void StoryScreen_Update(void)
@@ -70,6 +72,8 @@ void StoryScreen_Update(void)
 	Draw_Text(CP_Color_Create(255, 255, 255, 255), 500, "currentletter", 800, 400);
 
 	stopgenerate = 0;
+
+
 
 	if (level == 1)
 	{

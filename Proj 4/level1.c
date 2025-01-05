@@ -41,6 +41,8 @@ CP_Color orangealpha;
 
 CP_Sound test;
 float alpha;
+float songtimer = 0;
+int levelsong;
 
 
 void Level1_Init(void)
@@ -161,6 +163,8 @@ void Level1_Init(void)
 			numberofspikes = 15;
 			numberofredlines = 15;
 		}
+		songtimer = 0;
+		//CP_Sound_PlayAdvanced(Level1song, 10, 0, 0, CP_SOUND_GROUP_1);
 
 
 }
@@ -285,6 +289,7 @@ void Level1_Update(void)
 	//PrincessTalk();
 
 	//Player Gravity and platform collision
+	
 	PrincessGravity();
 	wallcollision();
 
@@ -365,7 +370,12 @@ void Level1_Update(void)
 	LampIntersectSpike(redlinearr, numberofredlines, 150);
 	//Use this to check for the position of the lamp.
 	//printf("Lampx: %f, Lampy: %f\n", playerposition.x, playerposition.y);
-
+	songtimer += 2*dt;
+	if (levelsong == 1)
+	{
+		levelsong = 0;
+		CP_Sound_PlayAdvanced(Level1song, 100, 1, FALSE, CP_SOUND_GROUP_1);
+	}
 }
 
 void Level1_Exit(void)

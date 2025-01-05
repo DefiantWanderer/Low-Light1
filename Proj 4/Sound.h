@@ -63,6 +63,25 @@ CP_Sound WhyAmIHereagain;
 CP_Sound WowMadeTheJump; //	 WowMadeTheJum
 CP_Sound WowThatsBright;
 
+CP_Sound Level1song;
+CP_Sound Level2song;
+CP_Sound Level3song;
+CP_Sound Level4song;
+CP_Sound LampBreak;
+
+CP_Sound mainmenu1;
+CP_Sound mainmenu2;
+CP_Sound mainmenu3;
+CP_Sound Storysong1;
+CP_Sound Storysong2;
+
+
+
+
+
+
+
+
 //Load all sounds into memory for use
 void LoadSounds();
 

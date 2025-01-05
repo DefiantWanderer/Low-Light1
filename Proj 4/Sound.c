@@ -49,7 +49,20 @@ void LoadSounds()
 	WhyAmWowImUpHere = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WhyAmWowImUpHere.mp3"); //	 WhyAmWowImUpHer
 	WhyAmIHereagain = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WhyAmIHereagain.mp3"); //	 WhyAmIHereagai
 	WowMadeTheJump = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WowMadeTheJump.mp3"); //	 WowMadeTheJum
-	WowThatsBright = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WowThatsBright.mp3"); //	 WowThatsBrigh
+	WowThatsBright = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/WowThatsBright.mp3"); //	 WowThatsBright
+
+	Level1song  = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Song1.mp3");
+	Level2song = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Song2.mp3");
+	Level3song = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Song3.mp3");
+	Level4song = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Song1.2.mp3");
+	LampBreak = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/SongLampBreak2.mp3");
+	mainmenu1 = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Songmenu.mp3");
+	mainmenu2 = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Songmenu2.mp3");
+	mainmenu3 = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Songmenu3.mp3");
+	Storysong1 = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Songstory.mp3");
+	Storysong2 = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Songstory2.mp3");
+
+
 
 	//End of sound and graphics
 
