@@ -1,5 +1,4 @@
 #pragma once
-
 #ifndef UTILS_H
 #define UTILS_H
 
@@ -45,7 +44,7 @@ int cliffintersectcheck(void);
 void DrawInstructions(void);
 
 int LeapCheck(void);
-int leapcheck;
+//int leapcheck(void);
 int lampclicked(void);
 int lamppickedup(void);
 int lampborder(void);

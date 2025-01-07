@@ -74,6 +74,7 @@ CP_Sound mainmenu2;
 CP_Sound mainmenu3;
 CP_Sound Storysong1;
 CP_Sound Storysong2;
+CP_Sound Rumbling;
 
 
 

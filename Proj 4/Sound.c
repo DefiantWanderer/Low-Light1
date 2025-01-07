@@ -61,6 +61,8 @@ void LoadSounds()
 	mainmenu3 = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Songmenu3.mp3");
 	Storysong1 = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Songstory.mp3");
 	Storysong2 = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Songstory2.mp3");
+	Rumbling = CP_Sound_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Rumbling.mp3");
+
 
 
 

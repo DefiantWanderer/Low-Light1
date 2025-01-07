@@ -4,6 +4,7 @@
 #include "level1.h"
 #include "mainmenu.h"
 #include "utils.h"
+#include "Sound.h"
 
 CP_Color black;
 CP_Color white;
@@ -18,9 +19,13 @@ int alphachange = 0;
 float windowWidth;
 float windowHeight;
 float dt;
-char level1story[200] = { "The Princess born in darkness.She knew nothing.She saw nothing.Suddenly, a light appeared.She was drawn towards the light." };
-char level2story[200] = { "The Princess followed the light.Though it was dim she found brightness.The Princess realized she could affect the light.The light was a lamp unto her feet." };
-char level3story[200] = { "The light revealed a catastrophe." };
+char* level1story[10] = { "The Princess born in darkness.", "She knew nothing.She saw nothing.", "Suddenly, a light appeared.","She was drawn towards the light." };
+char* level2story[10] = { "The Princess followed the light.","Though it was dim she found brightness.","The Princess realized she could affect the light.","The light was a lamp unto her feet." };
+char* level3story[10] = { "The light revealed a catastrophe." };
+
+
+
+
 float textstartpointx;
 float textstartpointy;
 float textintervalx;
@@ -41,9 +46,12 @@ float click_x;
 float click_y;
 float atimer = 0;
 int levelsong;
+int rumblingsound = 0;
+int currentletter = 0;
+int currentline = 0;
 
 
-CP_Font myfont;
+CP_Font newfont;
 
 void LoadingScreen_Init(void)
 {
@@ -51,13 +59,13 @@ void LoadingScreen_Init(void)
 	alphachange = 0;
 	black = CP_Color_Create(0, 0, 0, 255);
 	white = CP_Color_Create(255, 255, 255, 255);
-	textsize = windowWidth / 16; //100
-	myfont = CP_Font_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Atma-Medium.ttf"); //Load font
+	textsize = windowWidth / 32; //100
+	newfont = CP_Font_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Alike-Regular.ttf"); //Load font
 
 	lamppickup = 0;
 	textstartpointx = windowWidth / 16;
 	textstartpointy = windowHeight / 9;
-	textintervalx = windowWidth / 60;
+	textintervalx = windowWidth / 70;
 	textintervaly = windowHeight / 9;
 	continuebuttonx = windowWidth / 2.4f;
 	continuebuttony = windowHeight / 4 * 3;
@@ -84,7 +92,7 @@ void LoadingScreen_Update(void)
 {
 	click_x = CP_Input_GetMouseX();
 	click_y = CP_Input_GetMouseY();
-	CP_Font_Set(myfont);
+	CP_Font_Set(newfont);
 	CP_Graphics_ClearBackground(black);
 
 	whitewithalpha = CP_Color_Create(255, 255, 255, alphachange);
@@ -95,10 +103,12 @@ void LoadingScreen_Update(void)
 	{
 		Draw_Text(whitewithalpha, textsize, "The Princess has fallen", windowWidth / 2.8f, windowHeight / 2);
 		CP_Image_DrawSubImageAdvanced(PrincessImage, windowWidth / 2, windowHeight / 1.5, princesswidth * 2 * 1, princessheight * 2, spriteframe * princessspritewidth, 0, (spriteframe + 1) * princessspritewidth, 38, 125, 270);
-		
+		CP_Sound_ResumeGroup(CP_SOUND_GROUP_5);
+
 		atimer += dt * 1;
 		if (atimer > 0.5 && atimer < 1)
 		{
+			CP_Sound_PauseGroup(CP_SOUND_GROUP_3);
 			alphachange = 200;
 		}
 		if (atimer > 1.0 && atimer < 2.5)
@@ -119,9 +129,11 @@ void LoadingScreen_Update(void)
 		Draw_Text(whitewithalpha, textsize, "The lamp has shattered", windowWidth / 2.8f, windowHeight / 2);
 		CP_Image_Draw(redlinekills, textstartpointx * 2.6, textstartpointy + 2 * textintervaly, 189, 303, 255);
 		atimer += dt * 1;
-		if (atimer > 0.1 && atimer < 0.15)
+		CP_Sound_ResumeGroup(CP_SOUND_GROUP_5);
+		if (atimer > 0.1 && atimer < 0.13)
 		{
-			//
+			CP_Sound_PlayAdvanced(LampBreak, 100, 1, FALSE, CP_SOUND_GROUP_6);
+			CP_Sound_PauseGroup(CP_SOUND_GROUP_3);
 		}
 		if (atimer > 0.5 && atimer < 1)
 		{
@@ -153,26 +165,35 @@ void LoadingScreen_Update(void)
 		{
 			
 			DrawStoryText(level1story);
+			
+
+
 			if (words == 30)
 			{
+
+				Draw_Text(white, textsize, "Click to continue", windowWidth / 2.8f, windowHeight / 2);
 				if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
 				{
-					words += 17;
-					
+					currentline++; if (currentline >= sizeof(level1story) / sizeof(level1story[0])) { // End of story reached storymode = 0; currentLine = 0;
+					}
 				}
 			}
 			else if (words == 47)
 			{
+				
 				if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
 				{
 					words += 16;
+					currentletter += 1;
 				}
 			}
 			else if (words == 63)
 			{
+				
 				if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
 				{
 					words += 27;
+					currentletter += 1;
 					
 				}
 			}
@@ -181,10 +202,12 @@ void LoadingScreen_Update(void)
 				if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
 				{
 					words += 32;
+					currentletter += 1;
 				}
 			}
 			else if (words > 90)
 			{
+			
 				Draw_Text(white, textsize, "Continue ->", continuebuttonx, continuebuttony);
 				//Draw_Rect(white, continuebuttonx+100, continuebuttony, textsize*3, textsize, 0, 0);
 				if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
@@ -193,6 +216,7 @@ void LoadingScreen_Update(void)
 					{ 
 						storymode = 0;
 						words = 0;
+						currentletter = 0;
 					}
 				}
 			}
@@ -208,29 +232,36 @@ void LoadingScreen_Update(void)
 			DrawStoryText(level2story);
 			if (words == 32)
 			{
+				Draw_Text(white, textsize, "Click to continue", windowWidth / 2.8f, windowHeight / 2);
 				if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
 				{
 					words += 39;
+					currentletter += 1;
 
 				}
 			}
 			else if (words == 71)
 			{
+				
 				if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
 				{
 					words += 49;
+					currentletter += 1;
 				}
 			}
 			else if (words == 120)
 			{
+				 
 				if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
 				{
 					words += 35;
-
+					 
+					currentletter += 1;
 				}
 			}
 			else if (words == 155)
 			{
+		 
 				Draw_Text(white, textsize, "Continue ->", continuebuttonx, continuebuttony);
 				if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
 				{
@@ -277,11 +308,20 @@ void LoadingScreen_Update(void)
 		{
 			LoadingTimer += dt * 1;
 			Draw_Text(whitewithalpha, textsize, "Catastrophe", windowWidth / 2.4f, windowHeight / 2);
+			
+			CP_Sound_PauseGroup(CP_SOUND_GROUP_5);
+			CP_Sound_ResumeGroup(CP_SOUND_GROUP_3);
 		}
 		if (level == 3 && storymode == 1)
 		{
+			CP_Sound_PauseGroup(CP_SOUND_GROUP_1);
 			DrawStoryText(level3story);
 			Draw_Text(white, textsize, "Continue ->", continuebuttonx, continuebuttony);
+			rumblingsound += 1;
+			if (rumblingsound == 1)
+			{
+				CP_Sound_PlayAdvanced(Rumbling, 100, 1, FALSE, CP_SOUND_GROUP_5);
+			}
 			
 			if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
 			{
@@ -289,8 +329,17 @@ void LoadingScreen_Update(void)
 				{
 					storymode = 0;
 					words = 0;
+					CP_Sound_PauseGroup(CP_SOUND_GROUP_1);
+					levelsong = 3;
+					CP_Sound_ResumeGroup(CP_SOUND_GROUP_3);
 				}
 			}
+		}
+
+
+		if (level == 4)
+		{
+			Draw_Text(whitewithalpha, textsize, "Thank you for playing", windowWidth / 2.4f, windowHeight / 2);
 		}
 
 		if (storymode == 0)
@@ -313,6 +362,7 @@ void LoadingScreen_Update(void)
 				CP_Engine_SetNextGameState(Level1_Init, Level1_Update, Level1_Exit);
 			}
 		}
+		
 	}
 }
 

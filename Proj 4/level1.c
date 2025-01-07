@@ -315,8 +315,6 @@ void Level1_Update(void)
 	Drawfill3();
 	DrawRightWall();
 
-	
-
 	//Portals
 	DrawPortals();
 
@@ -344,7 +342,7 @@ void Level1_Update(void)
 
 	if (CP_Input_KeyTriggered(KEY_6))
 	{
-		CP_Sound_PlayAdvanced(mmmThatLooksDangerous, 100, 1, FALSE, CP_SOUND_GROUP_0);
+		CP_Sound_PlayAdvanced(Level3song, 100, 1, FALSE, CP_SOUND_GROUP_0);
 	}
 
 	if (onplatform == 0)
@@ -374,7 +372,12 @@ void Level1_Update(void)
 	if (levelsong == 1)
 	{
 		levelsong = 0;
-		CP_Sound_PlayAdvanced(Level1song, 100, 1, FALSE, CP_SOUND_GROUP_1);
+		CP_Sound_PlayAdvanced(Level1song, 2, 1, FALSE, CP_SOUND_GROUP_1);
+	}
+	if (levelsong == 3)
+	{
+		levelsong = 0;
+		CP_Sound_PlayAdvanced(Level3song, 3, 1, FALSE, CP_SOUND_GROUP_3);
 	}
 }
 

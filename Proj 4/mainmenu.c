@@ -29,7 +29,7 @@ float bouncetimer = 0;
 float bouncestate = 0;
 float dt;
 
-float alpha = 5;
+int alpha = 5;
 
 int level =1;
 int princessdown = 0;
@@ -70,11 +70,17 @@ CP_Color transparent;
 CP_Sound MainMenuMusic = NULL; //Music
 CP_Image MainMenu = NULL;
 
+
+struct platformdata playbutton;
+struct platformdata exitbutton;
+struct platformdata lowlight;
+
 float window_settings[2]; //Contains width and height
 float play_dimensions[4]; //Contains centre in x and y and width and height
 float exit_dimensions[4];
 
 int soundplay = 0;
+int lampstart = 0;
 
 float click_x;
 float click_y;
@@ -83,6 +89,7 @@ void Main_Menu_Init(void)
 {
 	//Load stuff and colors
 	myfont = CP_Font_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Atma-Medium.ttf"); //Load font
+	//myfont = CP_Font_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Alike-Regular.ttf");
 	LanternImage = CP_Image_Load("C:/Users/yongw/SIT Stuff/CSD1401 Software Engineering Proj pass fail/New folder/Low-Light1/Assets/Lantern.png");
 	grey = CP_Color_Create(128, 128, 128, 255);
 	black = CP_Color_Create(0, 0, 0, 255);
@@ -94,7 +101,7 @@ void Main_Menu_Init(void)
 
 
 	//Play with this alpha to reveal
-	white = CP_Color_Create(255, 255, 255, 5); 
+	white = CP_Color_Create(255, 255, 255, 255); 
 	
 	blank = CP_Color_Create(0, 255, 0, 0);
 	orange = CP_Color_Create(255, 165, 0, 100);
@@ -107,8 +114,8 @@ void Main_Menu_Init(void)
 	transparent = CP_Color_Create(0, 0, 0, 0);
 	
 	//Window size
-	windowWidth = CP_System_GetWindowWidth();
-	windowHeight = CP_System_GetWindowHeight();
+	windowWidth = (float)CP_System_GetWindowWidth();
+	windowHeight = (float)CP_System_GetWindowHeight();
 
 	textoffset = windowWidth / 40; //40 
 
@@ -120,25 +127,36 @@ void Main_Menu_Init(void)
 	play_height = windowHeight / 8;
 
 	//Play button array
-	play_dimensions[0] = play_center_x;
-	play_dimensions[1] = play_center_y;
-	play_dimensions[2] = play_width;
-	play_dimensions[3] = play_height;
+	playbutton.x = play_center_x;
+	playbutton.y = play_center_y;
+	playbutton.width = play_width;
+	playbutton.height = play_height;
+	playbutton.alpha = 0;
 
 	//Exit button size
 	exit_center_x = windowWidth / 2 + 165;
 	exit_center_y = (windowHeight /4) *3;
 	exit_width = windowWidth / 8;
 	exit_height = windowHeight / 8;
+
 	//Exit button array
-	exit_dimensions[0] = exit_center_x;
-	exit_dimensions[1] = exit_center_y;
-	exit_dimensions[2] = exit_width;
-	exit_dimensions[3] = exit_height;
+	exitbutton.x = exit_center_x;
+	exitbutton.y = exit_center_y;
+	exitbutton.width = exit_width;
+	exitbutton.height = exit_height;
+	exitbutton.alpha = 0;
+
+	//LowLight
+	lowlight.x = windowWidth / 2 - 4 * textoffset;
+	lowlight.y = windowHeight / 3;
+	lowlight.width = 200;
+	lowlight.height = 100;
+	lowlight.alpha = 0;
 
 	//Player (lamp)
 	playerposition.x = windowWidth / 2;
 	playerposition.y = windowHeight / 3;
+
 
 	//Lantern
 	lanternwidth = windowWidth / 20;
@@ -157,7 +175,6 @@ void Main_Menu_Update(void)
 		soundplay = 1;
 	}
 	
-
 	orangealpha = CP_Color_Create(255, 165, 0, alpha);
 	blackalpha = CP_Color_Create(0, 0, 0, alpha);
 	whitealpha = CP_Color_Create(255, 255, 255, alpha);
@@ -170,17 +187,22 @@ void Main_Menu_Update(void)
 	CP_Font_Set(myfont);
 	
 	//Gamename
-	Draw_Text(orangealpha, 200, "Low Light", windowWidth/2 - 4*textoffset, windowHeight/3);
+	Draw_Text(CP_Color_Create(255, 165, 0, lowlight.alpha), 200, "Low Light", windowWidth/2 - 4*textoffset, windowHeight/3);
 
 	//Play button
-	Draw_Rect(blackalpha, play_dimensions[0], play_dimensions[1], play_dimensions[2], play_dimensions[3], 0, 0);
-	Draw_Text(whitealpha, 60, "Play", play_dimensions[0] + 10, play_dimensions[1]+10);
+	Draw_Rect(blackalpha, playbutton.x, playbutton.y, playbutton.width, playbutton.height, 0, 0);
+	Draw_Text((CP_Color_Create(255,255,255,playbutton.alpha)), 60, "Play", playbutton.x + 10, playbutton.y +10);
 
 	//Exit button
-	Draw_Rect(blackalpha, exit_dimensions[0], exit_dimensions[1], exit_dimensions[2], exit_dimensions[3], 0, 0);
-	Draw_Text(whitealpha, 60, "Exit", exit_dimensions[0] + 10, exit_dimensions[1]+10);
+	Draw_Rect(blackalpha, exitbutton.x, exitbutton.y, exitbutton.width, exitbutton.height, 0, 0);
+	Draw_Text((CP_Color_Create(255, 255, 255, exitbutton.alpha)), 60, "Exit", exitbutton.x + 10, exitbutton.y +10);
 
 	DrawMainMenuLight();
+
+	if (lampstart == 0)
+	{
+		Draw_Text(white, 60, "Click on the lamp", playerposition.x -70, playerposition.y + 20);
+	}
 	MainMenuLightBounce();
 
 
@@ -192,15 +214,16 @@ void Main_Menu_Update(void)
 
 
 		//Possible to make it so that the play and exit buttons can only be clicked if alpha is a certain value.
-		if (IsAreaClicked(play_dimensions[0], play_dimensions[1], play_dimensions[2], play_dimensions[3], click_x, click_y) == 1) //work on this only as it is the only thing that links to utils.c
+		if (IsAreaClicked(playbutton.x, playbutton.y, playbutton.width, playbutton.height, click_x, click_y) == 1) //work on this only as it is the only thing that links to utils.c
 		{
 			printf("Play\n");
 			//CP_Sound_PauseGroup(CP_SOUND_GROUP_0); //Pause music
 			//CP_Engine_SetNextGameState(StoryScreen_Init, StoryScreen_Update, StoryScreen_Exit);
+			lampstart = 0;
 			CP_Engine_SetNextGameState(LoadingScreen_Init, LoadingScreen_Update, LoadingScreen_Exit);
 			//CP_Engine_SetNextGameState(Level1_Init, Level1_Update, Level1_Exit); //CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
 		}
-		if (IsAreaClicked(exit_dimensions[0], exit_dimensions[1], exit_dimensions[2], exit_dimensions[3], click_x, click_y) == 1)
+		if (IsAreaClicked(exitbutton.x, exitbutton.y, exitbutton.width, exitbutton.height, click_x, click_y) == 1)
 		{
 			printf("Exit\n");
 			//CP_Sound_PauseGroup(CP_SOUND_GROUP_0);
@@ -208,6 +231,9 @@ void Main_Menu_Update(void)
 		}
 
 	}
+	lampintersectalpha(&playbutton, 1, 255);
+	lampintersectalpha(&exitbutton, 1, 255);
+	lampintersectalpha(&lowlight, 1, 255);
 	MainMenulampclicked();
 }
 
@@ -270,9 +296,9 @@ int  MainMenulampclicked(void)
 			playerposition.x = CP_Input_GetMouseX();
 			playerposition.y = CP_Input_GetMouseY();
 			MMlamppickup = 1;
-			bouncestate == 1;
+			bouncestate = 1;
 			if (alpha < 255) { alpha += 10; }
-			printf("%f", alpha);
+			printf("%d", alpha);
 		}
 	}
 		if ((CP_Input_MouseDown(MOUSE_BUTTON_LEFT) && (MMlamppickup == 1)))
@@ -280,14 +306,31 @@ int  MainMenulampclicked(void)
 			if ((IsAreaClicked(playerposition.x, playerposition.y, lanternwidth, lanternheight, CP_Input_GetMouseX(), CP_Input_GetMouseY()) == 1))
 			{
 				if (alpha < 255) { alpha += 10; }
-				printf("%f", alpha);
+				printf("%d", alpha);
 			}
 		}
 
 	if (MMlamppickup == 1)
 	{
+		lampstart = 1;
 		playerposition.x = CP_Input_GetMouseX();
 		playerposition.y = CP_Input_GetMouseY();
 	}
 	return 0;
+}
+
+void lampintersectalpha(struct platformdata *arr, int numberof, int maxalpha)
+{
+	for (int i = 0; i < numberof; i++)
+	{
+		if ((AreCirclesIntersecting(playerposition.x, playerposition.y + lanternoffset, lightradius * 2 + 30, arr->x, arr->y, arr->width) == 1) && playerposition.y + lanternoffset <= arr->y)
+		{
+			if(arr->alpha < 253)
+			arr->alpha += 2;
+		}
+		/*else
+		{
+			arr[i].alpha = 0;
+		}*/
+	}
 }

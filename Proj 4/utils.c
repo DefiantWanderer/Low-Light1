@@ -21,6 +21,7 @@
 3. Pass "grey" into the the Draw_Text, Draw_Rect, Draw_Circle, Draw_Star
 */
 CP_Font myfont; //cpfont is a pointer to a struct
+CP_Font newfont;
 CP_Image LanternImage;
 CP_Color grey;
 CP_Color black;
@@ -37,6 +38,7 @@ CP_Color grey2;
 CP_Color grey3;
 CP_Color grey4;
 CP_Color orangealpha;
+currentline;
 
 
 
@@ -110,6 +112,10 @@ static int storycharacteri;
 static int storycharacterj;
 static int storycharacterk;
 int words;
+int leapspeech = 0;
+int leapspeechtimeractivate = 0;
+float leapspeechtimer = 0;
+currentletter;
 
 //Story
 float textstartpointx;
@@ -117,6 +123,10 @@ float textstartpointy;
 float textintervalx;
 float textintervaly;
 float textsize;
+
+int instruct1 = 0;
+int instruct2 = 0;
+int instruct3 = 0;
 
 //Level only
 
@@ -948,7 +958,7 @@ int TimerOne(void)
 			if (lightlevel == 5)
 			{
 			Draw_Text(white, 100, "Wow thats bright!", subtitlex, subtitley);
-			CP_Sound_PlayAdvanced(WowThatsBright, 1, 1, 0, 1);
+			CP_Sound_PlayAdvanced(WowThatsBright, 1, 1, 0, CP_SOUND_GROUP_8);
 			}
 			return 1;
 		}
@@ -957,30 +967,45 @@ int TimerOne(void)
 
 }
 
-
-//void PrincessJump(void)
-////Make it so that she can leap in a direction by adding vector. Need to check if she is facing left or right.
-//{
-//	//Don't quite understand the jumping but it's a start.
-//	if (onplatform == 1)
-//	{
-//		if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
-//		{
-//			float jumpspeed = -2000;//-gravity * 40;
-//			jumpspeed = CP_Math_ClampFloat(jumpspeed, -4000 * 30, 6000);
-//			princess.y += jumpspeed * dt;
-//
-//		}
-//	}
-//}
 void PrincessLeap(void)
 {
 	//If there are no cliff collisions the princess will leap whenever the lamp is clicked.
 
-	//printf("%d", PrincessSeeLight());
-	//CP_Vector leapright = { 50,-50 };
-	//CP_Vector leapleft = { -50, -50 };
+	if (leapspeechtimeractivate == 1)
+	{
+		leapspeechtimer += 2* dt;
+		
+		if (leapspeechtimer >= 0.1 && leapspeechtimer <= 0.15)
+		{	
+			leapspeech = 1;
+			if (leapspeech == 1)
+			{
+				leapspeech = 0;
+				CP_Sound_PlayAdvanced(ICantDoThatYetShineMoreLight, 100, 1, FALSE, CP_SOUND_GROUP_7);
 
+			}
+			
+		}
+		if (leapspeechtimer >= 0.1 && leapspeechtimer <= 1.0)
+		{
+			Draw_Text(white, 30, "I can't do that yet!", princess.x - 30, princess.y - 30);
+		}
+		if (leapspeechtimer >= 1.5)
+		{
+			leapspeechtimeractivate = 0;
+			leapspeechtimer = 0;
+		}
+		
+	}
+
+	if ((cliffintersectcheck() == 1) && (princessseelight == 1)&&(lightlevel < 3))
+	{
+		if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
+		{
+			leapspeechtimeractivate = 1;
+			printf("activate");
+		}
+	}
 
 	//Edit this line as the conditional check if they should jump
 	if ((LeapCheck() == 1) && (princessseelight == 1))
@@ -1062,18 +1087,20 @@ void PrincessLeap(void)
 		if (timer >= 1.4 && timer < 1.42)
 		{
 			
-			CP_Sound_PlayAdvanced(WowMadeTheJump, 1, 1, 0, 1);
+			CP_Sound_PlayAdvanced(WowMadeTheJump, 1, 1, 0, CP_SOUND_GROUP_7);
 			leaprightmode = 0;
 			leapleftmode = 0;
 		}
 		if (timer >= 1.4 && timer < 3.2)
 		{
-			//Draw_Text(white, 100, "Wow that was quite a big leap!", subtitlex, subtitley);
+			Draw_Text(white, 30, "Wow that was quite a big leap!", princess.x-30, princess.y-30);
+			instruct1 = 0;
 		}
 		if (timer >= 3.2)
 		{
 			leaptimeractivate = 0;
 			timer = 0;
+			instruct1 = 0;
 			
 			//speechtimeractivate = 1;
 			
@@ -1088,16 +1115,19 @@ void PortalLink(void)
 	{
 		if (AreRectIntersecting(princess.x, princess.y, princesswidth, princessheight, inportalarr[i].x, inportalarr[i].y, inportalwidth, inportalheight) == 1)
 		{
+			instruct1 = 0;
 			//Apprach left //Exit right
 			if (princess.x < inportalarr[i].x)
 			{
 				princess.x = outportalarr[i].x - teleportoffset;
 				princess.y = outportalarr[i].y - buffer;
+				
 			}
 			else
 			{
 				princess.x = outportalarr[i].x + teleportoffset;
 				princess.y = outportalarr[i].y - buffer;
+				
 			}
 
 		}
@@ -1335,13 +1365,24 @@ void DrawInstructions(void)
 //Hard coding for each level
 //Might opt for subtitles and audio only.
 {
+
 	if (level == 1)
 	{
-		Draw_Text(white, 100, "Click on the lamp to move it", textarr[0].x, textarr[0].y / 2);
+		Draw_Text(white, 100, "The Princess followed the light", textarr[0].x, textarr[0].y / 2);
 	}
 	if (level == 2)
 	{
-		Draw_Text(white, 100, "", textarr[0].x, textarr[0].y / 2);
+		if (cliffintersectcheck() == 1)
+		{
+			instruct1 = 1;
+		}
+		if (instruct1 == 1)
+		{
+			Draw_Text(white, 30, "The princess found hidden paths", inportalarr[0].x-30, inportalarr[0].y - 40);
+		}
+		
+		Draw_Text(white, 30, "Light cubes increase brightness", lightcube[0].x-30, lightcube[0].y - 40);
+		
 	}
 	if (level == 3)
 	{
@@ -1352,7 +1393,8 @@ void DrawInstructions(void)
 		//
 	}
 }
-void DrawStoryText(char arr[])
+
+void DrawStoryText(char* arr[], int totalines)
 {
 	/*for (; arr[storycharacteri] != '\0';storycharacteri++, storycharacterk++)
 	{
@@ -1369,7 +1411,14 @@ void DrawStoryText(char arr[])
 	//{
 	//	storycharacteri++;
 	//}
-	for (int i =0, j =0, k=0; arr[i] != '\0' && i<words;i++, k++)
+	{
+		for (int i = 0; i <= currentline && i < totalines; i++) {
+			Draw_Text(CP_Color_Create(255, 255, 255, 255), textsize, arr[i], textstartpointx, textstartpointy + (i * textintervaly));
+		}
+
+	}
+
+	/*for (int i =0, j =0, k=0; arr[i] != '\0' && i<words;i++, k++)
 	{
 		char currentletter[2] = { arr[i], '\0'};
 		Draw_Text(CP_Color_Create(255, 255, 255, 255), textsize, currentletter, textstartpointx + k * textintervalx, textstartpointy + j * textintervaly);
@@ -1379,7 +1428,7 @@ void DrawStoryText(char arr[])
 			j++;
 			
 		}
-	}
+	}*/
 }
 //Logic doesn't make sense as I think it is constantly playing the sound instead of making it a one time thing.
 void speechtimerone(CP_Sound sound)
