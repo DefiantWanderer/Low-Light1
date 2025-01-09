@@ -19,7 +19,7 @@ int alphachange = 0;
 float windowWidth;
 float windowHeight;
 float dt;
-char* level1story[10] = { "The Princess born in darkness.", "She knew nothing.She saw nothing.", "Suddenly, a light appeared.","She was drawn towards the light." };
+char* level1story[10] = { "The Princess born in darkness.", "She knew nothing.","She saw nothing.", "Suddenly, a light appeared.","She was drawn towards the light." };
 char* level2story[10] = { "The Princess followed the light.","Though it was dim she found brightness.","The Princess realized she could affect the light.","The light was a lamp unto her feet." };
 char* level3story[10] = { "The light revealed a catastrophe." };
 
@@ -108,6 +108,7 @@ void LoadingScreen_Update(void)
 		atimer += dt * 1;
 		if (atimer > 0.5 && atimer < 1)
 		{
+			
 			CP_Sound_PauseGroup(CP_SOUND_GROUP_3);
 			alphachange = 200;
 		}
@@ -130,7 +131,7 @@ void LoadingScreen_Update(void)
 		CP_Image_Draw(redlinekills, textstartpointx * 2.6, textstartpointy + 2 * textintervaly, 189, 303, 255);
 		atimer += dt * 1;
 		CP_Sound_ResumeGroup(CP_SOUND_GROUP_5);
-		if (atimer > 0.1 && atimer < 0.13)
+		if (atimer > 0.1 && atimer < 0.12)
 		{
 			CP_Sound_PlayAdvanced(LampBreak, 100, 1, FALSE, CP_SOUND_GROUP_6);
 			CP_Sound_PauseGroup(CP_SOUND_GROUP_3);
@@ -164,9 +165,9 @@ void LoadingScreen_Update(void)
 		if (level == 1 && storymode == 1)
 		{
 			
-			DrawStoryText(level1story);
+			DrawStoryText(level1story, 5);
 			
-
+			printf("%d", words);
 
 			if (words == 30)
 			{
@@ -174,8 +175,9 @@ void LoadingScreen_Update(void)
 				Draw_Text(white, textsize, "Click to continue", windowWidth / 2.8f, windowHeight / 2);
 				if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
 				{
-					currentline++; if (currentline >= sizeof(level1story) / sizeof(level1story[0])) { // End of story reached storymode = 0; currentLine = 0;
-					}
+					words += 17;
+					currentline++; 
+					
 				}
 			}
 			else if (words == 47)
@@ -185,6 +187,7 @@ void LoadingScreen_Update(void)
 				{
 					words += 16;
 					currentletter += 1;
+					currentline++;
 				}
 			}
 			else if (words == 63)
@@ -194,6 +197,7 @@ void LoadingScreen_Update(void)
 				{
 					words += 27;
 					currentletter += 1;
+					currentline++;
 					
 				}
 			}
@@ -203,6 +207,7 @@ void LoadingScreen_Update(void)
 				{
 					words += 32;
 					currentletter += 1;
+					currentline++; 
 				}
 			}
 			else if (words > 90)
@@ -216,6 +221,7 @@ void LoadingScreen_Update(void)
 					{ 
 						storymode = 0;
 						words = 0;
+						currentline = 0;
 						currentletter = 0;
 					}
 				}
@@ -227,9 +233,9 @@ void LoadingScreen_Update(void)
 			LoadingTimer += dt * 1;
 			Draw_Text(whitewithalpha, textsize, "The Cliff", windowWidth / 2.2f, windowHeight / 2);
 		}
-		if (level == 2 && storymode == 1)
+		if (level == 2 && storymode == 1 && instructions==0)
 		{
-			DrawStoryText(level2story);
+			DrawStoryText(level2story,4);
 			if (words == 32)
 			{
 				Draw_Text(white, textsize, "Click to continue", windowWidth / 2.8f, windowHeight / 2);
@@ -237,7 +243,7 @@ void LoadingScreen_Update(void)
 				{
 					words += 39;
 					currentletter += 1;
-
+					currentline++;
 				}
 			}
 			else if (words == 71)
@@ -247,6 +253,7 @@ void LoadingScreen_Update(void)
 				{
 					words += 49;
 					currentletter += 1;
+					currentline++;
 				}
 			}
 			else if (words == 120)
@@ -257,6 +264,7 @@ void LoadingScreen_Update(void)
 					words += 35;
 					 
 					currentletter += 1;
+					currentline++;
 				}
 			}
 			else if (words == 155)
@@ -269,6 +277,7 @@ void LoadingScreen_Update(void)
 					{
 						words = 0;
 						instructions = 1;
+						currentline = 0;
 						
 
 					}
@@ -315,7 +324,7 @@ void LoadingScreen_Update(void)
 		if (level == 3 && storymode == 1)
 		{
 			CP_Sound_PauseGroup(CP_SOUND_GROUP_1);
-			DrawStoryText(level3story);
+			DrawStoryText(level3story,1);
 			Draw_Text(white, textsize, "Continue ->", continuebuttonx, continuebuttony);
 			rumblingsound += 1;
 			if (rumblingsound == 1)
@@ -339,7 +348,7 @@ void LoadingScreen_Update(void)
 
 		if (level == 4)
 		{
-			Draw_Text(whitewithalpha, textsize, "Thank you for playing", windowWidth / 2.4f, windowHeight / 2);
+			Draw_Text(white, textsize, "Thank you for playing", windowWidth / 2.4f, windowHeight / 2);
 		}
 
 		if (storymode == 0)

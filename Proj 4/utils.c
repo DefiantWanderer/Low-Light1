@@ -957,7 +957,7 @@ int TimerOne(void)
 			}
 			if (lightlevel == 5)
 			{
-			Draw_Text(white, 100, "Wow thats bright!", subtitlex, subtitley);
+			Draw_Text(white, 30, "Wow thats bright!", princess.x, princess.y+30);
 			CP_Sound_PlayAdvanced(WowThatsBright, 1, 1, 0, CP_SOUND_GROUP_8);
 			}
 			return 1;
@@ -975,7 +975,7 @@ void PrincessLeap(void)
 	{
 		leapspeechtimer += 2* dt;
 		
-		if (leapspeechtimer >= 0.1 && leapspeechtimer <= 0.15)
+		if (leapspeechtimer >= 0.1 && leapspeechtimer <= 0.12)
 		{	
 			leapspeech = 1;
 			if (leapspeech == 1)
@@ -1368,7 +1368,7 @@ void DrawInstructions(void)
 
 	if (level == 1)
 	{
-		Draw_Text(white, 100, "The Princess followed the light", textarr[0].x, textarr[0].y / 2);
+		Draw_Text(white, 50, "The Princess followed the light", textarr[0].x+100, textarr[0].y / 2);
 	}
 	if (level == 2)
 	{

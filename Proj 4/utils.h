@@ -51,7 +51,7 @@ int lampborder(void);
 
 void DrawNextLevelDoor(void);
 void NextLevelLink(void);
-void DrawStoryText(char arr[]);
+void DrawStoryText(char* arr[], int totallines);
 
 void DrawRedLines(CP_Color color, float x, float y);
 void DrawSpikes(CP_Color color, float x, float y);

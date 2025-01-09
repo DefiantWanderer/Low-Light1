@@ -377,7 +377,8 @@ void Level1_Update(void)
 	if (levelsong == 3)
 	{
 		levelsong = 0;
-		CP_Sound_PlayAdvanced(Level3song, 3, 1, FALSE, CP_SOUND_GROUP_3);
+		CP_Sound_StopGroup(CP_SOUND_GROUP_1);
+		CP_Sound_PlayAdvanced(Level3song, 2, 1, FALSE, CP_SOUND_GROUP_3);
 	}
 }
 
