@@ -90,6 +90,8 @@ void LoadingScreen_Init(void)
 
 void LoadingScreen_Update(void)
 {
+	char buffer[256] = { "Low Light" };
+	CP_System_SetWindowTitle(buffer);
 	click_x = CP_Input_GetMouseX();
 	click_y = CP_Input_GetMouseY();
 	CP_Font_Set(newfont);

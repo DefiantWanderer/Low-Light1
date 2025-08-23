@@ -169,6 +169,8 @@ void Main_Menu_Init(void)
 
 void Main_Menu_Update(void)
 {
+	char buffer[256] = { "Low Light" };
+	CP_System_SetWindowTitle(buffer);
 	if (soundplay == 0)
 	{
 		CP_Sound_PlayAdvanced(mainmenu1, 100, 1, 0, CP_SOUND_GROUP_0);
