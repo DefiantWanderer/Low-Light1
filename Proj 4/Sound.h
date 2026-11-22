@@ -1,15 +1,11 @@
 /******************************************************************************
-@file SoundManager.h
-@author(s) Clement Ang (ang.c), Yong Wei (l.yongwei)
-@course Software Engineering Project
-@section b
+@file Sound.h
+@author Lu Yong Wei (L.yongwei@digipen.edu.sg), Clement Ang (ang.c)
+@course CSD1401 Software Engineering Project
 @team BM Platformers
-@date 26/11/24
-@contribution
-Clement Ang - Collating all loading into 1 file and freeing, main menu play tracker
-Yong Wei - Loading all sounds/music and their variables, playing all sounds/music
-@brief This file contains the declaration for loading and freeing sounds and thier variables, as well as playing main menu music
-@copyright © Copyright: 2024, Digipen Institute of Technology, Singapore
+@date 2026
+@brief Declarations for sound/music variables and the functions that load and free them.
+@copyright Copyright (C) 2026 DigiPen Institute of Technology Singapore. All rights reserved.
 ******************************************************************************/
 
 #pragma once

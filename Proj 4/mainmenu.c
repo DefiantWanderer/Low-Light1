@@ -1,3 +1,13 @@
+/******************************************************************************
+@file mainmenu.c
+@author Lu Yong Wei
+@email L.yongwei@digipen.edu.sg
+@course CSD1401 Software Engineering Project
+@game Low Light
+@brief Main menu screen: draws the title, the bouncing lamp light and the start/exit buttons, and plays the menu music.
+@copyright Copyright (C) 2026 DigiPen Institute of Technology Singapore. All rights reserved.
+******************************************************************************/
+
 #include "cprocessing.h"
 #include <stdio.h>
 #include "utils.h"

@@ -1,3 +1,13 @@
+/******************************************************************************
+@file utils.c
+@author Lu Yong Wei
+@email L.yongwei@digipen.edu.sg
+@course CSD1401 Software Engineering Project
+@game Low Light
+@brief Core game utilities: collision and click checks, drawing helpers, level map parsing, platform and princess logic, hazards, lamp light and princess speech.
+@copyright Copyright (C) 2026 DigiPen Institute of Technology Singapore. All rights reserved.
+******************************************************************************/
+
 #include <math.h>
 #include "utils.h"
 #include "loadingscreen.h"

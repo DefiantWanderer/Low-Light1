@@ -1,3 +1,13 @@
+/******************************************************************************
+@file fileloader.c
+@author Lu Yong Wei
+@email L.yongwei@digipen.edu.sg
+@course CSD1401 Software Engineering Project
+@game Low Light
+@brief Reads level map text files and reads/writes level save data (stars, score, time, coins).
+@copyright Copyright (C) 2026 DigiPen Institute of Technology Singapore. All rights reserved.
+******************************************************************************/
+
 #include "fileloader.h"
 #include <string.h> // For strcat_s
 #include <direct.h> // For _mkdir

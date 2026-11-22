@@ -1,3 +1,13 @@
+/******************************************************************************
+@file levelselect.c
+@author Lu Yong Wei
+@email L.yongwei@digipen.edu.sg
+@course CSD1401 Software Engineering Project
+@game Low Light
+@brief Level select screen: loads its music and image, draws the buttons and detects which level is clicked.
+@copyright Copyright (C) 2026 DigiPen Institute of Technology Singapore. All rights reserved.
+******************************************************************************/
+
 #include "cprocessing.h"
 #include <stdio.h>
 #include "utils.h"

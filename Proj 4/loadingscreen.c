@@ -1,3 +1,13 @@
+/******************************************************************************
+@file loadingscreen.c
+@author Lu Yong Wei
+@email L.yongwei@digipen.edu.sg
+@course CSD1401 Software Engineering Project
+@game Low Light
+@brief Loading/story screen shown before each level: story text, instructions, continue button and round-lost screen.
+@copyright Copyright (C) 2026 DigiPen Institute of Technology Singapore. All rights reserved.
+******************************************************************************/
+
 #pragma once
 
 #include "loadingscreen.h"

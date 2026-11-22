@@ -1,3 +1,13 @@
+/******************************************************************************
+@file level1.c
+@author Lu Yong Wei
+@email L.yongwei@digipen.edu.sg
+@course CSD1401 Software Engineering Project
+@game Low Light
+@brief Gameplay state used by all levels: camera, player, lamp, platforms, hazards, win/lose handling and pause logic.
+@copyright Copyright (C) 2026 DigiPen Institute of Technology Singapore. All rights reserved.
+******************************************************************************/
+
 #include "cprocessing.h"
 #include <stdio.h>
 #include "utils.h"

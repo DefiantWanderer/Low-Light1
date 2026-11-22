@@ -1,3 +1,13 @@
+/******************************************************************************
+@file Sound.c
+@author Lu Yong Wei
+@email L.yongwei@digipen.edu.sg
+@course CSD1401 Software Engineering Project
+@game Low Light
+@brief Loads and frees all music and sound effects, including the princess voice lines.
+@copyright Copyright (C) 2026 DigiPen Institute of Technology Singapore. All rights reserved.
+******************************************************************************/
+
 #include "Sound.h"
 
 //How to use sounds?

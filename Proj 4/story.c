@@ -1,3 +1,13 @@
+/******************************************************************************
+@file story.c
+@author Lu Yong Wei
+@email L.yongwei@digipen.edu.sg
+@course CSD1401 Software Engineering Project
+@game Low Light
+@brief Story screen state that prints the story text of a level.
+@copyright Copyright (C) 2026 DigiPen Institute of Technology Singapore. All rights reserved.
+******************************************************************************/
+
 #pragma once
 
 #include "loadingscreen.h"

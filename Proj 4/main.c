@@ -1,13 +1,12 @@
-//---------------------------------------------------------
-// file:	main.c
-// author:	[NAME]
-// email:	[DIGIPEN EMAIL ADDRESS]
-//
-// brief:	Main entry point for the sample project
-//			of the CProcessing library
-//
-// Copyright © 2020 DigiPen, All rights reserved.
-//---------------------------------------------------------
+/******************************************************************************
+@file main.c
+@author Lu Yong Wei
+@email L.yongwei@digipen.edu.sg
+@course CSD1401 Software Engineering Project
+@game Low Light
+@brief Program entry point. Sets the window size and starts the CProcessing engine at the main menu.
+@copyright Copyright (C) 2026 DigiPen Institute of Technology Singapore. All rights reserved.
+******************************************************************************/
 
 #include "cprocessing.h"
 #include "mainmenu.h"
